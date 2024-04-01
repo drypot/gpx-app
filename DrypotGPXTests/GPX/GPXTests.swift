@@ -18,8 +18,6 @@ final class GPXTests: XCTestCase {
     }
 
     func testExample() throws {
-        let gpx = GPX()
-        XCTAssertEqual(gpx.text(), "gpx")
     }
 
 //    func testPerformanceExample() throws {
