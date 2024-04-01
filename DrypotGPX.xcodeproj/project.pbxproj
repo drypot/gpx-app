@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001C20AA2BBA52CB006DDBCF /* GPXSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSample.swift */; };
 		00D40E782BBA403200B755CE /* DrypotGPXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40E772BBA403200B755CE /* DrypotGPXApp.swift */; };
 		00D40E7A2BBA403200B755CE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40E792BBA403200B755CE /* ContentView.swift */; };
 		00D40E7C2BBA403400B755CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00D40E7B2BBA403400B755CE /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		001C20A92BBA52CB006DDBCF /* GPXSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSample.swift; sourceTree = "<group>"; };
 		00D40E742BBA403200B755CE /* DrypotGPX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrypotGPX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00D40E772BBA403200B755CE /* DrypotGPXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrypotGPXApp.swift; sourceTree = "<group>"; };
 		00D40E792BBA403200B755CE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */,
+				001C20A92BBA52CB006DDBCF /* GPXSample.swift */,
 			);
 			path = GPX;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00D40E8A2BBA403400B755CE /* DrypotGPXTests.swift in Sources */,
+				001C20AA2BBA52CB006DDBCF /* GPXSample.swift in Sources */,
 				00D40EAD2BBA4A4F00B755CE /* GPXTests.swift in Sources */,
 				00D40EAE2BBA4A4F00B755CE /* PublisherTests.swift in Sources */,
 				00D40EB32BBA4C6800B755CE /* GPX.swift in Sources */,
