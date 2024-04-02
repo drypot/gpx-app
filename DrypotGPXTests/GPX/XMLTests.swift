@@ -9,40 +9,8 @@ import XCTest
 
 final class XMLTests: XCTestCase {
   
-  let gpxSample = """
-  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="www.plotaroute.com" version="1.1"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
-    <metadata>
-      <desc>Route created on plotaroute.com</desc>
-    </metadata>
-    <trk>
-      <name>Sample01</name>
-      <trkseg>
-        <trkpt lat="37.5323012" lon="127.0596635">
-          <ele>15</ele>
-          <time>2024-04-01T00:00:00Z</time>
-        </trkpt>
-        <trkpt lat="37.5338156" lon="127.056756">
-          <ele>15</ele>
-          <time>2024-04-01T00:04:51Z</time>
-        </trkpt>
-      </trkseg>
-    </trk>
-  </gpx>
-  """
-  
-  override func setUpWithError() throws {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-  }
-  
-  override func tearDownWithError() throws {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-  }
-  
   func testXMLParserDidStartDocument() throws {
-    let data = Data(gpxSample.utf8)
+    let data = Data(gpxSample01Short.utf8)
     let parser = XMLParser(data: data)
     
     class Delegate: NSObject, XMLParserDelegate {
@@ -62,7 +30,7 @@ final class XMLTests: XCTestCase {
   }
   
   func testXMLParserHandlingElement() throws {
-    let data = Data(gpxSample.utf8)
+    let data = Data(gpxSample01Short.utf8)
     let parser = XMLParser(data: data)
     
     class Delegate: NSObject, XMLParserDelegate {
@@ -96,7 +64,7 @@ final class XMLTests: XCTestCase {
   }
   
   func testXMLParserHandlingAttributes() throws {
-    let data = Data(gpxSample.utf8)
+    let data = Data(gpxSample01Short.utf8)
     let parser = XMLParser(data: data)
     
     class Delegate: NSObject, XMLParserDelegate {
@@ -122,7 +90,7 @@ final class XMLTests: XCTestCase {
   }
   
   func testXMLParserHandlingText() throws {
-    let data = Data(gpxSample.utf8)
+    let data = Data(gpxSample01Short.utf8)
     let parser = XMLParser(data: data)
     
     let answer = [
