@@ -93,13 +93,11 @@ class GPXParser: NSObject, XMLParserDelegate {
     }
   }
 
-  func parser(_ parser: XMLParser, foundCharacters string: String
-  ) {
+  func parser(_ parser: XMLParser, foundCharacters string: String ) {
     let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
   }
   
-  func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error
-  ) {
+  func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error ) {
     //self.error = parseError
   }
   

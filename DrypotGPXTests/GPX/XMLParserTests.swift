@@ -1,5 +1,5 @@
 //
-//  XMLTests.swift
+//  XMLParserTests.swift
 //  DrypotGPXTests
 //
 //  Created by drypot on 2024-04-02.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class XMLTests: XCTestCase {
+final class XMLParserTests: XCTestCase {
   
   func testXMLParserDidStartDocument() throws {
     let data = Data(gpxSample01Short.utf8)
@@ -123,21 +123,9 @@ final class XMLTests: XCTestCase {
   }
   
   func testXMLParserHandlingError() throws {
-    let badSample = """
-      <trk>
-        <name>Sample01</name>
-        <trkseg>
-          <trkpt lat="37.5323012" lon="127.0596635">
-            <ele>15</ele>
-            <time>2024-04-01T00:00:00Z</time>
-          <!--</trkpt>-->
-        </trkseg>
-      </trk>
-    """
 
-    let data = Data(badSample.utf8)
+    let data = Data(gpxSampleBad.utf8)
     let parser = XMLParser(data: data)
-    
     
     class Delegate: NSObject, XMLParserDelegate {
       var error: Error?

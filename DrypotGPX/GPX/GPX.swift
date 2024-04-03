@@ -42,6 +42,7 @@ struct Track {
 struct TrackSegment {
   var trackPoints = [TrackPoint]()
 }
+
 struct TrackPoint: Coordinate {
   var latitude: Double = 0
   var longitude: Double = 0
