@@ -7,33 +7,60 @@
 
 import Foundation
 
-struct GPX {
-  let waypoints: [Waypoint]
-  let track: Track
+class GPX {
+  // var creator = ""
+  // var version = ""
+  let metadata = GPXMetadata()
+  let waypoints = [Waypoint]()
+  let tracks = [Track]()
 }
 
-struct Track {
-  let name: String
-  var trackPoints: [TrackPoint]
+struct GPXMetadata {
+  var name: String?
+  var desc: String?
 }
 
-struct TrackPoint {
-  var coordinate: Coordinate
-  //let time: Date
-}
+struct Waypoint: Coordinate {
+  var latitude: Double = 0
+  var longitude: Double = 0
+  var elevation: Double = 0
 
-struct Waypoint {
-  var coordinate: Coordinate
-  //let date: Date?
+  //var time: Date?
   var name: String?
   var comment: String?
   var description: String?
-  // var type: String?
-  
-  init(coordinate: Coordinate, name: String? = nil, comment: String? = nil, description: String? = nil) {
-    self.coordinate = coordinate
-    self.name = name
-    self.comment = comment
-    self.description = description
+}
+
+struct Track {
+  var name: String?
+  //var comment: String?
+  //var description: String?
+  //var number: Int?
+  var trackSegments = [TrackSegment]()
+}
+
+struct TrackSegment {
+  var trackPoints = [TrackPoint]()
+}
+struct TrackPoint: Coordinate {
+  var latitude: Double = 0
+  var longitude: Double = 0
+  var elevation: Double = 0
+}
+
+// 참고
+// https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
+
+protocol Coordinate {
+  var latitude: Double { get }
+  var longitude: Double { get }
+  var elevation: Double { get }
+}
+
+extension Coordinate {
+  func almostEqual(_ target: Coordinate) -> Bool {
+    (self.latitude - target.latitude).magnitude < 0.000001 &&
+    (self.longitude - target.longitude).magnitude < 0.000001 &&
+    (self.elevation - target.elevation).magnitude < 0.00001
   }
 }
