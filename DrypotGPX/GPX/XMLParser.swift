@@ -11,7 +11,6 @@
 import Foundation
 
 enum XMLParsingError: Error /*, Equatable */ {
-  case noContent
   case parsingError(NSError, Int)
 }
 
@@ -41,14 +40,14 @@ class BasicXMLParser: NSObject, XMLParserDelegate {
   public func parse(data: Data) -> Result<XMLNode, XMLParsingError> {
     let parser = XMLParser(data: data)
     parser.delegate = self
-    let parseResult = autoreleasepool {
+    let result = autoreleasepool {
       parser.parse()
     }
-    if parseResult {
-      guard let root = stack.first?.children.first else {
-        return .failure(.noContent)
+    if result {
+      if let root = stack.first?.children.first {
+        return .success(root)
       }
-      return .success(root)
+      return .success(stack[0])
     } else {
       let error = XMLParsingError.parsingError(parser.parserError! as NSError, parser.lineNumber)
       return .failure(error)
