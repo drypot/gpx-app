@@ -5,7 +5,7 @@
 //  Created by drypot on 2024-04-01.
 //
 
-let gpxSample01 = """
+let gpxSamplePlotaRoute = """
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="www.plotaroute.com" version="1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -93,7 +93,7 @@ let gpxSample01 = """
 </gpx>
 """
 
-let gpxSample01Short = """
+let gpxSamplePlotaRouteShort = """
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="www.plotaroute.com" version="1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -118,13 +118,13 @@ let gpxSample01Short = """
 """
 
 let gpxSampleBad = """
-  <trk>
-    <name>Sample01</name>
-    <trkseg>
-      <trkpt lat="37.5323012" lon="127.0596635">
-        <ele>15</ele>
-        <time>2024-04-01T00:00:00Z</time>
-      <!--</trkpt>-->
-    </trkseg>
-  </trk>
+<trk>
+  <name>Sample01</name>
+  <trkseg>
+    <trkpt lat="37.5323012" lon="127.0596635">
+      <ele>15</ele>
+      <time>2024-04-01T00:00:00Z</time>
+    <!--</trkpt>-->
+  </trkseg>
+</trk>
 """

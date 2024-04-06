@@ -13,7 +13,7 @@ final class BasicXMLParserTests: XCTestCase {
   
   override func setUp() {
     do {
-      let data = Data(gpxSample01Short.utf8)
+      let data = Data(gpxSamplePlotaRouteShort.utf8)
       root = try BasicXMLParser().parse(data: data).get()
     } catch {
       XCTFail()

@@ -10,7 +10,7 @@ import XCTest
 final class XMLParserTests: XCTestCase {
   
   func testXMLParserDidStartDocument() throws {
-    let data = Data(gpxSample01Short.utf8)
+    let data = Data(gpxSamplePlotaRouteShort.utf8)
     let parser = XMLParser(data: data)
     
     class Delegate: NSObject, XMLParserDelegate {
@@ -30,7 +30,7 @@ final class XMLParserTests: XCTestCase {
   }
   
   func testXMLParserHandlingElement() throws {
-    let data = Data(gpxSample01Short.utf8)
+    let data = Data(gpxSamplePlotaRouteShort.utf8)
     let parser = XMLParser(data: data)
     
     class Delegate: NSObject, XMLParserDelegate {
@@ -64,7 +64,7 @@ final class XMLParserTests: XCTestCase {
   }
   
   func testXMLParserHandlingAttributes() throws {
-    let data = Data(gpxSample01Short.utf8)
+    let data = Data(gpxSamplePlotaRouteShort.utf8)
     let parser = XMLParser(data: data)
     
     class Delegate: NSObject, XMLParserDelegate {
@@ -90,7 +90,7 @@ final class XMLParserTests: XCTestCase {
   }
   
   func testXMLParserHandlingText() throws {
-    let data = Data(gpxSample01Short.utf8)
+    let data = Data(gpxSamplePlotaRouteShort.utf8)
     let parser = XMLParser(data: data)
     
     let answer = [

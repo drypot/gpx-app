@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
 		0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
-		001C20AA2BBA52CB006DDBCF /* GPXSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSample.swift */; };
+		001C20AA2BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */; };
 		00CB93482BBDCB2300AD0241 /* BasicXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* BasicXMLParser.swift */; };
 		00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */; };
 		00CB934B2BBDDA6C00AD0241 /* BasicXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* BasicXMLParser.swift */; };
@@ -27,6 +27,7 @@
 		00D40EAE2BBA4A4F00B755CE /* PublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */; };
 		00D40EB32BBA4C6800B755CE /* GPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA52BBA4A0F00B755CE /* GPX.swift */; };
 		00D40EB42BBA4C6B00B755CE /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA32BBA4A0F00B755CE /* Publisher.swift */; };
+		00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +49,7 @@
 
 /* Begin PBXFileReference section */
 		0017C14D2BBD737300D09F93 /* GPXParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
-		001C20A92BBA52CB006DDBCF /* GPXSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSample.swift; sourceTree = "<group>"; };
+		001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSamplePlotaRoute.swift; sourceTree = "<group>"; };
 		00CB93472BBDCB2300AD0241 /* BasicXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParser.swift; sourceTree = "<group>"; };
 		00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserTests.swift; sourceTree = "<group>"; };
 		00CFD4752BBB162B0040291B /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
@@ -69,6 +70,7 @@
 		00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherTests.swift; sourceTree = "<group>"; };
 		00D40EAF2BBA4A9700B755CE /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		00D40EB02BBA4A9700B755CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleStrava.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +183,8 @@
 			isa = PBXGroup;
 			children = (
 				00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */,
-				001C20A92BBA52CB006DDBCF /* GPXSample.swift */,
+				001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */,
+				00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */,
 				00CFD4752BBB162B0040291B /* XMLParserTests.swift */,
 				00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */,
 			);
@@ -340,13 +343,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				00D40E8A2BBA403400B755CE /* DrypotGPXTests.swift in Sources */,
-				001C20AA2BBA52CB006DDBCF /* GPXSample.swift in Sources */,
+				001C20AA2BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift in Sources */,
 				00D40EAD2BBA4A4F00B755CE /* GPXTests.swift in Sources */,
 				00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */,
 				00CB934B2BBDDA6C00AD0241 /* BasicXMLParser.swift in Sources */,
 				00D40EAE2BBA4A4F00B755CE /* PublisherTests.swift in Sources */,
 				00D40EB32BBA4C6800B755CE /* GPX.swift in Sources */,
 				00D40EB42BBA4C6B00B755CE /* Publisher.swift in Sources */,
+				00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */,
 				0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */,
 				00CFD4762BBB162B0040291B /* XMLParserTests.swift in Sources */,
 			);
