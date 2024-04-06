@@ -1,146 +1,61 @@
 //
-//  XMLParserTests.swift
+//  BasicXMLParserTests.swift
 //  DrypotGPXTests
 //
-//  Created by drypot on 2024-04-02.
+//  Created by drypot on 2024-04-04.
 //
 
 import XCTest
 
-final class XMLParserTests: XCTestCase {
+final class BasicXMLParserTests: XCTestCase {
   
-  func testXMLParserDidStartDocument() throws {
-    let data = Data(gpxSamplePlotaRouteShort.utf8)
-    let parser = XMLParser(data: data)
-    
-    class Delegate: NSObject, XMLParserDelegate {
-      
-      func parserDidStartDocument(_ parser: XMLParser) {
-        XCTAssertEqual(1, parser.lineNumber)
-      }
-      
-      func parserDidEndDocument(_ parser: XMLParser) {
-        XCTAssertEqual(21, parser.lineNumber)
-      }
+  var root = XMLNode()
+  
+  override func setUp() {
+    do {
+      let data = Data(gpxSamplePlotaRouteShort.utf8)
+      root = try BasicXMLParser().parse(data: data).get()
+    } catch {
+      XCTFail()
     }
-    
-    let delegate = Delegate()
-    parser.delegate = delegate
-    parser.parse()
   }
   
-  func testXMLParserHandlingElement() throws {
-    let data = Data(gpxSamplePlotaRouteShort.utf8)
-    let parser = XMLParser(data: data)
-    
-    class Delegate: NSObject, XMLParserDelegate {
-      var nameCount = 0
-      var trkptCount = 0
-      var allCount = 0
-      
-      func parser(
-        _ parser: XMLParser,
-        didStartElement elementName: String,
-        namespaceURI: String?,
-        qualifiedName qName: String?,
-        attributes attributeDict: [String : String] = [:]
-      ) {
-        switch elementName {
-        case "name" : nameCount += 1
-        case "trkpt" : trkptCount += 1
-        default: break
-        }
-        allCount += 1
-      }
-    }
-    
-    let delegate = Delegate()
-    parser.delegate = delegate
-    parser.parse()
-    
-    XCTAssertEqual(delegate.nameCount, 1)
-    XCTAssertEqual(delegate.trkptCount, 2)
-    XCTAssertEqual(delegate.allCount, 12)
+  func testRoot() throws {
+    let node = root
+    XCTAssertEqual(node.name, "gpx")
+    XCTAssertEqual(node.attributes["creator"], "www.plotaroute.com")
+    XCTAssertEqual(node.attributes["version"], "1.1")
   }
   
-  func testXMLParserHandlingAttributes() throws {
-    let data = Data(gpxSamplePlotaRouteShort.utf8)
-    let parser = XMLParser(data: data)
-    
-    class Delegate: NSObject, XMLParserDelegate {
-      
-      let lats = ["37.5323012", "37.5338156"]
-      
-      func parser(
-        _ parser: XMLParser,
-        didStartElement elementName: String,
-        namespaceURI: String?,
-        qualifiedName qName: String?,
-        attributes attributeDict: [String : String] = [:]
-      ) {
-        if elementName == "trkpt" {
-          XCTAssertTrue(lats.contains(attributeDict["lat"]!))
-        }
-      }
-    }
-    
-    let delegate = Delegate()
-    parser.delegate = delegate
-    parser.parse()
+  func testMetadata() throws {
+    let node = root.children[0]
+    XCTAssertEqual(node.name, "metadata")
+    XCTAssertEqual(node.children[0].name, "desc")
+    XCTAssertEqual(node.children[0].content, "Route created on plotaroute.com")
   }
   
-  func testXMLParserHandlingText() throws {
-    let data = Data(gpxSamplePlotaRouteShort.utf8)
-    let parser = XMLParser(data: data)
-    
-    let answer = [
-      "Route created on plotaroute.com",
-      "Sample01",
-      "15",
-      "2024-04-01T00:00:00Z",
-      "15",
-      "2024-04-01T00:04:51Z"
-    ]
-    
-    class Delegate: NSObject, XMLParserDelegate {
-      var result = [String]()
-      func parser(
-        _ parser: XMLParser,
-        foundCharacters string: String
-      ) {
-        let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed != "" {
-          result.append(trimmed)
-        }
-      }
-    }
-    
-    let delegate = Delegate()
-    parser.delegate = delegate
-    parser.parse()
-    
-    XCTAssertTrue(answer.elementsEqual(delegate.result))
+  func testTrack() throws {
+    let node = root.children[1]
+    XCTAssertEqual(node.name, "trk")
+    XCTAssertEqual(node.children[0].name, "name")
+    XCTAssertEqual(node.children[0].content, "Sample01")
   }
   
-  func testXMLParserHandlingError() throws {
+  func testTrackSegment() throws {
+    let node = root.children[1].children[1]
+    XCTAssertEqual(node.name, "trkseg")
+    
+    let point1 = root.children[1].children[1].children[0]
+    XCTAssertEqual(point1.name, "trkpt")
+    XCTAssertEqual(point1.attributes["lat"], "37.5323012")
+    XCTAssertEqual(point1.attributes["lon"], "127.0596635")
+    XCTAssertEqual(point1.children[0].name, "ele")
+    XCTAssertEqual(point1.children[0].content, "15")
 
-    let data = Data(gpxSampleBad.utf8)
-    let parser = XMLParser(data: data)
-    
-    class Delegate: NSObject, XMLParserDelegate {
-      var error: Error?
-      func parser(
-        _ parser: XMLParser,
-        parseErrorOccurred parseError: Error
-      ) {
-        self.error = parseError
-      }
-    }
-    
-    let delegate = Delegate()
-    parser.delegate = delegate
-    parser.parse()
-    
-    XCTAssertNotNil(delegate.error)
+    let point2 = root.children[1].children[1].children[1]
+    XCTAssertEqual(point2.name, "trkpt")
+    XCTAssertEqual(point2.attributes["lat"], "37.5338156")
+    XCTAssertEqual(point2.attributes["lon"], "127.056756")
   }
+  
 }
