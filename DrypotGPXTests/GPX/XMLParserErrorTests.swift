@@ -33,4 +33,18 @@ final class XMLParserErrorTests: XCTestCase {
     }
   }
   
+  func testNoTrack() throws {
+    let data = Data(gpxSampleNoTrack.utf8)
+    let result = BasicXMLParser().parse(data: data)
+    
+    switch result {
+    case .success(let root):
+      XCTAssertEqual(root.name, "gpx")
+      XCTAssertEqual(root.children.first?.name, nil)
+    case .failure(.parsingError(_, let lineNumber)):
+      XCTFail()
+    }
+  }
+  
+  
 }
