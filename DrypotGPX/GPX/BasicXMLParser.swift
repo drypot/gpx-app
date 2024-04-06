@@ -15,15 +15,28 @@ enum XMLParsingError: Error /*, Equatable */ {
   case parsingError(NSError, Int)
 }
 
-struct XMLNode /*: Equatable, Hashable */ {
-  var name: String = ""
-  var attributes = [String: String]()
-  var content = ""
-  var children = [XMLNode]()
+class XMLNode /*: Equatable, Hashable */ {
+  var name: String
+  var attributes:[String: String]
+  var content: String
+  var children: [XMLNode]
+  
+  init(
+    name: String = "",
+    attributes: [String : String] = .init(),
+    content: String = "",
+    children: [XMLNode] = .init()) {
+      
+    self.name = name
+    self.attributes = attributes
+    self.content = content
+    self.children = children
+  }
+  
 }
 
 class BasicXMLParser: NSObject, XMLParserDelegate {
-  private var stack = [XMLNode(name: "")]
+  private var stack = [XMLNode()]
   
   public func parse(data: Data) -> Result<XMLNode, XMLParsingError> {
     let parser = XMLParser(data: data)
