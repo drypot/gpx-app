@@ -14,7 +14,7 @@ enum XMLParsingError: Error /*, Equatable */ {
   case parsingError(NSError, Int)
 }
 
-class XMLNode /*: Equatable, Hashable */ {
+final class XMLNode /*: Equatable, Hashable */ {
   var name: String
   var attributes:[String: String]
   var content: String
@@ -31,13 +31,12 @@ class XMLNode /*: Equatable, Hashable */ {
     self.content = content
     self.children = children
   }
-  
 }
 
 class BasicXMLParser: NSObject, XMLParserDelegate {
   private var stack = [XMLNode()]
   
-  public func parse(data: Data) -> Result<XMLNode, XMLParsingError> {
+  func parse(data: Data) -> Result<XMLNode, XMLParsingError> {
     let parser = XMLParser(data: data)
     parser.delegate = self
     let result = autoreleasepool {

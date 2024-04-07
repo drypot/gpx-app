@@ -23,7 +23,9 @@ let gpxSampleManual = """
     <type>Waypoint</type>
   </wpt>
   <trk>
-    <name>trk1</name>
+    <name>trk1name</name>
+    <cmt>trk1cmt</cmt>
+    <desc>trk1desc</desc>
     <trkseg>
       <trkpt lat="37.5323012" lon="127.0596635">
         <ele>15</ele>

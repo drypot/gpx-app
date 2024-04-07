@@ -7,59 +7,84 @@
 
 import Foundation
 
-class GPX {
-  // var creator = ""
-  // var version = ""
-  let metadata = GPXMetadata()
-  let waypoints = [Waypoint]()
-  let tracks = [Track]()
+final class GPX {
+  var creator: String = ""
+  var version: String = ""
+  let metadata: GPXMetadata = .init()
+  var waypoints: [GPXWaypoint] = []
+  //var routes: [GPXRoute]
+  var tracks: [GPXTrack] = []
 }
 
-struct GPXMetadata {
-  var name: String?
-  var desc: String?
+final class GPXMetadata {
+  var name: String = ""
+  var description: String = ""
+  //var author
+  //var copyright
+  //var link
+  //var time
+  //var keywords: String?
+  //var bounds:
 }
 
-struct Waypoint: Coordinate {
-  var latitude: Double = 0
-  var longitude: Double = 0
-  var elevation: Double = 0
-
-  //var time: Date?
-  var name: String?
-  var comment: String?
-  var description: String?
+final class GPXWaypoint: GPXCoordinate {
+  var latitude = 0.0
+  var longitude = 0.0
+  var elevation = 0.0
+  
+  //var time
+  //var magvar
+  //var geoidheight
+  
+  var name: String = ""
+  var comment: String = ""
+  var description: String = ""
+  //var source
+  //var link
+  var symbol: String = ""
+  var type: String = ""
+  
+  //var fix
+  //var satellites
+  //var hdop
+  //var vdop
+  //var pdop
+  //var ageofdgpsdata
+  //var dgpsid
 }
 
-struct Track {
-  var name: String?
-  //var comment: String?
-  //var description: String?
+final class GPXTrack {
+  var name: String = ""
+  var comment: String = ""
+  var description: String = ""
+  //var source: String?
+  //var link
   //var number: Int?
-  var trackSegments = [TrackSegment]()
+  //var type: String?
+  var trackSegments: [GPXTrackSegment] = []
 }
 
-struct TrackSegment {
-  var trackPoints = [TrackPoint]()
+final class GPXTrackSegment {
+  var trackPoints: [GPXTrackPoint] = []
 }
 
-struct TrackPoint: Coordinate {
-  var latitude: Double = 0
-  var longitude: Double = 0
-  var elevation: Double = 0
+struct GPXTrackPoint: GPXCoordinate {
+  var latitude = 0.0
+  var longitude = 0.0
+  var elevation = 0.0
 }
 
 // 참고
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
-protocol Coordinate {
-  var latitude: Double { get }
-  var longitude: Double { get }
-  var elevation: Double { get }
+protocol GPXCoordinate {
+  var latitude: Double { get set }
+  var longitude: Double { get set }
+  var elevation: Double { get set }
 }
 
-extension Coordinate {
-  func almostEqual(_ target: Coordinate) -> Bool {
+extension GPXCoordinate {
+  func almostEqual(_ target: GPXCoordinate) -> Bool {
     (self.latitude - target.latitude).magnitude < 0.000001 &&
     (self.longitude - target.longitude).magnitude < 0.000001 &&
     (self.elevation - target.elevation).magnitude < 0.00001
