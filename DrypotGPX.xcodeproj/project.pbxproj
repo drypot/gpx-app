@@ -30,6 +30,8 @@
 		00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
 		00F402CA2BC1EB4C00AFAF44 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
 		00F402CC2BC1ED4800AFAF44 /* XMLParserErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402CB2BC1ED4800AFAF44 /* XMLParserErrorTests.swift */; };
+		00F402D02BC222AA00AFAF44 /* GPXParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */; };
+		00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,9 +75,10 @@
 		00D40EAF2BBA4A9700B755CE /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		00D40EB02BBA4A9700B755CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleStrava.swift; sourceTree = "<group>"; };
-		00F402C72BC1EA7400AFAF44 /* XMLParserGPXSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserGPXSupport.swift; sourceTree = "<group>"; };
 		00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleBad.swift; sourceTree = "<group>"; };
 		00F402CB2BC1ED4800AFAF44 /* XMLParserErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserErrorTests.swift; sourceTree = "<group>"; };
+		00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParserTests.swift; sourceTree = "<group>"; };
+		00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleManual.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +183,6 @@
 				00D40EA52BBA4A0F00B755CE /* GPX.swift */,
 				0017C14D2BBD737300D09F93 /* GPXParser.swift */,
 				00CB93472BBDCB2300AD0241 /* XMLParser.swift */,
-				00F402C72BC1EA7400AFAF44 /* XMLParserGPXSupport.swift */,
 			);
 			path = GPX;
 			sourceTree = "<group>";
@@ -188,10 +190,9 @@
 		00D40EA92BBA4A4F00B755CE /* GPX */ = {
 			isa = PBXGroup;
 			children = (
+				00F402D32BC224E900AFAF44 /* Samples */,
 				00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */,
-				001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */,
-				00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */,
-				00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */,
+				00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */,
 				00CFD4752BBB162B0040291B /* XMLParserTryTests.swift */,
 				00CB93492BBDD93F00AD0241 /* XMLParserTests.swift */,
 				00F402CB2BC1ED4800AFAF44 /* XMLParserErrorTests.swift */,
@@ -205,6 +206,17 @@
 				00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		00F402D32BC224E900AFAF44 /* Samples */ = {
+			isa = PBXGroup;
+			children = (
+				001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */,
+				00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */,
+				00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */,
+				00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */,
+			);
+			path = Samples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,7 +370,9 @@
 				00D40EAE2BBA4A4F00B755CE /* PublisherTests.swift in Sources */,
 				00D40EB32BBA4C6800B755CE /* GPX.swift in Sources */,
 				00F402CA2BC1EB4C00AFAF44 /* GPXSampleBad.swift in Sources */,
+				00F402D02BC222AA00AFAF44 /* GPXParserTests.swift in Sources */,
 				00D40EB42BBA4C6B00B755CE /* Publisher.swift in Sources */,
+				00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */,
 				00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */,
 				0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */,
 				00CFD4762BBB162B0040291B /* XMLParserTryTests.swift in Sources */,
