@@ -10,6 +10,7 @@
 		0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
 		0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
 		001C20AA2BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */; };
+		0033E2B82BC3B60300563C17 /* GPXParserErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */; };
 		00CB93482BBDCB2300AD0241 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XMLParser.swift */; };
 		00CB934A2BBDD93F00AD0241 /* XMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* XMLParserTests.swift */; };
 		00CB934B2BBDDA6C00AD0241 /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XMLParser.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		0017C14D2BBD737300D09F93 /* GPXParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
 		001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSamplePlotaRoute.swift; sourceTree = "<group>"; };
+		0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParserErrorTests.swift; sourceTree = "<group>"; };
 		00CB93472BBDCB2300AD0241 /* XMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParser.swift; sourceTree = "<group>"; };
 		00CB93492BBDD93F00AD0241 /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
 		00CFD4752BBB162B0040291B /* XMLParserTryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTryTests.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				00CFD4752BBB162B0040291B /* XMLParserTryTests.swift */,
 				00CB93492BBDD93F00AD0241 /* XMLParserTests.swift */,
 				00F402CB2BC1ED4800AFAF44 /* XMLParserErrorTests.swift */,
+				0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */,
 			);
 			path = GPX;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */,
 				00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */,
 				0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */,
+				0033E2B82BC3B60300563C17 /* GPXParserErrorTests.swift in Sources */,
 				00CFD4762BBB162B0040291B /* XMLParserTryTests.swift in Sources */,
 				00F402CC2BC1ED4800AFAF44 /* XMLParserErrorTests.swift in Sources */,
 			);

@@ -1,17 +1,17 @@
 //
-//  XMLParserErrorTests.swift
+//  GPXParserErrorTests.swift
 //  DrypotGPXTests
 //
-//  Created by drypot on 2024-04-07.
+//  Created by drypot on 2024-04-08.
 //
 
 import XCTest
 
-final class XMLParserErrorTests: XCTestCase {
+final class GPXParserErrorTests: XCTestCase {
   
   func testNoContent() throws {
     let data = Data(gpxSampleNoContent.utf8)
-    switch BasicXMLParser().parse(data: data) {
+    switch GPXParser().parse(data: data) {
     case .success(_):
       XCTFail()
     case .failure(.parsingError(_, let lineNumber)):
@@ -21,7 +21,7 @@ final class XMLParserErrorTests: XCTestCase {
   
   func testBadFormat() throws {
     let data = Data(gpxSampleBad.utf8)
-    switch BasicXMLParser().parse(data: data) {
+    switch GPXParser().parse(data: data) {
     case .success(_):
       XCTFail()
     case .failure(.parsingError(_, let lineNumber)):
@@ -31,13 +31,13 @@ final class XMLParserErrorTests: XCTestCase {
   
   func testNoTrack() throws {
     let data = Data(gpxSampleNoTrack.utf8)
-    switch BasicXMLParser().parse(data: data) {
-    case .success(let root):
-      XCTAssertEqual(root.name, "gpx")
-      XCTAssertEqual(root.children.first?.name, nil)
+    switch GPXParser().parse(data: data) {
+    case .success(let gpx):
+      XCTAssertEqual(gpx.creator, "texteditor")
+      XCTAssertEqual(gpx.tracks.count, 0)
     case .failure(.parsingError(_, _)):
       XCTFail()
     }
   }
-  
+    
 }

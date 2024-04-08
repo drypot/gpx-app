@@ -12,7 +12,7 @@ import Foundation
 
 enum GPXParsingError: Error /*, Equatable */ {
   case parsingError(NSError, Int)
-  case smoothingError
+  //case smoothingError
 }
 
 enum GPXTags: String {
