@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct LocationTestView: View {
-  
-  @State var manager = CurrentLocation()
-  
-  var body: some View {
-    Text("Test CurrentLocation")
-    Button("request current location") {
-      manager.request()
+    
+    @State var manager = CurrentLocation()
+    
+    var body: some View {
+        Text("Test CurrentLocation")
+        Button("request current location") {
+            manager.request()
+        }
+        Button("print current location") {
+            manager.printCurrent()
+        }
     }
-    Button("print current location") {
-      manager.printCurrent()
-    }
-  }
 }
 
 #Preview {
-  LocationTestView()
+    LocationTestView()
 }

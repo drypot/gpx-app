@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct DrypotGPXApp: App {
-  
-  var body: some Scene {
-    WindowGroup {
-      //AppMainView()
-      LocationTestView()
+    
+    var body: some Scene {
+        WindowGroup {
+            //AppMainView()
+            LocationTestView()
+        }
     }
-  }
-  
+    
 }

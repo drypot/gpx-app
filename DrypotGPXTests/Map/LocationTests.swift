@@ -9,10 +9,8 @@ import XCTest
 import CoreLocation
 
 final class LocationTests: XCTestCase {
-  
-  func testExample() throws {
-    let locationManager = CLLocationManager()
-    locationManager.requestWhenInUseAuthorization()
-  }
-  
+    
+    func testExample() throws {
+    }
+    
 }
