@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 final class GPX {
   var creator: String = ""
@@ -89,4 +90,12 @@ extension GPXCoordinate {
     (self.longitude - target.longitude).magnitude < 0.000001 &&
     (self.elevation - target.elevation).magnitude < 0.00001
   }
+}
+
+func coordinates(from trackPoints: [GPXTrackPoint]) -> [CLLocationCoordinate2D] {
+  var coordinates: [CLLocationCoordinate2D] = []
+  trackPoints.forEach {
+    coordinates.append(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude))
+  }
+  return coordinates
 }
