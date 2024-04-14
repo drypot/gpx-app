@@ -13,7 +13,7 @@ struct DrypotGPXApp: App {
     var body: some Scene {
         WindowGroup {
             //AppMainView()
-            LocationTestView()
+            LocationManagerTestView()
         }
     }
     

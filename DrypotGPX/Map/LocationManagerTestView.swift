@@ -1,5 +1,5 @@
 //
-//  LocationTestView.swift
+//  LocationManagerTestView.swift
 //  DrypotGPX
 //
 //  Created by drypot on 2024-04-14.
@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-struct LocationTestView: View {
+struct LocationManagerTestView: View {
     
-    @State var manager = CurrentLocation()
+    @State var manager: LocationManager = LocationManager()
     
     var body: some View {
         Text("Test CurrentLocation")
         Button("request current location") {
-            manager.request()
+            manager.requestLocation()
         }
         Button("print current location") {
-            manager.printCurrent()
+            manager.logCurrent()
         }
     }
 }
 
 #Preview {
-    LocationTestView()
+    LocationManagerTestView()
 }

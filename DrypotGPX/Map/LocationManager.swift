@@ -25,36 +25,35 @@ import CoreLocation
 // 반응이 없을 때도 있었다,
 //
 
-class CurrentLocation: NSObject {
+class LocationManager: NSObject {
     
-    var manager: CLLocationManager?
+    var manager: CLLocationManager = .init()
     
     override init() {
         super.init()
+        manager.delegate = self
     }
     
-    func request() {
-        manager = CLLocationManager()
-        manager!.delegate = self
-        manager!.requestWhenInUseAuthorization()
-        manager!.requestLocation()
+    func requestLocation() {
+        manager.requestWhenInUseAuthorization()
+        manager.requestLocation()
     }
     
     func log(_ s: String) {
-        print("Current Location: \(s)")
+        print("LocationManager: \(s)")
     }
     
-    func printCurrent() {
-        guard let location = manager?.location else {
+    func logCurrent() {
+        guard let location = manager.location else {
             log("unknown")
             return
         }
-        log("\(location.coordinate.latitude) \(location.coordinate.longitude)")
+        log("current: \(location.coordinate.latitude) \(location.coordinate.longitude)")
     }
     
 }
 
-extension CurrentLocation: CLLocationManagerDelegate {
+extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
@@ -71,7 +70,7 @@ extension CurrentLocation: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
-        log("\(location.coordinate.latitude) \(location.coordinate.longitude)")
+        log("updated: \(location.coordinate.latitude) \(location.coordinate.longitude)")
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
@@ -81,4 +80,5 @@ extension CurrentLocation: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         log("error: \(error)")
     }
+    
 }
