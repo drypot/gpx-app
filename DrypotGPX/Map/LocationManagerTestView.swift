@@ -11,18 +11,18 @@ import CoreLocation
 
 struct LocationManagerTestView: View {
     
-    @State var tester = LocationManagerTester()
+    @State var model = LocationManagerTestModel()
     
     var body: some View {
         Text("Test LocationManager")
         Button("request current location") {
-            tester.requestLocation()
+            model.requestLocation()
         }
     }
     
 }
 
-class LocationManagerTester {
+class LocationManagerTestModel {
     
     private var manager: LocationManager = LocationManager()
     private var cancelables = Set<AnyCancellable>()
