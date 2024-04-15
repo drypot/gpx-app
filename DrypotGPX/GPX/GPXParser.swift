@@ -111,7 +111,7 @@ class GPXParser {
         for node in nodes {
             let s = GPXTrackSegment()
             parseTrackPoints(trackSegmentNode: node, trackSegment: s)
-            track.trackSegments.append(s)
+            track.segments.append(s)
         }
     }
     
@@ -120,7 +120,7 @@ class GPXParser {
             if node.name != "trkpt" { continue }
             var p = GPXTrackPoint()
             setCoordinate(&p, from: node)
-            trackSegment.trackPoints.append(p)
+            trackSegment.points.append(p)
         }
     }
     

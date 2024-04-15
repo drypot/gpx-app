@@ -62,11 +62,11 @@ final class GPXTrack {
     //var link
     //var number: Int?
     //var type: String?
-    var trackSegments: [GPXTrackSegment] = []
+    var segments: [GPXTrackSegment] = []
 }
 
 final class GPXTrackSegment {
-    var trackPoints: [GPXTrackPoint] = []
+    var points: [GPXTrackPoint] = []
 }
 
 struct GPXTrackPoint: GPXCoordinate {
