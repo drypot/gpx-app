@@ -9,15 +9,15 @@ import Foundation
 import CoreLocation
 import Combine
 
-class LocationManager: NSObject {
+class LocationManager: NSObject, ObservableObject {
     
     private var manager: CLLocationManager
     
     @Published private(set) var currentLocation: CLLocation?
     @Published private(set) var authorizationStatus: CLAuthorizationStatus
     
-    init(locationManager: CLLocationManager = CLLocationManager()) {
-        self.manager = locationManager
+    init(manager: CLLocationManager = CLLocationManager()) {
+        self.manager = manager
         self.authorizationStatus = manager.authorizationStatus
         super.init()
         manager.delegate = self
@@ -39,44 +39,40 @@ class LocationManager: NSObject {
         manager.stopUpdatingLocation()
     }
 
-    func log(_ s: String) {
-        print("LocationManager: \(s)")
-    }
-    
-    func logLocation() {
-        guard let location = manager.location else { return log("current: unknown") }
-        log("current: \(location.coordinate.latitude) \(location.coordinate.longitude)")
-    }
-    
-    func logAuthStatus() {
-        switch manager.authorizationStatus {
-        case .notDetermined:
-            log("not determined")
-        case .restricted:
-            log("restricted")
-        case .denied:
-            log("denied")
-        case .authorizedAlways, .authorizedWhenInUse:
-            log("authorized")
-        default:
-            log("auth unknown")
-        }
-    }
-
 }
 
 extension LocationManager: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("LocationManager: ", terminator: "")
+        switch status {
+        case .notDetermined:
+            print("not determined")
+        case .restricted:
+            print("restricted")
+        case .denied:
+            print("denied")
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("authorized")
+        @unknown default:
+            print("auth unknown")
+        }
         self.authorizationStatus = status
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.currentLocation = locations.last!
+        let location = locations.last
+        print("LocationManager: ", terminator: "")
+        if let location {
+            print("\(location.coordinate.latitude) \(location.coordinate.longitude)")
+        } else {
+            print("nil")
+        }
+        self.currentLocation = location
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        log("error: \(error)")
+        print("LocationManager: \(error)")
     }
     
 }

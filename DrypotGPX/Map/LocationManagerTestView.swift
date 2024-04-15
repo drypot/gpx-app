@@ -11,33 +11,43 @@ import CoreLocation
 
 struct LocationManagerTestView: View {
     
-    @State var manager: LocationManager = LocationManager()
-    
-    init() {
-        let _ = manager.$currentLocation.sink(receiveValue: printLocation)
-        let _ = manager.$authorizationStatus.sink(receiveValue: printAuthStatus)
-    }
+    @State var tester: LocationManagerTester = LocationManagerTester()
     
     var body: some View {
         Text("Test LocationManager")
         Button("request current location") {
-            manager.requestAuthorization()
-            manager.requestLocation()
+            tester.requestLocation()
         }
-        Button("print current location") {
-            printLocation(location: manager.currentLocation)
-        }
-        Button("print auth status") {
-            printAuthStatus(status: manager.authorizationStatus)
-        }
-    }
-
-    func printLocation(location: CLLocation?) {
-        guard let location else { return }
-        print("location: \(location.coordinate.latitude) \(location.coordinate.longitude)")
     }
     
-    func printAuthStatus(status: CLAuthorizationStatus) {
+}
+
+class LocationManagerTester {
+    
+    private var manager: LocationManager = LocationManager()
+    private var cancelables = Set<AnyCancellable>()
+
+    init() {
+        manager.$currentLocation.sink(receiveValue: locationUpdated).store(in: &cancelables)
+        manager.$authorizationStatus.sink(receiveValue: authUpdated).store(in: &cancelables)
+    }
+
+    func requestLocation() {
+        manager.requestAuthorization()
+        manager.requestLocation()
+    }
+    
+    private func locationUpdated(location: CLLocation?) {
+        print("location subscriber: ", terminator: "")
+        if let location {
+            print("\(location.coordinate.latitude) \(location.coordinate.longitude)")
+        } else {
+            print("nil")
+        }
+    }
+    
+    private func authUpdated(status: CLAuthorizationStatus) {
+        print("auth status subscriber: ", terminator: "")
         switch status {
         case .notDetermined:
             print("not determined")
@@ -47,11 +57,11 @@ struct LocationManagerTestView: View {
             print("denied")
         case .authorizedAlways, .authorizedWhenInUse:
             print("authorized")
-        default:
+        @unknown default:
             print("auth unknown")
         }
     }
-    
+
 }
 
 #Preview {
