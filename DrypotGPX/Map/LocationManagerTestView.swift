@@ -11,7 +11,7 @@ import CoreLocation
 
 struct LocationManagerTestView: View {
     
-    @State var tester: LocationManagerTester = LocationManagerTester()
+    @State var tester = LocationManagerTester()
     
     var body: some View {
         Text("Test LocationManager")
