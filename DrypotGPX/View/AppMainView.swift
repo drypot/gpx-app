@@ -11,31 +11,10 @@ import MapKit
 struct AppMainView: View {
     
     var body: some View {
-        MapView()
-            .task(priority: .low) {
-                //initGlobals()
-            }
+        Text("Hello World")
     }
     
 }
-
-var initedFlag = false
-
-@MainActor
-func initGlobals() {
-    assert(!initedFlag)
-    
-    print("initing...")
-    
-    gpxManager.load()
-    
-    //  let currentLocation = CurrentLocation()
-    //  currentLocation.run()
-    
-    initedFlag = true
-}
-
-
 
 #Preview {
     AppMainView()

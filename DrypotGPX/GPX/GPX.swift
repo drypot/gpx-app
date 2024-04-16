@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 
 final class GPX {
+    let uuid = UUID()
     var creator: String = ""
     var version: String = ""
     let metadata: GPXMetadata = .init()
@@ -67,6 +68,16 @@ final class GPXTrack {
 
 final class GPXTrackSegment {
     var points: [GPXTrackPoint] = []
+    lazy var mapKitCoordinates: [CLLocationCoordinate2D] = {
+        points.map {
+            CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
+        }
+//            var coordinates: [CLLocationCoordinate2D] = []
+//            trackPoints.forEach {
+//                coordinates.append(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude))
+//            }
+//            return coordinates
+    }()
 }
 
 struct GPXTrackPoint: GPXCoordinate {
@@ -90,12 +101,4 @@ extension GPXCoordinate {
         (self.longitude - target.longitude).magnitude < 0.000001 &&
         (self.elevation - target.elevation).magnitude < 0.00001
     }
-}
-
-func coordinates(from trackPoints: [GPXTrackPoint]) -> [CLLocationCoordinate2D] {
-    var coordinates: [CLLocationCoordinate2D] = []
-    trackPoints.forEach {
-        coordinates.append(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude))
-    }
-    return coordinates
 }
