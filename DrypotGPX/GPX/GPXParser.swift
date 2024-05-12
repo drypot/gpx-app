@@ -64,7 +64,7 @@ class GPXParser {
     }
     
     private func parseRoot(root: XMLNode) -> Result<GPX, GPXParsingError> {
-        var gpx = GPX()
+        let gpx = GPX()
         gpx.creator = root.attributes[GPXAttributes.creator.rawValue] ?? ""
         gpx.version = root.attributes[GPXAttributes.version.rawValue] ?? ""
         parseMetadata(root: root, gpx: gpx)

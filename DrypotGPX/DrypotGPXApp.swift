@@ -14,7 +14,8 @@ struct DrypotGPXApp: App {
         WindowGroup {
             //AppMainView()
             //LocationManagerTestView()
-            GPXViewTestView()
+            //GPXViewTestView()
+            MapKitViewTestView()
         }
     }
     

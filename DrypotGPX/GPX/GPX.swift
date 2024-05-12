@@ -68,16 +68,6 @@ final class GPXTrack {
 
 final class GPXTrackSegment {
     var points: [GPXTrackPoint] = []
-    lazy var mapKitCoordinates: [CLLocationCoordinate2D] = {
-        points.map {
-            CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
-        }
-//            var coordinates: [CLLocationCoordinate2D] = []
-//            trackPoints.forEach {
-//                coordinates.append(CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude))
-//            }
-//            return coordinates
-    }()
 }
 
 struct GPXTrackPoint: GPXCoordinate {
