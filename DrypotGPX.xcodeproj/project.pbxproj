@@ -187,6 +187,7 @@
 				00D40E792BBA403200B755CE /* AppMainView.swift */,
 				005B15F22BF11C5600133CDC /* Doc */,
 				00D40EA42BBA4A0F00B755CE /* GPX */,
+				00F402D32BC224E900AFAF44 /* GPXSamples */,
 				00EDDE3A2BC9FE4900A9A406 /* GPXView */,
 				0015585F2BEF89C300A4BFDC /* MapKitView */,
 				00D40EA22BBA4A0F00B755CE /* Util */,
@@ -237,7 +238,6 @@
 		00D40EA42BBA4A0F00B755CE /* GPX */ = {
 			isa = PBXGroup;
 			children = (
-				00F402D32BC224E900AFAF44 /* Samples */,
 				00D40EA52BBA4A0F00B755CE /* GPX.swift */,
 				0017C14D2BBD737300D09F93 /* GPXParser.swift */,
 				004DB52A2BC7969C004B8715 /* GPXManager.swift */,
@@ -295,7 +295,7 @@
 			path = GPXView;
 			sourceTree = "<group>";
 		};
-		00F402D32BC224E900AFAF44 /* Samples */ = {
+		00F402D32BC224E900AFAF44 /* GPXSamples */ = {
 			isa = PBXGroup;
 			children = (
 				001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */,
@@ -303,7 +303,7 @@
 				00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */,
 				00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */,
 			);
-			path = Samples;
+			path = GPXSamples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
