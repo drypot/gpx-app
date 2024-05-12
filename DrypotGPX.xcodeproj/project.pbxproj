@@ -150,6 +150,14 @@
 			path = MapKitView;
 			sourceTree = "<group>";
 		};
+		005B15F22BF11C5600133CDC /* Doc */ = {
+			isa = PBXGroup;
+			children = (
+				003F59612BCB7DC3009C9D61 /* CoreLocationDoc.swift */,
+			);
+			path = Doc;
+			sourceTree = "<group>";
+		};
 		00D40E6B2BBA403200B755CE = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +185,7 @@
 			children = (
 				00D40E772BBA403200B755CE /* DrypotGPXApp.swift */,
 				00D40E792BBA403200B755CE /* AppMainView.swift */,
+				005B15F22BF11C5600133CDC /* Doc */,
 				00D40EA42BBA4A0F00B755CE /* GPX */,
 				00EDDE3A2BC9FE4900A9A406 /* GPXView */,
 				0015585F2BEF89C300A4BFDC /* MapKitView */,
@@ -269,7 +278,6 @@
 		00EDDE3A2BC9FE4900A9A406 /* GPXView */ = {
 			isa = PBXGroup;
 			children = (
-				003F59612BCB7DC3009C9D61 /* CoreLocationDoc.swift */,
 				00EDDE382BC9FD2500A9A406 /* LocationManager.swift */,
 				003F595D2BCB1647009C9D61 /* LocationManagerTestView.swift */,
 				00D6341B2BC7F64900F5752B /* GPXView.swift */,
