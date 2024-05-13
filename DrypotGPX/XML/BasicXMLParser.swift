@@ -42,14 +42,12 @@ class BasicXMLParser: NSObject, XMLParserDelegate {
         let result = autoreleasepool {
             parser.parse()
         }
-        if result {
-            if let root = stack.first?.children.first {
-                return .success(root)
-            }
-            return .success(stack[0])
-        } else {
+        if !result {
             let error = XMLParsingError.parsingError(parser.parserError! as NSError, parser.lineNumber)
             return .failure(error)
+        } else {
+            let root = stack.first?.children.first ?? stack[0]
+            return .success(root)
         }
     }
     

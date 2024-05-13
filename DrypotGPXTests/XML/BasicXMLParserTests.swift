@@ -12,10 +12,11 @@ final class BasicXMLParserTests: XCTestCase {
     var root = XMLNode()
     
     override func setUp() {
-        do {
-            let data = Data(gpxSamplePlotaRouteShort.utf8)
-            root = try BasicXMLParser().parse(data: data).get()
-        } catch {
+        let data = Data(gpxSamplePlotaRouteShort.utf8)
+        switch BasicXMLParser().parse(data: data) {
+        case .success(let root):
+            self.root = root
+        case .failure:
             XCTFail()
         }
     }
