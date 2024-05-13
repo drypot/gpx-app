@@ -14,9 +14,9 @@ final class GPXParserTests: XCTestCase {
     override func setUp() {
         let data = Data(gpxSampleManual.utf8)
         switch GPXParser().parse(data: data) {
-        case let .success(gpx):
+        case .success(let gpx):
             self.gpx = gpx
-        case .failure(_):
+        case .failure:
             XCTFail()
         }
     }
@@ -52,8 +52,8 @@ final class GPXParserTests: XCTestCase {
     }
     
     func testTrackSegment() throws {
-        XCTAssertEqual(gpx.tracks[0].trackSegments.count, 1)
-        let ps = gpx.tracks[0].trackSegments[0].trackPoints
+        XCTAssertEqual(gpx.tracks[0].segments.count, 1)
+        let ps = gpx.tracks[0].segments[0].points
         XCTAssertEqual(ps[0].latitude, 37.5323012)
         XCTAssertEqual(ps[0].longitude, 127.0596635)
         XCTAssertEqual(ps[0].elevation, 15.0)
