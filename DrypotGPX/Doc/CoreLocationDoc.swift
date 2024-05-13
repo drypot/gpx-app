@@ -20,7 +20,12 @@
 // 하지만 requestLocation 한번 호출에 델리게이트가 3번 연달아 호출될 때도 있었고,
 // 두번째 불렀을 때도 호출될 때도 있고,
 // 반응이 없을 때도 있다,
+
 //
 // 장비 Location 읽는 기능은 가능하면 넣지 말자.
-// 생각해 보면 별 필요없다.
+// 생각해 보면 별 필요없다. -> 아니다, 오류난다;
+//
+// Location 채크 껐더니
+// Failed to create layer data for key: gdc::LayerDataRequestKey 에러가 줄줄이 난다.
+// 다시 켰다.
 //
