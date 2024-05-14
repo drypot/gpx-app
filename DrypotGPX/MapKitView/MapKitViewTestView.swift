@@ -9,14 +9,11 @@ import SwiftUI
 
 struct MapKitViewTestView: View {
     
-    //@StateObject var model = GPXViewModel()
-    
     var body: some View {
         VStack {
             MapKitView()
             Button("Load Sample") {
                 print("button update: clicked")
-                //model.loadSampleTrack()
             }
         }
     }

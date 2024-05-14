@@ -8,21 +8,37 @@
 import SwiftUI
 import MapKit
 
+//extension CLLocationCoordinate2D {
+//    static let seoul: Self = .init(latitude: 37.5666791, longitude: 126.9782914)
+//}
+
 struct MapKitView: View {
     
-    //@ObservedObject var model: MapKitViewModel
+    @State var segment: MapKitSegment = {
+        var gpx = GPXManager.shared.gpxFromSampleString()
+        return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
+    }()
+        
+//    static let initialPosition: MapCameraPosition = .userLocation(
+//        fallback: .camera(
+//            MapCamera(centerCoordinate: .seoul, distance: 3000)
+//        )
+//    )
     
     var body: some View {
-        Map() {
-            
+        VStack {
+            Map {
+                MapPolyline(coordinates: segment.points)
+                    .stroke(.blue, lineWidth: 3)
+            }
         }
+        .padding()
     }
 }
 
 #Preview {
-//    var gpxSegment = 
-//    var segment = MapKitSegment(gpxSegment: <#T##GPXTrackSegment#>)
-//    var model = MapKitViewModel(segment: <#T##MapKitSegment#>)
-    MapKitView()
+//    var gpx = GPXManager.shared.gpxFromSampleString()
+//    var segment = MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
+    return MapKitView()
 }
 

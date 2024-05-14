@@ -16,7 +16,7 @@ final class MapKitSegment {
         points = []
     }
     
-    init(gpxSegment: GPXTrackSegment) {
+    init(gpxSegment: GPXSegment) {
         points = gpxSegment.points.map {
             CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
         }
