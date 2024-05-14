@@ -1,5 +1,5 @@
 //
-//  CurrentLocation.swift
+//  LocationManager.swift
 //  DrypotGPX
 //
 //  Created by drypot on 2024-04-13.
