@@ -63,14 +63,14 @@ final class GPXTrack {
     //var link
     //var number: Int?
     //var type: String?
-    var segments: [GPXTrackSegment] = []
+    var segments: [GPXSegment] = []
 }
 
-final class GPXTrackSegment {
-    var points: [GPXTrackPoint] = []
+final class GPXSegment {
+    var points: [GPXPoint] = []
 }
 
-struct GPXTrackPoint: GPXCoordinate {
+struct GPXPoint: GPXCoordinate {
     var latitude = 0.0
     var longitude = 0.0
     var elevation = 0.0

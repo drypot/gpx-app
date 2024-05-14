@@ -101,24 +101,24 @@ class GPXParser {
             t.name = content(of: node, tag: .name)
             t.comment = content(of: node, tag: .comment)
             t.description = content(of: node, tag: .description)
-            parseTrackSegments(trackNode: node, track: t)
+            parseSegments(trackNode: node, track: t)
             gpx.tracks.append(t)
         }
     }
     
-    private func parseTrackSegments(trackNode: XMLNode, track: GPXTrack) {
+    private func parseSegments(trackNode: XMLNode, track: GPXTrack) {
         let nodes = children(of: trackNode, tag: .trackSegment)
         for node in nodes {
-            let s = GPXTrackSegment()
-            parseTrackPoints(trackSegmentNode: node, trackSegment: s)
+            let s = GPXSegment()
+            parsePoints(trackSegmentNode: node, trackSegment: s)
             track.segments.append(s)
         }
     }
     
-    private func parseTrackPoints(trackSegmentNode: XMLNode, trackSegment: GPXTrackSegment) {
+    private func parsePoints(trackSegmentNode: XMLNode, trackSegment: GPXSegment) {
         for node in trackSegmentNode.children {
             if node.name != "trkpt" { continue }
-            var p = GPXTrackPoint()
+            var p = GPXPoint()
             setCoordinate(&p, from: node)
             trackSegment.points.append(p)
         }
