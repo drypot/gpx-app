@@ -8,10 +8,12 @@
 import Foundation
 import Combine
 
+/*
+ https://www.swiftbysundell.com/articles/the-power-of-extensions-in-swift/#specializing-generics
+ */
+
 extension Publisher {
-    
-    // https://www.swiftbysundell.com/articles/the-power-of-extensions-in-swift/#specializing-generics
-    
+        
     func asResult() -> AnyPublisher<Result<Output, Failure>, Never> {
         self
             .map(Result.success)
