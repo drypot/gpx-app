@@ -12,7 +12,7 @@ final class AlwaysTests: XCTestCase {
 
     func testAlwaysPublisher() throws {
         var count = 0
-        let publisher = AlwaysPublisher(output: 999).prefix(5).sink { value in
+        let _ = AlwaysPublisher(output: 999).prefix(5).sink { value in
             count += 1
             XCTAssertEqual(value, 999)
             XCTAssertTrue(count <= 5)

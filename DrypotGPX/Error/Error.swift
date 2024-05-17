@@ -8,5 +8,6 @@
 import Foundation
 
 enum LocalError: Error {
-    case generalError(String)
+    case testing
+    case general(String)
 }

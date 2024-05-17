@@ -13,6 +13,18 @@
 import Foundation
 import Combine
 
+// Sequence
+
+struct AlwaysSequence<Output>: Sequence, IteratorProtocol  {
+    let output: Output
+    
+    mutating func next() -> Output? {
+        return output
+    }
+}
+
+// Combine Publisher
+
 struct AlwaysPublisher<Output>: Publisher {
     typealias Failure = Never
     let output: Output
@@ -45,13 +57,5 @@ private extension AlwaysPublisher {
         func cancel() {
             subscriber = nil
         }
-    }
-}
-
-struct AlwaysSequence<Output>: Sequence, IteratorProtocol  {
-    let output: Output
-    
-    mutating func next() -> Output? {
-        return output
     }
 }
