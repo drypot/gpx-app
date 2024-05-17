@@ -1,5 +1,5 @@
 //
-//  FileUtilTests.swift
+//  FileEnumeratorTests.swift
 //  DrypotGPXTests
 //
 //  Created by Kyuhyun Park on 5/15/24.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class FileUtilTests: XCTestCase {
+final class FileEnumeratorTests: XCTestCase {
 
     func testEnumerateFiles() throws {
         let baseUrl = URL(fileURLWithPath: defaultGPXFolderPath)

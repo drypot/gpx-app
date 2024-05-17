@@ -1,8 +1,8 @@
 //
-//  FileUtil.swift
+//  FileEnumeratorPublisher.swift
 //  DrypotGPX
 //
-//  Created by Kyuhyun Park on 5/16/24.
+//  Created by Kyuhyun Park on 5/17/24.
 //
 
 import Foundation
@@ -12,10 +12,8 @@ import Foundation
  https://stackoverflow.com/questions/46383143/why-does-filemanager-enumerator-use-an-absurd-amount-of-memory
  */
 
-func enumerateFiles(at baseUrl: URL, handler: (URL) -> Result<Bool, Error>) -> Result<Void, Error> {
-    let fileManager = FileManager.default
-    
-    guard let enumerator = fileManager.enumerator(
+func enumerateFiles2(at baseUrl: URL, handler: (URL) -> Result<Bool, Error>) -> Result<Void, Error> {
+    guard let enumerator = FileManager.default.enumerator(
         at: baseUrl,
         includingPropertiesForKeys: [.isRegularFileKey],
         options: [.skipsHiddenFiles]) else {
@@ -46,5 +44,15 @@ func enumerateFiles(at baseUrl: URL, handler: (URL) -> Result<Bool, Error>) -> R
     catch {
         //print("Error getting resource values for \(fileURL): \(error)")
         return .failure(error)
+    }
+}
+
+final class FileEnumerator {
+    private let baseUrl: URL
+    private let headingPublisher: PassthroughSubject<CLHeading, Error>
+    var publisher: AnyPublisher<CLHeading, Error>
+    
+    init(_ baseUrl: URL) {
+        self.baseUrl = baseUrl
     }
 }
