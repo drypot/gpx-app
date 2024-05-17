@@ -13,18 +13,18 @@ import MapKit
 //}
 
 struct MapKitView: View {
-    
+
+    //    static let initialPosition: MapCameraPosition = .userLocation(
+    //        fallback: .camera(
+    //            MapCamera(centerCoordinate: .seoul, distance: 3000)
+    //        )
+    //    )
+
     @State var segment: MapKitSegment = {
         var gpx = GPXManager.shared.gpxFromSampleString()
         return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
     }()
-        
-//    static let initialPosition: MapCameraPosition = .userLocation(
-//        fallback: .camera(
-//            MapCamera(centerCoordinate: .seoul, distance: 3000)
-//        )
-//    )
-    
+            
     var body: some View {
         VStack {
             Map {
