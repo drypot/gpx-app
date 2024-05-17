@@ -189,6 +189,14 @@
 			path = XML;
 			sourceTree = "<group>";
 		};
+		00A083412BF742B700AB449D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				0046A08A2BF5FE09009191FC /* Error.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		00D40E6B2BBA403200B755CE = {
 			isa = PBXGroup;
 			children = (
@@ -224,9 +232,10 @@
 				00F402D32BC224E900AFAF44 /* GPXSamples */,
 				00EDDE3A2BC9FE4900A9A406 /* Location */,
 				0015585F2BEF89C300A4BFDC /* MapKitView */,
-				00D40EA22BBA4A0F00B755CE /* Util */,
+				00D40EA22BBA4A0F00B755CE /* Combine */,
+				00ECF2772BCDE83800278FD6 /* SwiftUI */,
 				00F89F8A2BF709D200D04DEB /* File */,
-				00ECF2772BCDE83800278FD6 /* UtilUI */,
+				00A083412BF742B700AB449D /* Error */,
 				00D40E7D2BBA403400B755CE /* Preview Content */,
 			);
 			path = DrypotGPX;
@@ -246,7 +255,7 @@
 				005B15F42BF11E6F00133CDC /* XML */,
 				00D40EA92BBA4A4F00B755CE /* GPX */,
 				00EDDE3B2BC9FE5900A9A406 /* Location */,
-				00D40EAB2BBA4A4F00B755CE /* Util */,
+				00D40EAB2BBA4A4F00B755CE /* Combine */,
 				00F89F8B2BF709F300D04DEB /* File */,
 			);
 			path = DrypotGPXTests;
@@ -261,14 +270,13 @@
 			path = DrypotGPXUITests;
 			sourceTree = "<group>";
 		};
-		00D40EA22BBA4A0F00B755CE /* Util */ = {
+		00D40EA22BBA4A0F00B755CE /* Combine */ = {
 			isa = PBXGroup;
 			children = (
 				00D40EA32BBA4A0F00B755CE /* Publisher.swift */,
 				00F89F8F2BF715D100D04DEB /* Always.swift */,
-				0046A08A2BF5FE09009191FC /* Error.swift */,
 			);
-			path = Util;
+			path = Combine;
 			sourceTree = "<group>";
 		};
 		00D40EA42BBA4A0F00B755CE /* GPX */ = {
@@ -291,21 +299,21 @@
 			path = GPX;
 			sourceTree = "<group>";
 		};
-		00D40EAB2BBA4A4F00B755CE /* Util */ = {
+		00D40EAB2BBA4A4F00B755CE /* Combine */ = {
 			isa = PBXGroup;
 			children = (
 				00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */,
 				00F89F912BF7316100D04DEB /* AlwaysTests.swift */,
 			);
-			path = Util;
+			path = Combine;
 			sourceTree = "<group>";
 		};
-		00ECF2772BCDE83800278FD6 /* UtilUI */ = {
+		00ECF2772BCDE83800278FD6 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
 				00ECF2782BCDE85E00278FD6 /* PreviewWrapper.swift */,
 			);
-			path = UtilUI;
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		00EDDE3A2BC9FE4900A9A406 /* Location */ = {
