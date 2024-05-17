@@ -12,9 +12,6 @@ struct MapKitViewTestView: View {
     var body: some View {
         VStack {
             MapKitView()
-            Button("Load Sample") {
-                print("button update: clicked")
-            }
         }
     }
 }

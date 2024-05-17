@@ -20,25 +20,32 @@ struct MapKitView: View {
     //        )
     //    )
 
-    @State var segment: MapKitSegment = {
-        var gpx = GPXManager.shared.gpxFromSampleString()
-        return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
-    }()
-            
+    @StateObject var segments = MapKitSegments()
+    
     var body: some View {
         VStack {
             Map {
-                MapPolyline(coordinates: segment.points)
-                    .stroke(.blue, lineWidth: 3)
+                ForEach(segments.segments) { segment in
+                    MapPolyline(coordinates: segment.points)
+                        .stroke(.blue, lineWidth: 3)
+                }
             }
         }
         .padding()
+        .task {
+            segments.loadSegments(url: URL(fileURLWithPath: defaultGPXFolderPath))
+        }
     }
 }
 
 #Preview {
-//    var gpx = GPXManager.shared.gpxFromSampleString()
-//    var segment = MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
-    return MapKitView()
+    //var segments = MapKitSegments()
+    /*
+     @State var segment: MapKitSegment = {
+         var gpx = GPXManager.shared.gpxFromSampleString()
+         return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
+     }()
+     */
+    return MapKitView(/*segments: segments*/)
 }
 
