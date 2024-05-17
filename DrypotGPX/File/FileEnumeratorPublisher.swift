@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 /*
  Why does FileManager.enumerator use an absurd amount of memory?
@@ -47,12 +48,22 @@ func enumerateFiles2(at baseUrl: URL, handler: (URL) -> Result<Bool, Error>) -> 
     }
 }
 
-final class FileEnumerator {
+struct FileEnumerator: Publisher {
+    typealias Output = URL
+    typealias Failure = Never
+
     private let baseUrl: URL
-    private let headingPublisher: PassthroughSubject<CLHeading, Error>
-    var publisher: AnyPublisher<CLHeading, Error>
     
     init(_ baseUrl: URL) {
         self.baseUrl = baseUrl
     }
+    
+    func receive<S: Subscriber>(subscriber: S) where S.Input == Output, S.Failure == Failure {
+        
+    }
+
+}
+
+extension FileEnumerator {
+    
 }

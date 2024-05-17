@@ -225,7 +225,7 @@
 				00EDDE3A2BC9FE4900A9A406 /* Location */,
 				0015585F2BEF89C300A4BFDC /* MapKitView */,
 				00D40EA22BBA4A0F00B755CE /* Util */,
-				00F89F8A2BF709D200D04DEB /* UtilFile */,
+				00F89F8A2BF709D200D04DEB /* File */,
 				00ECF2772BCDE83800278FD6 /* UtilUI */,
 				00D40E7D2BBA403400B755CE /* Preview Content */,
 			);
@@ -247,7 +247,7 @@
 				00D40EA92BBA4A4F00B755CE /* GPX */,
 				00EDDE3B2BC9FE5900A9A406 /* Location */,
 				00D40EAB2BBA4A4F00B755CE /* Util */,
-				00F89F8B2BF709F300D04DEB /* UtilFile */,
+				00F89F8B2BF709F300D04DEB /* File */,
 			);
 			path = DrypotGPXTests;
 			sourceTree = "<group>";
@@ -336,21 +336,21 @@
 			path = GPXSamples;
 			sourceTree = "<group>";
 		};
-		00F89F8A2BF709D200D04DEB /* UtilFile */ = {
+		00F89F8A2BF709D200D04DEB /* File */ = {
 			isa = PBXGroup;
 			children = (
 				00E29FB92BF525DC0000C6D1 /* FileEnumerator.swift */,
 				00F89F8C2BF70A6500D04DEB /* FileEnumeratorPublisher.swift */,
 			);
-			path = UtilFile;
+			path = File;
 			sourceTree = "<group>";
 		};
-		00F89F8B2BF709F300D04DEB /* UtilFile */ = {
+		00F89F8B2BF709F300D04DEB /* File */ = {
 			isa = PBXGroup;
 			children = (
 				00E29FB72BF501590000C6D1 /* FileEnumeratorTests.swift */,
 			);
-			path = UtilFile;
+			path = File;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
