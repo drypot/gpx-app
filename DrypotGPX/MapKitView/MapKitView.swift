@@ -41,14 +41,14 @@ struct MapKitView: View {
                             .tint(.purple)
                     }
                 }
-                .onTapGesture(coordinateSpace: .local) { location in
+                .onTapGesture { location in
                     tappedCoordinate = mapProxy.convert(location, from: .local)
                 }
             }
         }
         .padding()
         .task {
-            segments.loadSegments(url: URL(fileURLWithPath: defaultGPXFolderPath))
+            segments.append(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
         }
     }
 }

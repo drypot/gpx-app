@@ -27,7 +27,7 @@ final class MapKitSegment: Identifiable {
 final class MapKitSegments: ObservableObject {
     @Published var segments: [MapKitSegment] = []
     
-    func loadSegments(url: URL) {
+    func append(fromDirectory url: URL) {
         FilesSequence(url: url)
             .prefix(10)
             .forEach { url in
