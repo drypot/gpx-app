@@ -16,7 +16,7 @@ final class MapKitSegment: Identifiable {
         points = []
     }
     
-    init(gpxSegment: GPXSegment) {
+    init(gpxSegment: GPX.Segment) {
         points = gpxSegment.points.map {
             CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
         }
@@ -29,21 +29,21 @@ final class MapKitSegments: ObservableObject {
     
     func loadSegments(url: URL) {
         FilesSequence(url: url)
-            //.prefix(100)
+            .prefix(10)
             .forEach { url in
-                guard let data = try? Data(contentsOf: url) else {
-                    print("file read error. url: \(url)")
-                    return
-                }
-                switch GPXParser().parse(data: data) {
+                switch GPX.makeGPX(from: url) {
                 case .success(let gpx):
                     gpx
                         .tracks
                         .flatMap { track in track.segments }
                         .map { gpxSegment in MapKitSegment(gpxSegment: gpxSegment) }
                         .forEach { segment in segments.append(segment) }
-                case .failure(let error):
-                    print(error)
+                case .failure(.readingError(let url)):
+                    print("file reading error at \(url)")
+                    return
+                case .failure(.parsingError(_, let lineNumber)):
+                    print("gpx file parsing error at \(lineNumber) from \(url)")
+                    return
                 }
             }
     }

@@ -12,68 +12,78 @@ final class GPX {
     let uuid = UUID()
     var creator: String = ""
     var version: String = ""
-    let metadata: GPXMetadata = .init()
-    var waypoints: [GPXWaypoint] = []
+    let metadata: Metadata = .init()
+    var waypoints: [Waypoint] = []
     //var routes: [GPXRoute]
-    var tracks: [GPXTrack] = []
+    var tracks: [Track] = []
 }
 
-final class GPXMetadata {
-    var name: String = ""
-    var description: String = ""
-    //var author
-    //var copyright
-    //var link
-    //var time
-    //var keywords: String?
-    //var bounds:
+extension GPX {
+    final class Metadata {
+        var name: String = ""
+        var description: String = ""
+        //var author
+        //var copyright
+        //var link
+        //var time
+        //var keywords: String?
+        //var bounds:
+    }
 }
 
-final class GPXWaypoint: GPXCoordinate {
-    var latitude = 0.0
-    var longitude = 0.0
-    var elevation = 0.0
-    
-    //var time
-    //var magvar
-    //var geoidheight
-    
-    var name: String = ""
-    var comment: String = ""
-    var description: String = ""
-    //var source
-    //var link
-    var symbol: String = ""
-    var type: String = ""
-    
-    //var fix
-    //var satellites
-    //var hdop
-    //var vdop
-    //var pdop
-    //var ageofdgpsdata
-    //var dgpsid
+extension GPX {
+    final class Waypoint: GPXCoordinate {
+        var latitude = 0.0
+        var longitude = 0.0
+        var elevation = 0.0
+        
+        //var time
+        //var magvar
+        //var geoidheight
+        
+        var name: String = ""
+        var comment: String = ""
+        var description: String = ""
+        //var source
+        //var link
+        var symbol: String = ""
+        var type: String = ""
+        
+        //var fix
+        //var satellites
+        //var hdop
+        //var vdop
+        //var pdop
+        //var ageofdgpsdata
+        //var dgpsid
+    }
 }
 
-final class GPXTrack {
-    var name: String = ""
-    var comment: String = ""
-    var description: String = ""
-    //var source: String?
-    //var link
-    //var number: Int?
-    //var type: String?
-    var segments: [GPXSegment] = []
+extension GPX {
+    final class Track {
+        var name: String = ""
+        var comment: String = ""
+        var description: String = ""
+        //var source: String?
+        //var link
+        //var number: Int?
+        //var type: String?
+        var segments: [Segment] = []
+    }
 }
 
-final class GPXSegment {
-    var points: [GPXPoint] = []
+extension GPX {
+    final class Segment {
+        var points: [Point] = []
+    }
 }
 
-struct GPXPoint: GPXCoordinate {
-    var latitude = 0.0
-    var longitude = 0.0
-    var elevation = 0.0
+extension GPX {
+    struct Point: GPXCoordinate {
+        var latitude = 0.0
+        var longitude = 0.0
+        var elevation = 0.0
+    }
 }
 
 // 참고

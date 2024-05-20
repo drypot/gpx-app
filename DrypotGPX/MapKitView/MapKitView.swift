@@ -8,6 +8,11 @@
 import SwiftUI
 import MapKit
 
+/*
+ SwiftUI’s Mapping Revolution: Charting the Course with MapReader and MapProxy
+ https://medium.com/@kgross144/swiftui-mapkit-anniemap-locusfocuscamera-9feba8f588ec
+ */
+
 //extension CLLocationCoordinate2D {
 //    static let seoul: Self = .init(latitude: 37.5666791, longitude: 126.9782914)
 //}
@@ -21,13 +26,23 @@ struct MapKitView: View {
     //    )
 
     @StateObject var segments = MapKitSegments()
+    @State var tappedCoordinate: CLLocationCoordinate2D?
     
     var body: some View {
         VStack {
-            Map {
-                ForEach(segments.segments) { segment in
-                    MapPolyline(coordinates: segment.points)
-                        .stroke(.blue, lineWidth: 3)
+            MapReader { mapProxy in
+                Map {
+                    ForEach(segments.segments) { segment in
+                        MapPolyline(coordinates: segment.points)
+                            .stroke(.blue, lineWidth: 3)
+                    }
+                    if let tappedCoordinate {
+                        Marker("", systemImage: "pin.fill", coordinate: tappedCoordinate)
+                            .tint(.purple)
+                    }
+                }
+                .onTapGesture(coordinateSpace: .local) { location in
+                    tappedCoordinate = mapProxy.convert(location, from: .local)
                 }
             }
         }
