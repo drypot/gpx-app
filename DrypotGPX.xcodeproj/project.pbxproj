@@ -23,6 +23,8 @@
 		004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
 		004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
 		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
+		009923582BFC198000BB5877 /* CLLocationCoordinate2DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009923572BFC198000BB5877 /* CLLocationCoordinate2DTests.swift */; };
+		009923592BFC19F600BB5877 /* MapKitSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002E4B0D2BEFAE9300F5E59B /* MapKitSegment.swift */; };
 		00CB93482BBDCB2300AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
 		00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */; };
 		00CB934B2BBDDA6C00AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
@@ -85,6 +87,7 @@
 		004363CA2BF25A3F0080DEB1 /* MapKitDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitDoc.swift; sourceTree = "<group>"; };
 		0046A08A2BF5FE09009191FC /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		009923572BFC198000BB5877 /* CLLocationCoordinate2DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2DTests.swift; sourceTree = "<group>"; };
 		00CB93472BBDCB2300AD0241 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
 		00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserTests.swift; sourceTree = "<group>"; };
 		00CFD4752BBB162B0040291B /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
@@ -323,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				00EDDE3C2BC9FE6B00A9A406 /* LocationTests.swift */,
+				009923572BFC198000BB5877 /* CLLocationCoordinate2DTests.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -527,12 +531,14 @@
 				00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */,
 				00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */,
 				0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */,
+				009923582BFC198000BB5877 /* CLLocationCoordinate2DTests.swift in Sources */,
 				00CFD4762BBB162B0040291B /* XMLParserTests.swift in Sources */,
 				00E29FBB2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */,
 				00EDDE3D2BC9FE6B00A9A406 /* LocationTests.swift in Sources */,
 				00F402CC2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift in Sources */,
 				00F89F922BF7316100D04DEB /* AlwaysTests.swift in Sources */,
 				0046A08C2BF5FE0C009191FC /* Error.swift in Sources */,
+				009923592BFC19F600BB5877 /* MapKitSegment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
