@@ -34,7 +34,7 @@ struct MapKitView: View {
                 Map {
                     ForEach(segments.segments) { segment in
                         MapPolyline(coordinates: segment.points)
-                            .stroke(.blue, lineWidth: 3)
+                            .stroke(segment.isSelected ? .red : .blue, lineWidth: 3)
                     }
                     if let tappedCoordinate {
                         Marker("", systemImage: "pin.fill", coordinate: tappedCoordinate)
@@ -42,8 +42,16 @@ struct MapKitView: View {
                     }
                 }
                 .onTapGesture { location in
-                    tappedCoordinate = mapProxy.convert(location, from: .local)
+                    let p1 = mapProxy.convert(location, from: .local)!
+                    let p2 = mapProxy.convert(CGPoint(x: location.x + 15, y: location.y), from: .local)!
+                    let radius = distanceBetween(p1, p2)
+                    //tappedCoordinate = point
+                    let closest = segments.closestSegment(at: p1, radius: radius)
+                    closest?.toggleSelected()
                 }
+            }
+            Button("Action") {
+                print(segments.selection)
             }
         }
         .padding()

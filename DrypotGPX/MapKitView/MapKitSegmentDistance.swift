@@ -26,70 +26,63 @@ extension MapKitSegment {
         return closest
     }
     
-    private func distance(from point: CLLocationCoordinate2D, toSegment i: Int) -> CLLocationDistance {
-        let a = points[i]
-        let b = points[i + 1]
+    private func distance(from point: CLLocationCoordinate2D, toSegment segmentIndex: Int) -> CLLocationDistance {
+        let p1 = points[segmentIndex]
+        let p2 = points[segmentIndex + 1]
         
-        let pointVector = vector(from: a, to: point)
-        let segmentVector = vector(from: a, to: b)
+        let pointVector = Vector(from: p1, to: point)
+        let segmentVector = Vector(from: p1, to: p2)
         
         let segmentLength = segmentVector.magnitude
         let normalizedSegmentVector = segmentVector.normalized
-        
+
         let projectionLength = dotProduct(pointVector, normalizedSegmentVector)
         
         if projectionLength < 0 {
-            return point.distance(from: a)
+            return distanceBetween(point, p1)
         } else if projectionLength > segmentLength {
-            return point.distance(from: b)
+            return distanceBetween(point, p2)
         } else {
-            let projection = a.adding(vector: normalizedSegmentVector.scaled(by: projectionLength))
-            return point.distance(from: projection)
+            let projection = p1.adding(vector: normalizedSegmentVector.scaled(by: projectionLength))
+            return distanceBetween(point, projection)
         }
     }
+}
+
+fileprivate func dotProduct(_ a: Vector, _ b: Vector) -> Double {
+    return (a.dx * b.dx) + (a.dy * b.dy)
+}
+
+// Haversine Formula
+// CLLocation.distance 의 결과와는 좀 다르게 나온다. 적당히 대강만 써야.
+func distanceBetween(_ p1:CLLocationCoordinate2D, _ p2:CLLocationCoordinate2D) -> CLLocationDistance {
+    let toRadian = .pi / 180.0
+    let lat1 = p1.latitude * toRadian
+    let lon1 = p1.longitude * toRadian
+    let lat2 = p2.latitude * toRadian
+    let lon2 = p2.longitude * toRadian
     
-    private func vector(from a: CLLocationCoordinate2D, to b: CLLocationCoordinate2D) -> Vector {
-        return Vector(dx: b.longitude - a.longitude, dy: b.latitude - a.latitude)
-    }
+    let dLat = lat2 - lat1
+    let dLon = lon2 - lon1
     
-    private func dotProduct(_ a: Vector, _ b: Vector) -> Double {
-        return (a.dx * b.dx) + (a.dy * b.dy)
-    }
-}
+    let sinDLat = sin(dLat/2)
+    let sinDLon = sin(dLon/2)
 
-extension CLLocationCoordinate2D {
-    // Haversine Formula
-    // CLLocation.distance 의 결과와는 좀 다르게 나온다. 적당히 대강만 써야.
-    func distance(from b:CLLocationCoordinate2D) -> CLLocationDistance {
-        let earthRadiusKm: Double = 6371
-        
-        let dLat = (b.latitude - self.latitude).radiansFromDegrees
-        let dLon = (b.longitude - self.longitude).radiansFromDegrees
-        
-        let ar = self.latitude.radiansFromDegrees
-        let br = b.latitude.radiansFromDegrees
-        
-        let c = sin(dLat/2) * sin(dLat/2) + sin(dLon/2) * sin(dLon/2) * cos(ar) * cos(br)
-        let d = 2 * atan2(sqrt(c), sqrt(1 - c))
-        return earthRadiusKm * d * 1000
-    }
-}
+    let a = sinDLat * sinDLat + sinDLon * sinDLon * cos(lat1) * cos(lat2)
+    let c = 2 * asin(sqrt(a))
+    let R = 6372.8
 
-extension Double {
-    var radiansFromDegrees: Double {
-        return self * .pi / 180.0
-    }
-}
-
-extension CLLocationCoordinate2D {
-    func adding(vector: Vector) -> CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: latitude + vector.dy, longitude: longitude + vector.dx)
-    }
+    return R * c * 1000
 }
 
 struct Vector {
     var dx: Double
     var dy: Double
+    
+    init(dx: Double, dy: Double) {
+        self.dx = dx
+        self.dy = dy
+    }
     
     var magnitude: Double {
         return sqrt(dx * dx + dy * dy)
@@ -102,5 +95,32 @@ struct Vector {
     
     func scaled(by scalar: Double) -> Vector {
         return Vector(dx: dx * scalar, dy: dy * scalar)
+    }
+}
+
+extension Vector {
+    init(from p1: CLLocationCoordinate2D, to p2: CLLocationCoordinate2D) {
+        self.init(dx: p2.longitude - p1.longitude, dy: p2.latitude - p1.latitude)
+    }
+}
+
+extension CLLocationCoordinate2D {
+    func adding(vector: Vector) -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude + vector.dy, longitude: longitude + vector.dx)
+    }
+}
+
+extension MapKitSegments {
+    func closestSegment(at point: CLLocationCoordinate2D, radius: CLLocationDistance) -> MapKitSegment? {
+        var closest: MapKitSegment?
+        var closestDistance = Double.greatestFiniteMagnitude
+        for segment in segments {
+            let distance = segment.distance(from: point)
+            if distance < radius, distance < closestDistance {
+                closestDistance = distance
+                closest = segment
+            }
+        }
+        return closest
     }
 }
