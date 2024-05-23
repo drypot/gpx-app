@@ -36,10 +36,6 @@ struct MapKitView: View {
                         MapPolyline(coordinates: segment.points)
                             .stroke(segment.isSelected ? .red : .blue, lineWidth: 3)
                     }
-                    if let tappedCoordinate {
-                        Marker("", systemImage: "pin.fill", coordinate: tappedCoordinate)
-                            .tint(.purple)
-                    }
                 }
                 .onTapGesture { location in
                     let p1 = mapProxy.convert(location, from: .local)!
@@ -56,7 +52,8 @@ struct MapKitView: View {
         }
         .padding()
         .task {
-            segments.append(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            //segments.appendGPXFilesRecursivelySync(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
         }
     }
 }
