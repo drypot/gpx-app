@@ -9,10 +9,15 @@ import SwiftUI
 
 struct MapKitSegmentsViewTestView: View {
     
+    @StateObject var segments = MapKitSegments()
+    
     var body: some View {
         VStack {
-            //MapKitSegmentsView()
-            MapKitSegmentsViewUsingUIKit()
+            MapKitSegmentsView(segments: segments)
+            .padding()
+            .task {
+                await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            }
         }
     }
 }

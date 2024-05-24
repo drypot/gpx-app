@@ -6,61 +6,62 @@
 //
 
 import Foundation
-import CoreLocation
+import MapKit
 
-extension MapKitSegment {
-    
-    // ask to ChatGPT: how to calculate distance between mapkit polyline and point
-    
-    func distance(from point: CLLocationCoordinate2D) -> CLLocationDistance {
-        var closest = CLLocationDistance(Double.greatestFiniteMagnitude)
-        guard point.latitude != 0 && point.longitude != 0 else {
-            return closest
-        }
-        for i in 0..<(points.count - 1) {
-            let distance = distance(from: point, toSegment: i)
-            if distance < closest {
-                closest = distance
-            }
-        }
+func distanceBetween(_ point: CLLocationCoordinate2D, _ polyline: MKPolyline) -> CLLocationDistance {
+    var closest = CLLocationDistance(Double.greatestFiniteMagnitude)
+    guard point.latitude != 0 && point.longitude != 0 else {
         return closest
     }
-    
-    private func distance(from point: CLLocationCoordinate2D, toSegment segmentIndex: Int) -> CLLocationDistance {
-        let p1 = points[segmentIndex]
-        let p2 = points[segmentIndex + 1]
-        
-        let pointVector = Vector(from: p1, to: point)
-        let segmentVector = Vector(from: p1, to: p2)
-        
-        let segmentLength = segmentVector.magnitude
-        let normalizedSegmentVector = segmentVector.normalized
-
-        let projectionLength = dotProduct(pointVector, normalizedSegmentVector)
-        
-        if projectionLength < 0 {
-            return distanceBetween(point, p1)
-        } else if projectionLength > segmentLength {
-            return distanceBetween(point, p2)
-        } else {
-            let projection = p1.adding(vector: normalizedSegmentVector.scaled(by: projectionLength))
-            return distanceBetween(point, projection)
+    let points = polyline.points()
+    let count = polyline.pointCount
+    for i in 0..<(count - 1) {
+        let p1 = points[i].coordinate
+        let p2 = points[i + 1].coordinate
+        let distance = distanceBetween(point, lineStart: p1, lineEnd: p2)
+        if distance < closest {
+            closest = distance
         }
+    }
+    return closest
+}
+
+func distanceBetween(
+    _ point: CLLocationCoordinate2D,
+    lineStart: CLLocationCoordinate2D,
+    lineEnd: CLLocationCoordinate2D
+) -> CLLocationDistance {
+    
+    let pointVector = Vector(from: lineStart, to: point)
+    let segmentVector = Vector(from: lineStart, to: lineEnd)
+    
+    let segmentLength = segmentVector.magnitude
+    let normalizedSegmentVector = segmentVector.normalized
+
+    let projectionLength = dotProduct(pointVector, normalizedSegmentVector)
+    
+    if projectionLength < 0 {
+        return distanceBetween(point, lineStart)
+    } else if projectionLength > segmentLength {
+        return distanceBetween(point, lineEnd)
+    } else {
+        let projection = lineStart.adding(vector: normalizedSegmentVector.scaled(by: projectionLength))
+        return distanceBetween(point, projection)
     }
 }
 
-fileprivate func dotProduct(_ a: Vector, _ b: Vector) -> Double {
+func dotProduct(_ a: Vector, _ b: Vector) -> Double {
     return (a.dx * b.dx) + (a.dy * b.dy)
 }
 
 // Haversine Formula
 // CLLocation.distance 의 결과와는 좀 다르게 나온다. 적당히 대강만 써야.
-func distanceBetween(_ p1:CLLocationCoordinate2D, _ p2:CLLocationCoordinate2D) -> CLLocationDistance {
+func distanceBetween(_ point1: CLLocationCoordinate2D, _ point2: CLLocationCoordinate2D) -> CLLocationDistance {
     let toRadian = .pi / 180.0
-    let lat1 = p1.latitude * toRadian
-    let lon1 = p1.longitude * toRadian
-    let lat2 = p2.latitude * toRadian
-    let lon2 = p2.longitude * toRadian
+    let lat1 = point1.latitude * toRadian
+    let lon1 = point1.longitude * toRadian
+    let lat2 = point2.latitude * toRadian
+    let lon2 = point2.longitude * toRadian
     
     let dLat = lat2 - lat1
     let dLon = lon2 - lon1
@@ -110,17 +111,3 @@ extension CLLocationCoordinate2D {
     }
 }
 
-extension MapKitSegments {
-    func closestSegment(at point: CLLocationCoordinate2D, radius: CLLocationDistance) -> MapKitSegment? {
-        var closest: MapKitSegment?
-        var closestDistance = Double.greatestFiniteMagnitude
-        for segment in segments {
-            let distance = segment.distance(from: point)
-            if distance < radius, distance < closestDistance {
-                closestDistance = distance
-                closest = segment
-            }
-        }
-        return closest
-    }
-}

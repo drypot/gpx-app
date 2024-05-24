@@ -9,9 +9,9 @@ import Foundation
 
 class MapKitSegmentsViewModel: ObservableObject {
 
-    @Published var segment: MapKitSegment
+    //@Published var segment: MapKitSegment
 
-    init(segment: MapKitSegment = MapKitSegment()) {
-        self.segment = segment
+    init() {
+        //self.segment = segment
     }
 }

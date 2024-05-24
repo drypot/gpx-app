@@ -1,5 +1,5 @@
 //
-//  MapKitSegmentsViewUsingSwiftUI.swift
+//  MapKitSegmentsViewV2.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -17,7 +17,7 @@ import MapKit
 //    static let seoul: Self = .init(latitude: 37.5666791, longitude: 126.9782914)
 //}
 
-struct MapKitSegmentsView: View {
+struct MapKitSegmentsViewV2: View {
 
     //    static let initialPosition: MapCameraPosition = .userLocation(
     //        fallback: .camera(
@@ -25,35 +25,35 @@ struct MapKitSegmentsView: View {
     //        )
     //    )
 
-    @StateObject var segments = MapKitSegments()
-    @State var tappedCoordinate: CLLocationCoordinate2D?
+//    @StateObject var segments = MapKitSegments()
+//    @State var tappedCoordinate: CLLocationCoordinate2D?
     
     var body: some View {
         VStack {
             MapReader { mapProxy in
                 Map {
-                    ForEach(segments.segments) { segment in
-                        MapPolyline(coordinates: segment.points)
-                            .stroke(segment.isSelected ? .red : .blue, lineWidth: 3)
-                    }
+//                    ForEach(segments.segments) { segment in
+//                        MapPolyline(coordinates: segment.points)
+//                            .stroke(segment.isSelected ? .red : .blue, lineWidth: 3)
+//                    }
                 }
                 .onTapGesture { location in
-                    let p1 = mapProxy.convert(location, from: .local)!
-                    let p2 = mapProxy.convert(CGPoint(x: location.x + 15, y: location.y), from: .local)!
-                    let radius = distanceBetween(p1, p2)
-                    //tappedCoordinate = point
-                    let closest = segments.closestSegment(at: p1, radius: radius)
-                    closest?.toggleSelected()
+//                    let p1 = mapProxy.convert(location, from: .local)!
+//                    let p2 = mapProxy.convert(CGPoint(x: location.x + 15, y: location.y), from: .local)!
+//                    let radius = distanceBetween(p1, p2)
+//                    //tappedCoordinate = point
+//                    let closest = segments.closestSegment(at: p1, radius: radius)
+//                    closest?.toggleSelected()
                 }
             }
             Button("Action") {
-                print(segments.selection)
+//                print(segments.selection)
             }
         }
         .padding()
         .task {
             //segments.appendGPXFilesRecursivelySync(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
-            await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+//            await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
         }
     }
 }
@@ -66,6 +66,6 @@ struct MapKitSegmentsView: View {
          return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
      }()
      */
-    return MapKitSegmentsView(/*segments: segments*/)
+    return MapKitSegmentsViewV2(/*segments: segments*/)
 }
 

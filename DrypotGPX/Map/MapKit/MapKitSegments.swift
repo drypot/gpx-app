@@ -6,132 +6,88 @@
 //
 
 import Foundation
-import CoreLocation
-import Combine
+import MapKit
 
-final class MapKitSegment: Identifiable {
-    var points: [CLLocationCoordinate2D]
-    unowned var segments: MapKitSegments?
+final class MapKitSegments: ObservableObject {
+    @Published private var polylines: Set<MKPolyline> = []
+    @Published private var selectedPolylines: Set<MKPolyline> = []
+    var needZoomtoFit = false
     
-    init(points: [CLLocationCoordinate2D] = []) {
-        self.points = points
-    }
-
-    convenience init(gpxSegment: GPX.Segment) {
+    func addGPXSegment(_ gpxSegment: GPX.Segment) {
         let points = gpxSegment.points.map {
             CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
         }
-        self.init(points: points)
+        let poly = MKPolyline(coordinates: points, count: points.count)
+        polylines.insert(poly)
+    }
+
+    func addGPXSegments(_ gpxSegments: [GPX.Segment]) {
+        gpxSegments.forEach { self.addGPXSegment($0) }
     }
     
-    var isSelected:Bool {
-        guard let segments else { return false }
-        return segments.selection.contains(self)
+    func selectPolyline(_ polyline: MKPolyline) {
+        selectedPolylines.insert(polyline)
     }
     
-    func toggleSelected() {
-        guard let segments else { return }
-        if isSelected {
-            segments.removeFromSelection(self)
+    func deselectPolyline(_ polyline: MKPolyline) {
+        selectedPolylines.remove(polyline)
+    }
+    
+    func polylineIsSelected(_ polyline: MKPolyline) -> Bool {
+        return selectedPolylines.contains(polyline)
+    }
+    
+    func togglePolylineSelection(_ polyline: MKPolyline) {
+        if polylineIsSelected(polyline) {
+            deselectPolyline(polyline)
         } else {
-            segments.appendToSelection(self)
+            selectPolyline(polyline)
         }
     }
-
-}
-
-extension MapKitSegment: Equatable {
-    static func == (lhs: MapKitSegment, rhs: MapKitSegment) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-extension MapKitSegment: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-final class MapKitSegments: ObservableObject {
-    @Published private(set) var segments: [MapKitSegment] = []
-    @Published private(set) var selection: Set<MapKitSegment> = []
     
-    //private var appendCancelable: AnyCancellable?
-    
-    func append(_ segment: MapKitSegment) {
-        self.segments.append(segment)
-        segment.segments = self
+    func addPolylines(to mapView: MKMapView) {
+        polylines.forEach { polyline in
+            mapView.addOverlay(polyline)
+        }
     }
     
-    func append(contentsOf segments: [MapKitSegment]) {
-        segments.forEach { self.append($0) }
-    }
-    
-    func appendToSelection(_ segment: MapKitSegment) {
-        selection.insert(segment)
-    }
-    
-    func removeFromSelection(_ segment: MapKitSegment) {
-        selection.remove(segment)
-    }
-}
-
-extension MapKitSegments {
     func appendGPXFiles(fromDirectory url: URL) async {
-        var segmentsToAppend: [MapKitSegment] = []
-        var count = 0
-        for url in FilesSequence(url: url) {
-            switch GPX.makeGPX(from: url) {
-            case .success(let gpx):
-                gpx
-                    .tracks
-                    .flatMap { $0.segments }
-                    .map { MapKitSegment(gpxSegment: $0) }
-                    .forEach { segmentsToAppend.append($0) }
-            case .failure(.readingError(let url)):
-                print("file reading error at \(url)")
-                return
-            case .failure(.parsingError(_, let lineNumber)):
-                print("gpx file parsing error at \(lineNumber) from \(url)")
-                return
+        var segments: [GPX.Segment] = []
+        FilesSequence(url: url)
+            //.prefix(10)
+            .forEach { url in
+                switch GPX.makeGPX(from: url) {
+                case .success(let gpx):
+                    gpx
+                        .tracks
+                        .flatMap { $0.segments }
+                        .forEach { segments.append($0) }
+                case .failure(.readingError(let url)):
+                    print("file reading error at \(url)")
+                    return
+                case .failure(.parsingError(_, let lineNumber)):
+                    print("gpx file parsing error at \(lineNumber) from \(url)")
+                    return
+                }
             }
-
-            count += 1
-            if count > 100 { break; }
-        }
-        await MainActor.run { [segmentsToAppend] in
-            self.append(contentsOf: segmentsToAppend)
+        await MainActor.run { [segments] in
+            self.addGPXSegments(segments)
+            self.needZoomtoFit = true
         }
     }
     
-    //
-    //    Combine version
-    //
-    //    func appendGPXFilesRecursively(fromDirectory url: URL) async {
-    //        var segmentsToAppend: [MapKitSegment] = []
-    //        appendCancelable = FilesPublisher(url: url)
-    //            //.prefix(1000)
-    //            .sink(receiveCompletion: { completion in
-    //                DispatchQueue.main.async {
-    //                    self.append(contentsOf: segmentsToAppend)
-    //                }
-    //            }, receiveValue: { url in
-    //                switch GPX.makeGPX(from: url) {
-    //                case .success(let gpx):
-    //                    gpx
-    //                        .tracks
-    //                        .flatMap { track in track.segments }
-    //                        .map { segment in MapKitSegment(gpxSegment: segment) }
-    //                        .forEach { segment in segmentsToAppend.append(segment) }
-    //                        //.forEach { segment in self.append(segment) }
-    //                case .failure(.readingError(let url)):
-    //                    print("file reading error at \(url)")
-    //                    return
-    //                case .failure(.parsingError(_, let lineNumber)):
-    //                    print("gpx file parsing error at \(lineNumber), \(url)")
-    //                    return
-    //                }
-    //            })
-    //    }
-    
+    func closestPolyline(at point: CLLocationCoordinate2D, radius: CLLocationDistance) -> MKPolyline? {
+        var closest: MKPolyline?
+        var closestDistance = Double.greatestFiniteMagnitude
+        for polyline in polylines {
+            let distance = distanceBetween(point, polyline)
+            if distance < radius, distance < closestDistance {
+                closestDistance = distance
+                closest = polyline
+            }
+        }
+        return closest
+    }
+
 }
+
