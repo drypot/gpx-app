@@ -1,5 +1,5 @@
 //
-//  MapKitViewModel.swift
+//  MapKitSegmentsViewModel.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MapKitViewModel: ObservableObject {
+class MapKitSegmentsViewModel: ObservableObject {
 
     @Published var segment: MapKitSegment
 

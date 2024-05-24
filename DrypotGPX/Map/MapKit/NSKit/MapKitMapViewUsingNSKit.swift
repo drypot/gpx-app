@@ -1,10 +1,11 @@
 //
-//  MapKitView.swift
+//  MapKitMapViewUsingNSKit.swift
 //  DrypotGPX
 //
-//  Created by Kyuhyun Park on 5/11/24.
+//  Created by Kyuhyun Park on 5/24/24.
 //
 
+import Foundation
 import SwiftUI
 import MapKit
 
@@ -17,7 +18,33 @@ import MapKit
 //    static let seoul: Self = .init(latitude: 37.5666791, longitude: 126.9782914)
 //}
 
-struct MapKitView: View {
+struct MapKitMapViewUsingNSKit: NSViewRepresentable {
+    @Binding var region: MKCoordinateRegion
+
+    func makeNSView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        return mapView
+    }
+
+    func updateNSView(_ uiView: MKMapView, context: Context) {
+        uiView.setRegion(region, animated: true)
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    final class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapKitMapViewUsingNSKit
+
+        init(_ parent: MapKitMapViewUsingNSKit) {
+            self.parent = parent
+        }
+    }
+}
+
+struct MapKitSegmentsViewUsingUIKit: View {
 
     //    static let initialPosition: MapCameraPosition = .userLocation(
     //        fallback: .camera(
@@ -44,6 +71,7 @@ struct MapKitView: View {
                     //tappedCoordinate = point
                     let closest = segments.closestSegment(at: p1, radius: radius)
                     closest?.toggleSelected()
+                    print("done2")
                 }
             }
             Button("Action") {
@@ -66,6 +94,6 @@ struct MapKitView: View {
          return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
      }()
      */
-    return MapKitView(/*segments: segments*/)
+    return MapKitSegmentsViewUsingUIKit(/*segments: segments*/)
 }
 

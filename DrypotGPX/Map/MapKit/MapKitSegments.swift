@@ -1,5 +1,5 @@
 //
-//  MapKitTrack.swift
+//  MapKitSegments.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -23,6 +23,21 @@ final class MapKitSegment: Identifiable {
         }
         self.init(points: points)
     }
+    
+    var isSelected:Bool {
+        guard let segments else { return false }
+        return segments.selection.contains(self)
+    }
+    
+    func toggleSelected() {
+        guard let segments else { return }
+        if isSelected {
+            segments.removeFromSelection(self)
+        } else {
+            segments.appendToSelection(self)
+        }
+    }
+
 }
 
 extension MapKitSegment: Equatable {
@@ -81,8 +96,8 @@ extension MapKitSegments {
                 return
             }
 
-            //count += 1
-            //if count > 100 { break; }
+            count += 1
+            if count > 100 { break; }
         }
         await MainActor.run { [segmentsToAppend] in
             self.append(contentsOf: segmentsToAppend)
@@ -120,20 +135,3 @@ extension MapKitSegments {
     //    }
     
 }
-
-extension MapKitSegment {
-    var isSelected:Bool {
-        guard let segments else { return false }
-        return segments.selection.contains(self)
-    }
-    
-    func toggleSelected() {
-        guard let segments else { return }
-        if isSelected {
-            segments.removeFromSelection(self)
-        } else {
-            segments.appendToSelection(self)
-        }
-    }
-}
-
