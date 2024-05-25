@@ -33,7 +33,7 @@ struct MapKitSegmentsView: NSViewRepresentable {
             let segments = parent.segments
             if let polyline = overlay as? MKPolyline {
                 let renderer = MKPolylineRenderer(polyline: polyline)
-                if segments.polylineIsSelected(polyline) {
+                if segments.isSelectedSegment(polyline) {
                     renderer.strokeColor = .red
                 } else {
                     renderer.strokeColor = .blue
@@ -48,12 +48,12 @@ struct MapKitSegmentsView: NSViewRepresentable {
             let mapView = gesture.view as! MKMapView
             let tapPoint = gesture.location(in: mapView)
             
-            let p1 = mapView.convert(tapPoint, toCoordinateFrom: mapView)
-            let p2 = mapView.convert(CGPoint(x: tapPoint.x + 15, y: tapPoint.y), toCoordinateFrom: mapView)
-            let radius = distanceBetween(p1, p2)
+            let p1 = MKMapPoint(mapView.convert(tapPoint, toCoordinateFrom: mapView))
+            let p2 = MKMapPoint(mapView.convert(CGPoint(x: tapPoint.x + 10, y: tapPoint.y), toCoordinateFrom: mapView))
+            let tolerance = p1.distance(to: p2)
 
-            if let closest = parent.segments.closestPolyline(at: p1, radius: radius) {
-                parent.segments.togglePolylineSelection(closest)
+            if let closest = parent.segments.closestPolyline(at: p1, tolerance: tolerance) {
+                parent.segments.toggleSegmentSelection(closest)
             }
         }
         
@@ -78,25 +78,9 @@ struct MapKitSegmentsView: NSViewRepresentable {
 
     func updateNSView(_ mapView: MKMapView, context: Context) {
         //uiView.setRegion(region, animated: true)
-        mapView.removeOverlays(mapView.overlays)
-        segments.addPolylines(to: mapView)
-        if segments.needZoomtoFit {
-            zoomToFitAllOverlays(mapView)
-            segments.needZoomtoFit = false
-        }
-    }
-    
-    func zoomToFitAllOverlays(_ mapView: MKMapView) {
-        var zoomRect = MKMapRect.null
-        
-        mapView.overlays.forEach { overlay in
-            zoomRect = zoomRect.union(overlay.boundingMapRect)
-        }
-        
-        if !zoomRect.isNull {
-            let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
-            mapView.setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
-        }
+//        mapView.removeOverlays(mapView.overlays)
+//        segments.addPolylines(to: mapView)
+        segments.sync(with: mapView)
     }
 }
 

@@ -25,8 +25,6 @@
 		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
 		009923582BFC198000BB5877 /* MapKitSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009923572BFC198000BB5877 /* MapKitSegmentTests.swift */; };
 		009923592BFC19F600BB5877 /* MapKitSegments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002E4B0D2BEFAE9300F5E59B /* MapKitSegments.swift */; };
-		0099235D2BFC2FE200BB5877 /* MapKitSegmentDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0099235C2BFC2FE200BB5877 /* MapKitSegmentDistance.swift */; };
-		0099235E2BFC304E00BB5877 /* MapKitSegmentDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0099235C2BFC2FE200BB5877 /* MapKitSegmentDistance.swift */; };
 		00CB93482BBDCB2300AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
 		00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */; };
 		00CB934B2BBDDA6C00AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
@@ -91,7 +89,6 @@
 		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		0049D5AC2C002E3E0044F024 /* MapKitSegmentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSegmentsView.swift; sourceTree = "<group>"; };
 		009923572BFC198000BB5877 /* MapKitSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSegmentTests.swift; sourceTree = "<group>"; };
-		0099235C2BFC2FE200BB5877 /* MapKitSegmentDistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSegmentDistance.swift; sourceTree = "<group>"; };
 		00CB93472BBDCB2300AD0241 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
 		00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserTests.swift; sourceTree = "<group>"; };
 		00CFD4752BBB162B0040291B /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
@@ -157,7 +154,6 @@
 				0049D5AF2C0034ED0044F024 /* SwiftUI */,
 				0016ECD02BEF8CB600FE63D8 /* MapKitSegmentsViewTestView.swift */,
 				002E4B0D2BEFAE9300F5E59B /* MapKitSegments.swift */,
-				0099235C2BFC2FE200BB5877 /* MapKitSegmentDistance.swift */,
 				002E4B0F2BEFB1F700F5E59B /* MapKitSegmentsViewModel.swift */,
 			);
 			path = MapKit;
@@ -530,7 +526,6 @@
 				0049D5AD2C002E3E0044F024 /* MapKitSegmentsView.swift in Sources */,
 				004DB52D2BC796DF004B8715 /* GPXSamplePlotaRoute.swift in Sources */,
 				0016ECD12BEF8CB600FE63D8 /* MapKitSegmentsViewTestView.swift in Sources */,
-				0099235D2BFC2FE200BB5877 /* MapKitSegmentDistance.swift in Sources */,
 				00D40E782BBA403200B755CE /* App.swift in Sources */,
 				004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */,
 				00D40EA72BBA4A0F00B755CE /* GPX.swift in Sources */,
@@ -558,7 +553,6 @@
 				00F402D02BC222AA00AFAF44 /* GPXParserTests.swift in Sources */,
 				00D40EB42BBA4C6B00B755CE /* Publisher.swift in Sources */,
 				00F89F932BF7316500D04DEB /* Always.swift in Sources */,
-				0099235E2BFC304E00BB5877 /* MapKitSegmentDistance.swift in Sources */,
 				00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */,
 				00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */,
 				0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */,
