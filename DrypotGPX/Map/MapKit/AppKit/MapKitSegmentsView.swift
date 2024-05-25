@@ -52,7 +52,7 @@ struct MapKitSegmentsView: NSViewRepresentable {
             let p2 = MKMapPoint(mapView.convert(CGPoint(x: tapPoint.x + 10, y: tapPoint.y), toCoordinateFrom: mapView))
             let tolerance = p1.distance(to: p2)
 
-            if let closest = parent.segments.closestPolyline(at: p1, tolerance: tolerance) {
+            if let closest = parent.segments.closestSegment(from: p1, tolerance: tolerance) {
                 parent.segments.toggleSegmentSelection(closest)
             }
         }
