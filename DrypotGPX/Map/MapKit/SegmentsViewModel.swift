@@ -1,5 +1,5 @@
 //
-//  MapKitSegments.swift
+//  SegmentsViewModel.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -8,18 +8,22 @@
 import Foundation
 import MapKit
 
-final class MapKitSegments: ObservableObject {
+final class SegmentsViewModel: ObservableObject {
     private var segments: Set<MKPolyline> = []
+    
     private var segmentsSelected: Set<MKPolyline> = []
+    private var startPoint: MKMapPoint?
+    
     private var segmentsToAdd: [MKPolyline] = []
     private var segmentsToRemove: [MKPolyline] = []
     private var segmentsToUpdate: Set<MKPolyline> = []
+    
     var needZoomToFit = false
     
     func appendGPXFiles(fromDirectory url: URL) async {
         var newSegments: [MKPolyline] = []
         FilesSequence(url: url)
-            //.prefix(10)
+            .prefix(10)
             .forEach { url in
                 switch GPX.makeGPX(from: url) {
                 case .success(let gpx):

@@ -17,7 +17,7 @@ import MapKit
 //    static let seoul: Self = .init(latitude: 37.5666791, longitude: 126.9782914)
 //}
 
-struct MapKitSegmentsViewV2: View {
+struct SegmentsViewV2: View {
 
     //    static let initialPosition: MapCameraPosition = .userLocation(
     //        fallback: .camera(
@@ -66,6 +66,6 @@ struct MapKitSegmentsViewV2: View {
          return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
      }()
      */
-    return MapKitSegmentsViewV2(/*segments: segments*/)
+    return SegmentsViewV2(/*segments: segments*/)
 }
 

@@ -26,11 +26,32 @@ struct MainEntryPoint {
     }
 }
 
+class GlobalActions {
+    typealias Action = () -> Void
+    static let shared = GlobalActions()
+    private init() {}
+    
+    var exportGPX: Action?
+}
+
 struct MainApp: App {
     var body: some Scene {
         WindowGroup {
             //LocationManagerTestView()
-            MapKitSegmentsViewTestView()
+            SegmentsViewTestView()            
+        }
+        .commands {
+            CommandMenu("Custom Menu") {
+                Button("Export GPX") {
+                    GlobalActions.shared.exportGPX?()
+                }
+                .keyboardShortcut("E", modifiers: [.command, .shift])
+                
+                Button("Quit") {
+                    NSApplication.shared.terminate(nil)
+                }
+                .keyboardShortcut("Q", modifiers: [.command])
+            }
         }
     }
 }

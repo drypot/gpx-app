@@ -9,23 +9,14 @@ import Foundation
 import SwiftUI
 import MapKit
 
-/*
- SwiftUI’s Mapping Revolution: Charting the Course with MapReader and MapProxy
- https://medium.com/@kgross144/swiftui-mapkit-anniemap-locusfocuscamera-9feba8f588ec
- */
+struct SegmentsView: NSViewRepresentable {
 
-//extension CLLocationCoordinate2D {
-//    static let seoul: Self = .init(latitude: 37.5666791, longitude: 126.9782914)
-//}
-
-struct MapKitSegmentsView: NSViewRepresentable {
-
-    @ObservedObject var segments: MapKitSegments
+    @ObservedObject var segments: SegmentsViewModel
     
     final class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: MapKitSegmentsView
+        var parent: SegmentsView
 
-        init(_ parent: MapKitSegmentsView) {
+        init(_ parent: SegmentsView) {
             self.parent = parent
         }
         
@@ -77,15 +68,12 @@ struct MapKitSegmentsView: NSViewRepresentable {
     }
 
     func updateNSView(_ mapView: MKMapView, context: Context) {
-        //uiView.setRegion(region, animated: true)
-//        mapView.removeOverlays(mapView.overlays)
-//        segments.addPolylines(to: mapView)
         segments.sync(with: mapView)
     }
 }
 
 #Preview {
-    let segments = MapKitSegments()
-    return MapKitSegmentsView(segments: segments)
+    let segments = SegmentsViewModel()
+    return SegmentsView(segments: segments)
 }
 
