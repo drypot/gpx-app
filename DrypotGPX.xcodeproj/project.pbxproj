@@ -148,8 +148,8 @@
 		0015585F2BEF89C300A4BFDC /* MapKit */ = {
 			isa = PBXGroup;
 			children = (
+				00D1BBA62C02E71700335555 /* Archives */,
 				0049D5AC2C002E3E0044F024 /* SegmentsView.swift */,
-				001558602BEF89E900A4BFDC /* SegmentsViewV2.swift */,
 				0016ECD02BEF8CB600FE63D8 /* SegmentsViewTestView.swift */,
 				002E4B0D2BEFAE9300F5E59B /* SegmentsViewModel.swift */,
 			);
@@ -199,6 +199,14 @@
 				0046A08A2BF5FE09009191FC /* Error.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		00D1BBA62C02E71700335555 /* Archives */ = {
+			isa = PBXGroup;
+			children = (
+				001558602BEF89E900A4BFDC /* SegmentsViewV2.swift */,
+			);
+			path = Archives;
 			sourceTree = "<group>";
 		};
 		00D40E6B2BBA403200B755CE = {

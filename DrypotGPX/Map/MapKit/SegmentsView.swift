@@ -11,7 +11,7 @@ import MapKit
 
 struct SegmentsView: NSViewRepresentable {
 
-    @ObservedObject var segments: SegmentsViewModel
+    @ObservedObject var viewModel: SegmentsViewModel
     
     final class Coordinator: NSObject, MKMapViewDelegate {
         var parent: SegmentsView
@@ -21,7 +21,7 @@ struct SegmentsView: NSViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            let segments = parent.segments
+            let segments = parent.viewModel
             if let polyline = overlay as? MKPolyline {
                 let renderer = MKPolylineRenderer(polyline: polyline)
                 if segments.isSelectedSegment(polyline) {
@@ -43,8 +43,8 @@ struct SegmentsView: NSViewRepresentable {
             let p2 = MKMapPoint(mapView.convert(CGPoint(x: tapPoint.x + 10, y: tapPoint.y), toCoordinateFrom: mapView))
             let tolerance = p1.distance(to: p2)
 
-            if let closest = parent.segments.closestSegment(from: p1, tolerance: tolerance) {
-                parent.segments.toggleSegmentSelection(closest)
+            if let closest = parent.viewModel.closestSegment(from: p1, tolerance: tolerance) {
+                parent.viewModel.toggleSegmentSelection(closest)
             }
         }
         
@@ -68,12 +68,12 @@ struct SegmentsView: NSViewRepresentable {
     }
 
     func updateNSView(_ mapView: MKMapView, context: Context) {
-        segments.sync(with: mapView)
+        viewModel.sync(with: mapView)
     }
 }
 
 #Preview {
     let segments = SegmentsViewModel()
-    return SegmentsView(segments: segments)
+    return SegmentsView(viewModel: segments)
 }
 

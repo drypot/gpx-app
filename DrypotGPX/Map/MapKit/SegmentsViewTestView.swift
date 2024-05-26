@@ -13,7 +13,7 @@ struct SegmentsViewTestView: View {
     
     var body: some View {
         VStack {
-            SegmentsView(segments: segments)
+            SegmentsView(viewModel: segments)
             .padding()
             .task {
                 await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
