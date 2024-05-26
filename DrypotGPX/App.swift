@@ -38,7 +38,7 @@ struct MainApp: App {
     var body: some Scene {
         WindowGroup {
             //LocationManagerTestView()
-            SegmentsViewTestView()            
+            SegmentsView()            
         }
         .commands {
             CommandMenu("Custom Menu") {
