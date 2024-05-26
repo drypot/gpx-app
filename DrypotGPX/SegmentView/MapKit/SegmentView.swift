@@ -1,5 +1,5 @@
 //
-//  SegmentsView.swift
+//  SegmentView.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct SegmentsView: View {
+struct SegmentView: View {
     
-    @StateObject var segments = SegmentsViewModel()
+    @StateObject var segments = SegmentViewModel()
     
     var body: some View {
         VStack {
-            SegmentsViewCore(viewModel: segments)
+            SegmentMKMapViewRepresentable(viewModel: segments)
             .padding()
             .task {
                 await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
@@ -33,5 +33,5 @@ struct SegmentsView: View {
 }
 
 #Preview {
-    SegmentsView()
+    SegmentView()
 }

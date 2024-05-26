@@ -1,5 +1,5 @@
 //
-//  SegmentsViewModel.swift
+//  SegmentViewModel.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-final class SegmentsViewModel: ObservableObject {
+final class SegmentViewModel: ObservableObject {
     private var segments: Set<MKPolyline> = []
     
     private var segmentsSelected: Set<MKPolyline> = []
@@ -18,7 +18,7 @@ final class SegmentsViewModel: ObservableObject {
     private var segmentsToRemove: [MKPolyline] = []
     private var segmentsToUpdate: Set<MKPolyline> = []
     
-    var needZoomToFit = false
+    private var needZoomToFit = false
     
     func appendGPXFiles(fromDirectory url: URL) async {
         var newSegments: [MKPolyline] = []
@@ -47,7 +47,9 @@ final class SegmentsViewModel: ObservableObject {
         }
     }
 
-    func sync(with mapView: MKMapView) {
+    // 모델에서 MKMapView 를 직접 받으면 안 되지만;
+    // 프로토콜로 빼긴 귀찮으니 당분간은 그냥 이렇게 쓰기로 한다.
+    func sync(with mapView: SegmentMKMapView) {
         if !segmentsToAdd.isEmpty {
             segmentsToAdd.forEach { polyline in
                 segments.insert(polyline)
@@ -63,22 +65,11 @@ final class SegmentsViewModel: ObservableObject {
             segmentsToUpdate.removeAll()
         }
         if needZoomToFit {
-            zoomToFitAllOverlays(mapView)
+            mapView.zoomToFitAllOverlays()
             needZoomToFit = false
         }
     }
     
-    func zoomToFitAllOverlays(_ mapView: MKMapView) {
-        var zoomRect = MKMapRect.null
-        mapView.overlays.forEach { overlay in
-            zoomRect = zoomRect.union(overlay.boundingMapRect)
-        }
-        if !zoomRect.isNull {
-            let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
-            mapView.setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
-        }
-    }
-
     func selectSegment(_ polyline: MKPolyline) {
         objectWillChange.send()
         segmentsSelected.insert(polyline)
