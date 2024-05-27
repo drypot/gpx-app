@@ -32,6 +32,26 @@ final class SegmentMKMapView : MKMapView {
 //        self.addGestureRecognizer(tapGesture)
     }
     
+    override var acceptsFirstResponder: Bool {
+        return true
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        let characters = event.charactersIgnoringModifiers ?? ""
+        for character in characters {
+            switch character {
+            case "\u{7F}": // delete
+                handleDelete()
+            default:
+                super.keyDown(with: event)
+            }
+        }
+    }
+    
+    func handleDelete() {
+        viewModel.route.removeLast()
+    }
+    
     override func mouseDown(with event: NSEvent) {
         initialClickLocation = convert(event.locationInWindow, from: nil)
         isDragging = false
@@ -70,7 +90,7 @@ final class SegmentMKMapView : MKMapView {
         let p2 = MKMapPoint(self.convert(CGPoint(x: point.x + 10, y: point.y), toCoordinateFrom: self))
         let tolerance = p1.distance(to: p2)
         if let closest = viewModel.closestSegment(from: p1, tolerance: tolerance) {
-            viewModel.toggleSegmentSelection(closest)
+            viewModel.route.appendOrRemove(closest)
         }
     }
     
@@ -94,7 +114,7 @@ extension SegmentMKMapView : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
-            if viewModel.isSelectedSegment(polyline) {
+            if viewModel.route.contains(polyline) {
                 renderer.strokeColor = .red
             } else {
                 renderer.strokeColor = .blue

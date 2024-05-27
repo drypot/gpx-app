@@ -11,14 +11,19 @@ import MapKit
 final class SegmentViewModel: ObservableObject {
     private var segments: Set<MKPolyline> = []
     
-    private var segmentsSelected: Set<MKPolyline> = []
-    private var startPoint: MKMapPoint?
+    private(set) var route: Route!
+    
+    private var selectedSegments: Set<MKPolyline> = []
     
     private var segmentsToAdd: [MKPolyline] = []
     private var segmentsToRemove: [MKPolyline] = []
     private var segmentsToUpdate: Set<MKPolyline> = []
     
     private var needZoomToFit = false
+    
+    init() {
+        self.route = Route(self)
+    }
     
     func appendGPXFiles(fromDirectory url: URL) async {
         var newSegments: [MKPolyline] = []
@@ -70,20 +75,66 @@ final class SegmentViewModel: ObservableObject {
         }
     }
     
+    final class Route {
+        unowned private let parent: SegmentViewModel
+        private var segments: [MKPolyline] = []
+        
+        init(_ parent: SegmentViewModel) {
+            self.parent = parent
+        }
+        
+        func append(_ polyline: MKPolyline) {
+            parent.objectWillChange.send()
+            segments.append(polyline)
+            parent.segmentsToUpdate.insert(polyline)
+        }
+        
+        func remove(_ polyline: MKPolyline) {
+            parent.objectWillChange.send()
+            if let index = segments.firstIndex(of: polyline) {
+                segments.remove(at: index)
+                parent.segmentsToUpdate.insert(polyline)
+            }
+        }
+
+        func removeLast() {
+            parent.objectWillChange.send()
+            if !segments.isEmpty {
+                let last = segments.removeLast()
+                parent.segmentsToUpdate.insert(last)
+            }
+        }
+
+        func contains(_ polyline: MKPolyline) -> Bool {
+            return segments.contains(polyline)
+        }
+        
+        func appendOrRemove(_ polyline: MKPolyline) {
+            if contains(polyline) {
+                if segments.last == polyline {
+                    remove(polyline)
+                }
+            } else {
+                append(polyline)
+            }
+        }
+
+    }
+    
     func selectSegment(_ polyline: MKPolyline) {
         objectWillChange.send()
-        segmentsSelected.insert(polyline)
+        selectedSegments.insert(polyline)
         segmentsToUpdate.insert(polyline)
     }
     
     func deselectSegment(_ polyline: MKPolyline) {
         objectWillChange.send()
-        segmentsSelected.remove(polyline)
+        selectedSegments.remove(polyline)
         segmentsToUpdate.insert(polyline)
     }
     
     func isSelectedSegment(_ polyline: MKPolyline) -> Bool {
-        return segmentsSelected.contains(polyline)
+        return selectedSegments.contains(polyline)
     }
     
     func toggleSegmentSelection(_ polyline: MKPolyline) {
