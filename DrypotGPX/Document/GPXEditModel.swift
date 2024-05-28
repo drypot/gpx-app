@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-final class SegmentViewModel: ObservableObject {
+final class GPXEditModel: ObservableObject {
     private var segments: Set<MKPolyline> = []
     
     private(set) var route: Route!
@@ -54,7 +54,7 @@ final class SegmentViewModel: ObservableObject {
 
     // 모델에서 MKMapView 를 직접 받으면 안 되지만;
     // 프로토콜로 빼긴 귀찮으니 당분간은 그냥 이렇게 쓰기로 한다.
-    func sync(with mapView: SegmentMKMapView) {
+    func sync(with mapView: MapKitGPXEditViewCore) {
         if !segmentsToAdd.isEmpty {
             segmentsToAdd.forEach { polyline in
                 segments.insert(polyline)
@@ -76,10 +76,10 @@ final class SegmentViewModel: ObservableObject {
     }
     
     final class Route {
-        unowned private let parent: SegmentViewModel
+        unowned private let parent: GPXEditModel
         private var segments: [MKPolyline] = []
         
-        init(_ parent: SegmentViewModel) {
+        init(_ parent: GPXEditModel) {
             self.parent = parent
         }
         

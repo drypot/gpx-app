@@ -38,12 +38,11 @@ class GlobalActions {
 struct MainApp: App {
     
     var body: some Scene {
-        DocumentGroup(newDocument: Document()) { file in
-            ContentView(document: file.$document)
+        DocumentGroup(newDocument: GPXEditDocument()) { file in
+            GPXEditView(document: file.$document)
         }
 //        WindowGroup {
-//            //LocationManagerTestView()
-//            SegmentView()            
+//            SegmentView()
 //        }
         .commands {
             CustomCommands()

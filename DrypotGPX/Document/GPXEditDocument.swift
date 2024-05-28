@@ -1,5 +1,5 @@
 //
-//  Document.swift
+//  GPXEditDocument.swift
 //
 //  Created by Kyuhyun Park on 5/28/24.
 //
@@ -16,15 +16,15 @@ extension UTType {
     }
 }
 
-struct Document: FileDocument {
+struct GPXEditDocument: FileDocument {
     
     static var readableContentTypes: [UTType] { [.gpxWorkshopBundle] }
     
-    var segments: SegmentViewModel
+    var segments: GPXEditModel
     var content: String
     
     init() {
-        self.segments = SegmentViewModel()
+        self.segments = GPXEditModel()
         self.content = "Hello World"
     }
     
@@ -35,7 +35,7 @@ struct Document: FileDocument {
             let content = String(data: fileData, encoding: .utf8) else {
             throw CocoaError(.fileReadCorruptFile)
         }
-        self.segments = SegmentViewModel()
+        self.segments = GPXEditModel()
         self.content = content
     }
     

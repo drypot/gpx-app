@@ -1,5 +1,5 @@
 //
-//  SegmentView.swift
+//  MapKitGPXEditView.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct SegmentView: View {
+struct MapKitGPXEditView: View {
     
-    @ObservedObject var segments: SegmentViewModel
+    @ObservedObject var segments: GPXEditModel
     
     var body: some View {
         VStack {
@@ -33,5 +33,5 @@ struct SegmentView: View {
 }
 
 #Preview {
-    SegmentView(segments: SegmentViewModel())
+    MapKitGPXEditView(segments: GPXEditModel())
 }

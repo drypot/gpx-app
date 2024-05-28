@@ -1,5 +1,5 @@
 //
-//  SegmentMKMapView.swift
+//  MapKitGPXEditViewCore.swift
 //  DrypotGPX
 //
 //  Created by Kyuhyun Park on 5/24/24.
@@ -9,14 +9,14 @@ import Foundation
 import SwiftUI
 import MapKit
 
-final class SegmentMKMapView : MKMapView {
-    var viewModel: SegmentViewModel
+final class MapKitGPXEditViewCore : MKMapView {
+    var viewModel: GPXEditModel
     
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
     
-    init(_ viewModel: SegmentViewModel) {
+    init(_ viewModel: GPXEditModel) {
         self.viewModel = viewModel
         super.init(frame: .zero)
         self.delegate = self
@@ -126,7 +126,7 @@ final class SegmentMKMapView : MKMapView {
 
 }
 
-extension SegmentMKMapView : MKMapViewDelegate {
+extension MapKitGPXEditViewCore : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
@@ -143,19 +143,19 @@ extension SegmentMKMapView : MKMapViewDelegate {
 }
 
 struct SegmentMKMapViewRepresentable: NSViewRepresentable {
-    @ObservedObject var viewModel: SegmentViewModel
+    @ObservedObject var viewModel: GPXEditModel
     
-    func makeNSView(context: Context) -> SegmentMKMapView {
-        return SegmentMKMapView(viewModel)
+    func makeNSView(context: Context) -> MapKitGPXEditViewCore {
+        return MapKitGPXEditViewCore(viewModel)
     }
 
-    func updateNSView(_ mapView: SegmentMKMapView, context: Context) {
+    func updateNSView(_ mapView: MapKitGPXEditViewCore, context: Context) {
         mapView.update()
     }
 }
 
 #Preview {
-    let segments = SegmentViewModel()
+    let segments = GPXEditModel()
     return SegmentMKMapViewRepresentable(viewModel: segments)
 }
 
