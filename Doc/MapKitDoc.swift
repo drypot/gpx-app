@@ -1,6 +1,6 @@
 //
 //  MapKitDoc.swift
-//  DrypotGPX
+//  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 5/13/24.
 //

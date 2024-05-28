@@ -1,0 +1,888 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0016ECD12BEF8CB600FE63D8 /* MapKitGPXEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */; };
+		0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
+		0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
+		001C20AA2BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */; };
+		002E4B0E2BEFAE9300F5E59B /* GPXEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002E4B0D2BEFAE9300F5E59B /* GPXEditModel.swift */; };
+		003F595E2BCB1647009C9D61 /* LocationManagerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003F595D2BCB1647009C9D61 /* LocationManagerTestView.swift */; };
+		0046A08B2BF5FE09009191FC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08A2BF5FE09009191FC /* Error.swift */; };
+		0046A08C2BF5FE0C009191FC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08A2BF5FE09009191FC /* Error.swift */; };
+		0046A08E2BF5FF30009191FC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
+		0046A08F2BF5FF30009191FC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
+		0049D5AD2C002E3E0044F024 /* MapKitGPXEditViewCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */; };
+		004DB52D2BC796DF004B8715 /* GPXSamplePlotaRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */; };
+		004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
+		004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
+		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
+		0067511E2C05AE6500A756BB /* GPXEditDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067511D2C05AE6500A756BB /* GPXEditDocument.swift */; };
+		009923582BFC198000BB5877 /* MapKitSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009923572BFC198000BB5877 /* MapKitSegmentTests.swift */; };
+		00A174982C05B95600F5C151 /* GPXEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A174972C05B95600F5C151 /* GPXEditView.swift */; };
+		00CB93482BBDCB2300AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
+		00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */; };
+		00CB934B2BBDDA6C00AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
+		00CCE47A2BF182E000FD9E55 /* GPXParserErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */; };
+		00CFD4762BBB162B0040291B /* XMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFD4752BBB162B0040291B /* XMLParserTests.swift */; };
+		00D40E782BBA403200B755CE /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40E772BBA403200B755CE /* App.swift */; };
+		00D40E7C2BBA403400B755CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00D40E7B2BBA403400B755CE /* Assets.xcassets */; };
+		00D40E7F2BBA403400B755CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00D40E7E2BBA403400B755CE /* Preview Assets.xcassets */; };
+		00D40E942BBA403500B755CE /* DrypotGPXUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40E932BBA403500B755CE /* DrypotGPXUITests.swift */; };
+		00D40E962BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40E952BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift */; };
+		00D40EA62BBA4A0F00B755CE /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA32BBA4A0F00B755CE /* Publisher.swift */; };
+		00D40EA72BBA4A0F00B755CE /* GPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA52BBA4A0F00B755CE /* GPX.swift */; };
+		00D40EAD2BBA4A4F00B755CE /* GPXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */; };
+		00D40EAE2BBA4A4F00B755CE /* PublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */; };
+		00D40EB32BBA4C6800B755CE /* GPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA52BBA4A0F00B755CE /* GPX.swift */; };
+		00D40EB42BBA4C6B00B755CE /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA32BBA4A0F00B755CE /* Publisher.swift */; };
+		00E29FB82BF501590000C6D1 /* FileEnumeratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E29FB72BF501590000C6D1 /* FileEnumeratorTests.swift */; };
+		00E29FBA2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E29FB92BF525DC0000C6D1 /* FileEnumerator.swift */; };
+		00E29FBB2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E29FB92BF525DC0000C6D1 /* FileEnumerator.swift */; };
+		00EC90942C00EF4000075980 /* SegmentsViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001558602BEF89E900A4BFDC /* SegmentsViewV2.swift */; };
+		00ECF27A2BCDEA5400278FD6 /* PreviewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ECF2782BCDE85E00278FD6 /* PreviewWrapper.swift */; };
+		00EDDE392BC9FD2500A9A406 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EDDE382BC9FD2500A9A406 /* LocationManager.swift */; };
+		00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
+		00F402CA2BC1EB4C00AFAF44 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
+		00F402CC2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402CB2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift */; };
+		00F402D02BC222AA00AFAF44 /* GPXParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */; };
+		00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
+		00F89F902BF715D100D04DEB /* Always.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F89F8F2BF715D100D04DEB /* Always.swift */; };
+		00F89F922BF7316100D04DEB /* AlwaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F89F912BF7316100D04DEB /* AlwaysTests.swift */; };
+		00F89F932BF7316500D04DEB /* Always.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F89F8F2BF715D100D04DEB /* Always.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00D40E862BBA403400B755CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00D40E6C2BBA403200B755CE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00D40E732BBA403200B755CE;
+			remoteInfo = DrypotGPX;
+		};
+		00D40E902BBA403500B755CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00D40E6C2BBA403200B755CE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00D40E732BBA403200B755CE;
+			remoteInfo = DrypotGPX;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		001558602BEF89E900A4BFDC /* SegmentsViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentsViewV2.swift; sourceTree = "<group>"; };
+		0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitGPXEditView.swift; sourceTree = "<group>"; };
+		0017C14D2BBD737300D09F93 /* GPXParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
+		001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSamplePlotaRoute.swift; sourceTree = "<group>"; };
+		002E4B0D2BEFAE9300F5E59B /* GPXEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditModel.swift; sourceTree = "<group>"; };
+		0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParserErrorTests.swift; sourceTree = "<group>"; };
+		003F595D2BCB1647009C9D61 /* LocationManagerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerTestView.swift; sourceTree = "<group>"; };
+		003F59612BCB7DC3009C9D61 /* CoreLocationDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationDoc.swift; sourceTree = "<group>"; };
+		004363CA2BF25A3F0080DEB1 /* MapKitDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitDoc.swift; sourceTree = "<group>"; };
+		0046A08A2BF5FE09009191FC /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitGPXEditViewCore.swift; sourceTree = "<group>"; };
+		006750E22C0527EB00A756BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0067511D2C05AE6500A756BB /* GPXEditDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditDocument.swift; sourceTree = "<group>"; };
+		009923572BFC198000BB5877 /* MapKitSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSegmentTests.swift; sourceTree = "<group>"; };
+		00A174972C05B95600F5C151 /* GPXEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditView.swift; sourceTree = "<group>"; };
+		00CB93472BBDCB2300AD0241 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
+		00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserTests.swift; sourceTree = "<group>"; };
+		00CFD4752BBB162B0040291B /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
+		00D40E742BBA403200B755CE /* GPXWorkshop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPXWorkshop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00D40E772BBA403200B755CE /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		00D40E7B2BBA403400B755CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		00D40E7E2BBA403400B755CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		00D40E802BBA403400B755CE /* GPXWorkshop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GPXWorkshop.entitlements; sourceTree = "<group>"; };
+		00D40E852BBA403400B755CE /* GPXWorkshopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPXWorkshopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00D40E8F2BBA403500B755CE /* GPXWorkshopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPXWorkshopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00D40E932BBA403500B755CE /* DrypotGPXUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrypotGPXUITests.swift; sourceTree = "<group>"; };
+		00D40E952BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrypotGPXUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		00D40EA32BBA4A0F00B755CE /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
+		00D40EA52BBA4A0F00B755CE /* GPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPX.swift; sourceTree = "<group>"; };
+		00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXTests.swift; sourceTree = "<group>"; };
+		00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherTests.swift; sourceTree = "<group>"; };
+		00D40EAF2BBA4A9700B755CE /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		00D40EB02BBA4A9700B755CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		00E29FB42BF4F4330000C6D1 /* gpx.xsd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gpx.xsd; sourceTree = "<group>"; };
+		00E29FB52BF4F4330000C6D1 /* gpx-schema-memo.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "gpx-schema-memo.md"; sourceTree = "<group>"; };
+		00E29FB72BF501590000C6D1 /* FileEnumeratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEnumeratorTests.swift; sourceTree = "<group>"; };
+		00E29FB92BF525DC0000C6D1 /* FileEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEnumerator.swift; sourceTree = "<group>"; };
+		00ECF2782BCDE85E00278FD6 /* PreviewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewWrapper.swift; sourceTree = "<group>"; };
+		00EDDE382BC9FD2500A9A406 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleStrava.swift; sourceTree = "<group>"; };
+		00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleBad.swift; sourceTree = "<group>"; };
+		00F402CB2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserErrorTests.swift; sourceTree = "<group>"; };
+		00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParserTests.swift; sourceTree = "<group>"; };
+		00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSampleManual.swift; sourceTree = "<group>"; };
+		00F89F8F2BF715D100D04DEB /* Always.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Always.swift; sourceTree = "<group>"; };
+		00F89F912BF7316100D04DEB /* AlwaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00D40E712BBA403200B755CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00D40E822BBA403400B755CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00D40E8C2BBA403500B755CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0015585F2BEF89C300A4BFDC /* MapKit */ = {
+			isa = PBXGroup;
+			children = (
+				00D1BBA62C02E71700335555 /* Archives */,
+				0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */,
+				0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */,
+			);
+			path = MapKit;
+			sourceTree = "<group>";
+		};
+		0049D5AE2C0034D30044F024 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				0015585F2BEF89C300A4BFDC /* MapKit */,
+				0067511D2C05AE6500A756BB /* GPXEditDocument.swift */,
+				002E4B0D2BEFAE9300F5E59B /* GPXEditModel.swift */,
+				00A174972C05B95600F5C151 /* GPXEditView.swift */,
+			);
+			path = Document;
+			sourceTree = "<group>";
+		};
+		005B15F22BF11C5600133CDC /* Doc */ = {
+			isa = PBXGroup;
+			children = (
+				00E29FB52BF4F4330000C6D1 /* gpx-schema-memo.md */,
+				00E29FB42BF4F4330000C6D1 /* gpx.xsd */,
+				003F59612BCB7DC3009C9D61 /* CoreLocationDoc.swift */,
+				004363CA2BF25A3F0080DEB1 /* MapKitDoc.swift */,
+			);
+			path = Doc;
+			sourceTree = "<group>";
+		};
+		005B15F32BF11E6200133CDC /* XML */ = {
+			isa = PBXGroup;
+			children = (
+				00CB93472BBDCB2300AD0241 /* XML.swift */,
+			);
+			path = XML;
+			sourceTree = "<group>";
+		};
+		005B15F42BF11E6F00133CDC /* XML */ = {
+			isa = PBXGroup;
+			children = (
+				00CFD4752BBB162B0040291B /* XMLParserTests.swift */,
+				00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */,
+				00F402CB2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift */,
+			);
+			path = XML;
+			sourceTree = "<group>";
+		};
+		00A083412BF742B700AB449D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				0046A08A2BF5FE09009191FC /* Error.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		00D1BBA62C02E71700335555 /* Archives */ = {
+			isa = PBXGroup;
+			children = (
+				001558602BEF89E900A4BFDC /* SegmentsViewV2.swift */,
+			);
+			path = Archives;
+			sourceTree = "<group>";
+		};
+		00D40E6B2BBA403200B755CE = {
+			isa = PBXGroup;
+			children = (
+				00D40EAF2BBA4A9700B755CE /* LICENSE */,
+				00D40EB02BBA4A9700B755CE /* README.md */,
+				005B15F22BF11C5600133CDC /* Doc */,
+				00D40E762BBA403200B755CE /* GPXWorkshop */,
+				00D40E882BBA403400B755CE /* GPXWorkshopTests */,
+				00D40E922BBA403500B755CE /* GPXWorkshopUITests */,
+				00D40E752BBA403200B755CE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00D40E752BBA403200B755CE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00D40E742BBA403200B755CE /* GPXWorkshop.app */,
+				00D40E852BBA403400B755CE /* GPXWorkshopTests.xctest */,
+				00D40E8F2BBA403500B755CE /* GPXWorkshopUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00D40E762BBA403200B755CE /* GPXWorkshop */ = {
+			isa = PBXGroup;
+			children = (
+				006750E22C0527EB00A756BB /* Info.plist */,
+				00D40E772BBA403200B755CE /* App.swift */,
+				0046A08D2BF5FF30009191FC /* Globals.swift */,
+				00D40E7B2BBA403400B755CE /* Assets.xcassets */,
+				00D40E802BBA403400B755CE /* GPXWorkshop.entitlements */,
+				005B15F32BF11E6200133CDC /* XML */,
+				00D40EA42BBA4A0F00B755CE /* GPX */,
+				00F402D32BC224E900AFAF44 /* GPXSamples */,
+				00EDDE3A2BC9FE4900A9A406 /* Location */,
+				0049D5AE2C0034D30044F024 /* Document */,
+				00D40EA22BBA4A0F00B755CE /* Combine */,
+				00ECF2772BCDE83800278FD6 /* SwiftUI */,
+				00F89F8A2BF709D200D04DEB /* File */,
+				00A083412BF742B700AB449D /* Error */,
+				00D40E7D2BBA403400B755CE /* Preview Content */,
+			);
+			path = GPXWorkshop;
+			sourceTree = "<group>";
+		};
+		00D40E7D2BBA403400B755CE /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				00D40E7E2BBA403400B755CE /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		00D40E882BBA403400B755CE /* GPXWorkshopTests */ = {
+			isa = PBXGroup;
+			children = (
+				005B15F42BF11E6F00133CDC /* XML */,
+				00D40EA92BBA4A4F00B755CE /* GPX */,
+				00EDDE3B2BC9FE5900A9A406 /* MapKitView */,
+				00D40EAB2BBA4A4F00B755CE /* Combine */,
+				00F89F8B2BF709F300D04DEB /* File */,
+			);
+			path = GPXWorkshopTests;
+			sourceTree = "<group>";
+		};
+		00D40E922BBA403500B755CE /* GPXWorkshopUITests */ = {
+			isa = PBXGroup;
+			children = (
+				00D40E932BBA403500B755CE /* DrypotGPXUITests.swift */,
+				00D40E952BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift */,
+			);
+			path = GPXWorkshopUITests;
+			sourceTree = "<group>";
+		};
+		00D40EA22BBA4A0F00B755CE /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				00D40EA32BBA4A0F00B755CE /* Publisher.swift */,
+				00F89F8F2BF715D100D04DEB /* Always.swift */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
+		00D40EA42BBA4A0F00B755CE /* GPX */ = {
+			isa = PBXGroup;
+			children = (
+				00D40EA52BBA4A0F00B755CE /* GPX.swift */,
+				0017C14D2BBD737300D09F93 /* GPXParser.swift */,
+			);
+			path = GPX;
+			sourceTree = "<group>";
+		};
+		00D40EA92BBA4A4F00B755CE /* GPX */ = {
+			isa = PBXGroup;
+			children = (
+				00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */,
+				00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */,
+				0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */,
+			);
+			path = GPX;
+			sourceTree = "<group>";
+		};
+		00D40EAB2BBA4A4F00B755CE /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */,
+				00F89F912BF7316100D04DEB /* AlwaysTests.swift */,
+			);
+			path = Combine;
+			sourceTree = "<group>";
+		};
+		00ECF2772BCDE83800278FD6 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				00ECF2782BCDE85E00278FD6 /* PreviewWrapper.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		00EDDE3A2BC9FE4900A9A406 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				00EDDE382BC9FD2500A9A406 /* LocationManager.swift */,
+				003F595D2BCB1647009C9D61 /* LocationManagerTestView.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		00EDDE3B2BC9FE5900A9A406 /* MapKitView */ = {
+			isa = PBXGroup;
+			children = (
+				009923572BFC198000BB5877 /* MapKitSegmentTests.swift */,
+			);
+			path = MapKitView;
+			sourceTree = "<group>";
+		};
+		00F402D32BC224E900AFAF44 /* GPXSamples */ = {
+			isa = PBXGroup;
+			children = (
+				001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */,
+				00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */,
+				00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */,
+				00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */,
+			);
+			path = GPXSamples;
+			sourceTree = "<group>";
+		};
+		00F89F8A2BF709D200D04DEB /* File */ = {
+			isa = PBXGroup;
+			children = (
+				00E29FB92BF525DC0000C6D1 /* FileEnumerator.swift */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
+		00F89F8B2BF709F300D04DEB /* File */ = {
+			isa = PBXGroup;
+			children = (
+				00E29FB72BF501590000C6D1 /* FileEnumeratorTests.swift */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00D40E732BBA403200B755CE /* GPXWorkshop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00D40E992BBA403500B755CE /* Build configuration list for PBXNativeTarget "GPXWorkshop" */;
+			buildPhases = (
+				00D40E702BBA403200B755CE /* Sources */,
+				00D40E712BBA403200B755CE /* Frameworks */,
+				00D40E722BBA403200B755CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GPXWorkshop;
+			productName = DrypotGPX;
+			productReference = 00D40E742BBA403200B755CE /* GPXWorkshop.app */;
+			productType = "com.apple.product-type.application";
+		};
+		00D40E842BBA403400B755CE /* GPXWorkshopTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00D40E9C2BBA403500B755CE /* Build configuration list for PBXNativeTarget "GPXWorkshopTests" */;
+			buildPhases = (
+				00D40E812BBA403400B755CE /* Sources */,
+				00D40E822BBA403400B755CE /* Frameworks */,
+				00D40E832BBA403400B755CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00D40E872BBA403400B755CE /* PBXTargetDependency */,
+			);
+			name = GPXWorkshopTests;
+			productName = DrypotGPXTests;
+			productReference = 00D40E852BBA403400B755CE /* GPXWorkshopTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		00D40E8E2BBA403500B755CE /* GPXWorkshopUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00D40E9F2BBA403500B755CE /* Build configuration list for PBXNativeTarget "GPXWorkshopUITests" */;
+			buildPhases = (
+				00D40E8B2BBA403500B755CE /* Sources */,
+				00D40E8C2BBA403500B755CE /* Frameworks */,
+				00D40E8D2BBA403500B755CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00D40E912BBA403500B755CE /* PBXTargetDependency */,
+			);
+			name = GPXWorkshopUITests;
+			productName = DrypotGPXUITests;
+			productReference = 00D40E8F2BBA403500B755CE /* GPXWorkshopUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00D40E6C2BBA403200B755CE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					00D40E732BBA403200B755CE = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					00D40E842BBA403400B755CE = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = 00D40E732BBA403200B755CE;
+					};
+					00D40E8E2BBA403500B755CE = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = 00D40E732BBA403200B755CE;
+					};
+				};
+			};
+			buildConfigurationList = 00D40E6F2BBA403200B755CE /* Build configuration list for PBXProject "GPXWorkshop" */;
+			compatibilityVersion = "Xcode 15.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 00D40E6B2BBA403200B755CE;
+			productRefGroup = 00D40E752BBA403200B755CE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00D40E732BBA403200B755CE /* GPXWorkshop */,
+				00D40E842BBA403400B755CE /* GPXWorkshopTests */,
+				00D40E8E2BBA403500B755CE /* GPXWorkshopUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00D40E722BBA403200B755CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00D40E7F2BBA403400B755CE /* Preview Assets.xcassets in Resources */,
+				00D40E7C2BBA403400B755CE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00D40E832BBA403400B755CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00D40E8D2BBA403500B755CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00D40E702BBA403200B755CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00ECF27A2BCDEA5400278FD6 /* PreviewWrapper.swift in Sources */,
+				00D40EA62BBA4A0F00B755CE /* Publisher.swift in Sources */,
+				004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */,
+				00E29FBA2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */,
+				002E4B0E2BEFAE9300F5E59B /* GPXEditModel.swift in Sources */,
+				0067511E2C05AE6500A756BB /* GPXEditDocument.swift in Sources */,
+				00CB93482BBDCB2300AD0241 /* XML.swift in Sources */,
+				00A174982C05B95600F5C151 /* GPXEditView.swift in Sources */,
+				0046A08E2BF5FF30009191FC /* Globals.swift in Sources */,
+				0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */,
+				00F89F902BF715D100D04DEB /* Always.swift in Sources */,
+				00EDDE392BC9FD2500A9A406 /* LocationManager.swift in Sources */,
+				0049D5AD2C002E3E0044F024 /* MapKitGPXEditViewCore.swift in Sources */,
+				004DB52D2BC796DF004B8715 /* GPXSamplePlotaRoute.swift in Sources */,
+				0016ECD12BEF8CB600FE63D8 /* MapKitGPXEditView.swift in Sources */,
+				00D40E782BBA403200B755CE /* App.swift in Sources */,
+				004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */,
+				00D40EA72BBA4A0F00B755CE /* GPX.swift in Sources */,
+				004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */,
+				003F595E2BCB1647009C9D61 /* LocationManagerTestView.swift in Sources */,
+				00EC90942C00EF4000075980 /* SegmentsViewV2.swift in Sources */,
+				0046A08B2BF5FE09009191FC /* Error.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00D40E812BBA403400B755CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				001C20AA2BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift in Sources */,
+				00D40EAD2BBA4A4F00B755CE /* GPXTests.swift in Sources */,
+				00CCE47A2BF182E000FD9E55 /* GPXParserErrorTests.swift in Sources */,
+				00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */,
+				00CB934B2BBDDA6C00AD0241 /* XML.swift in Sources */,
+				00D40EAE2BBA4A4F00B755CE /* PublisherTests.swift in Sources */,
+				00D40EB32BBA4C6800B755CE /* GPX.swift in Sources */,
+				00E29FB82BF501590000C6D1 /* FileEnumeratorTests.swift in Sources */,
+				0046A08F2BF5FF30009191FC /* Globals.swift in Sources */,
+				00F402CA2BC1EB4C00AFAF44 /* GPXSampleBad.swift in Sources */,
+				00F402D02BC222AA00AFAF44 /* GPXParserTests.swift in Sources */,
+				00D40EB42BBA4C6B00B755CE /* Publisher.swift in Sources */,
+				00F89F932BF7316500D04DEB /* Always.swift in Sources */,
+				00F402D22BC2237200AFAF44 /* GPXSampleManual.swift in Sources */,
+				00F402C62BC1972000AFAF44 /* GPXSampleStrava.swift in Sources */,
+				0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */,
+				009923582BFC198000BB5877 /* MapKitSegmentTests.swift in Sources */,
+				00CFD4762BBB162B0040291B /* XMLParserTests.swift in Sources */,
+				00E29FBB2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */,
+				00F402CC2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift in Sources */,
+				00F89F922BF7316100D04DEB /* AlwaysTests.swift in Sources */,
+				0046A08C2BF5FE0C009191FC /* Error.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00D40E8B2BBA403500B755CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00D40E962BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift in Sources */,
+				00D40E942BBA403500B755CE /* DrypotGPXUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00D40E872BBA403400B755CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00D40E732BBA403200B755CE /* GPXWorkshop */;
+			targetProxy = 00D40E862BBA403400B755CE /* PBXContainerItemProxy */;
+		};
+		00D40E912BBA403500B755CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00D40E732BBA403200B755CE /* GPXWorkshop */;
+			targetProxy = 00D40E902BBA403500B755CE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		00D40E972BBA403500B755CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		00D40E982BBA403500B755CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		00D40E9A2BBA403500B755CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GPXWorkshop/GPXWorkshop.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "GPXWorkshop/Preview\\ Content";
+				DEVELOPMENT_TEAM = XFTC3W2MNQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GPXWorkshop/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshop;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		00D40E9B2BBA403500B755CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GPXWorkshop/GPXWorkshop.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "GPXWorkshop/Preview\\ Content";
+				DEVELOPMENT_TEAM = XFTC3W2MNQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GPXWorkshop/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshop;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		00D40E9D2BBA403500B755CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XFTC3W2MNQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GPXWorkshop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GPXWorkshop";
+			};
+			name = Debug;
+		};
+		00D40E9E2BBA403500B755CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XFTC3W2MNQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GPXWorkshop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GPXWorkshop";
+			};
+			name = Release;
+		};
+		00D40EA02BBA403500B755CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XFTC3W2MNQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = GPXWorkshop;
+			};
+			name = Debug;
+		};
+		00D40EA12BBA403500B755CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XFTC3W2MNQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = GPXWorkshop;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00D40E6F2BBA403200B755CE /* Build configuration list for PBXProject "GPXWorkshop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00D40E972BBA403500B755CE /* Debug */,
+				00D40E982BBA403500B755CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00D40E992BBA403500B755CE /* Build configuration list for PBXNativeTarget "GPXWorkshop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00D40E9A2BBA403500B755CE /* Debug */,
+				00D40E9B2BBA403500B755CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00D40E9C2BBA403500B755CE /* Build configuration list for PBXNativeTarget "GPXWorkshopTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00D40E9D2BBA403500B755CE /* Debug */,
+				00D40E9E2BBA403500B755CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00D40E9F2BBA403500B755CE /* Build configuration list for PBXNativeTarget "GPXWorkshopUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00D40EA02BBA403500B755CE /* Debug */,
+				00D40EA12BBA403500B755CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00D40E6C2BBA403200B755CE /* Project object */;
+}

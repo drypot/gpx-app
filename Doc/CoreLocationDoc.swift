@@ -1,6 +1,6 @@
 //
 //  CoreLocationDoc.swift
-//  DrypotGPX
+//  GPXWorkshop
 //
 //  Created by drypot on 2024-04-14.
 //
