@@ -12,7 +12,7 @@ struct GPXEditView: View {
     
     var body: some View {
         VStack {
-            MapKitGPXEditView(viewModel: document.segments)
+            GPXEditMKMapViewRepresentable(viewModel: document.segments)
             .padding()
             
 //            .onAppear {
