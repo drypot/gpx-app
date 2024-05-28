@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,8 +22,9 @@
 		004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
 		004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
 		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
+		0067511E2C05AE6500A756BB /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067511D2C05AE6500A756BB /* Document.swift */; };
 		009923582BFC198000BB5877 /* MapKitSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009923572BFC198000BB5877 /* MapKitSegmentTests.swift */; };
-		009923592BFC19F600BB5877 /* SegmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002E4B0D2BEFAE9300F5E59B /* SegmentViewModel.swift */; };
+		00A174982C05B95600F5C151 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A174972C05B95600F5C151 /* ContentView.swift */; };
 		00CB93482BBDCB2300AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
 		00CB934A2BBDD93F00AD0241 /* BasicXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */; };
 		00CB934B2BBDDA6C00AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
@@ -86,7 +87,10 @@
 		0046A08A2BF5FE09009191FC /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		0049D5AC2C002E3E0044F024 /* SegmentMKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentMKMapView.swift; sourceTree = "<group>"; };
+		006750E22C0527EB00A756BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0067511D2C05AE6500A756BB /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		009923572BFC198000BB5877 /* MapKitSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSegmentTests.swift; sourceTree = "<group>"; };
+		00A174972C05B95600F5C151 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		00CB93472BBDCB2300AD0241 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
 		00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserTests.swift; sourceTree = "<group>"; };
 		00CFD4752BBB162B0040291B /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
@@ -151,17 +155,19 @@
 				00D1BBA62C02E71700335555 /* Archives */,
 				0049D5AC2C002E3E0044F024 /* SegmentMKMapView.swift */,
 				0016ECD02BEF8CB600FE63D8 /* SegmentView.swift */,
-				002E4B0D2BEFAE9300F5E59B /* SegmentViewModel.swift */,
 			);
 			path = MapKit;
 			sourceTree = "<group>";
 		};
-		0049D5AE2C0034D30044F024 /* SegmentView */ = {
+		0049D5AE2C0034D30044F024 /* Document */ = {
 			isa = PBXGroup;
 			children = (
 				0015585F2BEF89C300A4BFDC /* MapKit */,
+				0067511D2C05AE6500A756BB /* Document.swift */,
+				002E4B0D2BEFAE9300F5E59B /* SegmentViewModel.swift */,
+				00A174972C05B95600F5C151 /* ContentView.swift */,
 			);
-			path = SegmentView;
+			path = Document;
 			sourceTree = "<group>";
 		};
 		005B15F22BF11C5600133CDC /* Doc */ = {
@@ -235,6 +241,7 @@
 		00D40E762BBA403200B755CE /* DrypotGPX */ = {
 			isa = PBXGroup;
 			children = (
+				006750E22C0527EB00A756BB /* Info.plist */,
 				00D40E772BBA403200B755CE /* App.swift */,
 				0046A08D2BF5FF30009191FC /* Globals.swift */,
 				00D40E7B2BBA403400B755CE /* Assets.xcassets */,
@@ -243,7 +250,7 @@
 				00D40EA42BBA4A0F00B755CE /* GPX */,
 				00F402D32BC224E900AFAF44 /* GPXSamples */,
 				00EDDE3A2BC9FE4900A9A406 /* Location */,
-				0049D5AE2C0034D30044F024 /* SegmentView */,
+				0049D5AE2C0034D30044F024 /* Document */,
 				00D40EA22BBA4A0F00B755CE /* Combine */,
 				00ECF2772BCDE83800278FD6 /* SwiftUI */,
 				00F89F8A2BF709D200D04DEB /* File */,
@@ -451,7 +458,7 @@
 				};
 			};
 			buildConfigurationList = 00D40E6F2BBA403200B755CE /* Build configuration list for PBXProject "DrypotGPX" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -506,7 +513,9 @@
 				004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */,
 				00E29FBA2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */,
 				002E4B0E2BEFAE9300F5E59B /* SegmentViewModel.swift in Sources */,
+				0067511E2C05AE6500A756BB /* Document.swift in Sources */,
 				00CB93482BBDCB2300AD0241 /* XML.swift in Sources */,
+				00A174982C05B95600F5C151 /* ContentView.swift in Sources */,
 				0046A08E2BF5FF30009191FC /* Globals.swift in Sources */,
 				0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */,
 				00F89F902BF715D100D04DEB /* Always.swift in Sources */,
@@ -550,7 +559,6 @@
 				00F402CC2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift in Sources */,
 				00F89F922BF7316100D04DEB /* AlwaysTests.swift in Sources */,
 				0046A08C2BF5FE0C009191FC /* Error.swift in Sources */,
-				009923592BFC19F600BB5877 /* SegmentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,6 +722,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DrypotGPX/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -742,6 +751,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DrypotGPX/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

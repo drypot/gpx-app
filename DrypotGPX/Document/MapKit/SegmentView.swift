@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SegmentView: View {
     
-    @StateObject var segments = SegmentViewModel()
+    @ObservedObject var segments: SegmentViewModel
     
     var body: some View {
         VStack {
@@ -33,5 +33,5 @@ struct SegmentView: View {
 }
 
 #Preview {
-    SegmentView()
+    SegmentView(segments: SegmentViewModel())
 }

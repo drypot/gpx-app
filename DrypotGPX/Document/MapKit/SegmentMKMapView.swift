@@ -48,10 +48,6 @@ final class SegmentMKMapView : MKMapView {
         }
     }
     
-    func handleDelete() {
-        viewModel.route.removeLast()
-    }
-    
     override func mouseDown(with event: NSEvent) {
         initialClickLocation = convert(event.locationInWindow, from: nil)
         isDragging = false
@@ -85,15 +81,6 @@ final class SegmentMKMapView : MKMapView {
 //        handleClick(at: point)
 //    }
     
-    func handleClick(at point: NSPoint) {
-        let p1 = MKMapPoint(self.convert(point, toCoordinateFrom: self))
-        let p2 = MKMapPoint(self.convert(CGPoint(x: point.x + 10, y: point.y), toCoordinateFrom: self))
-        let tolerance = p1.distance(to: p2)
-        if let closest = viewModel.closestSegment(from: p1, tolerance: tolerance) {
-            viewModel.route.appendOrRemove(closest)
-        }
-    }
-    
     func update() {
         viewModel.sync(with: self)
     }
@@ -108,6 +95,35 @@ final class SegmentMKMapView : MKMapView {
             self.setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
         }
     }
+    
+    func handleFileOpen() {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseFiles = true
+        openPanel.canChooseDirectories = true
+        openPanel.allowsMultipleSelection = true
+        openPanel.allowedContentTypes = [.gpx]
+        openPanel.begin { result in
+            if result == .OK {
+                print("Selected file: \(openPanel.urls)")
+            }
+        }
+    }
+    
+    func handleClick(at point: NSPoint) {
+        let p1 = MKMapPoint(self.convert(point, toCoordinateFrom: self))
+        let p2 = MKMapPoint(self.convert(CGPoint(x: point.x + 10, y: point.y), toCoordinateFrom: self))
+        let tolerance = p1.distance(to: p2)
+        if let closest = viewModel.closestSegment(from: p1, tolerance: tolerance) {
+            viewModel.route.appendOrRemove(closest)
+        }
+    }
+    
+    func handleDelete() {
+        viewModel.route.removeLast()
+    }
+    
+
+
 }
 
 extension SegmentMKMapView : MKMapViewDelegate {
