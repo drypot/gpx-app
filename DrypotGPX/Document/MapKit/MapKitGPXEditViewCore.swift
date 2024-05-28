@@ -121,8 +121,6 @@ final class MapKitGPXEditViewCore : MKMapView {
     func handleDelete() {
         viewModel.route.removeLast()
     }
-    
-
 
 }
 
@@ -140,22 +138,5 @@ extension MapKitGPXEditViewCore : MKMapViewDelegate {
         }
         return MKOverlayRenderer(overlay: overlay)
     }
-}
-
-struct SegmentMKMapViewRepresentable: NSViewRepresentable {
-    @ObservedObject var viewModel: GPXEditModel
-    
-    func makeNSView(context: Context) -> MapKitGPXEditViewCore {
-        return MapKitGPXEditViewCore(viewModel)
-    }
-
-    func updateNSView(_ mapView: MapKitGPXEditViewCore, context: Context) {
-        mapView.update()
-    }
-}
-
-#Preview {
-    let segments = GPXEditModel()
-    return SegmentMKMapViewRepresentable(viewModel: segments)
 }
 

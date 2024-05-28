@@ -7,31 +7,20 @@
 
 import SwiftUI
 
-struct MapKitGPXEditView: View {
+struct MapKitGPXEditView: NSViewRepresentable {
+    @ObservedObject var viewModel: GPXEditModel
     
-    @ObservedObject var segments: GPXEditModel
-    
-    var body: some View {
-        VStack {
-            SegmentMKMapViewRepresentable(viewModel: segments)
-            .padding()
-            .task {
-                await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
-            }
-            .onAppear {
-                GlobalActions.shared.exportGPX = {
-                    print("export GPX!")
-                }
-            }
-//            .contextMenu {
-//                Button("Mark Start") {
-//                    print("mark start")
-//                }
-//            }
-        }
+    func makeNSView(context: Context) -> MapKitGPXEditViewCore {
+        return MapKitGPXEditViewCore(viewModel)
+    }
+
+    func updateNSView(_ mapView: MapKitGPXEditViewCore, context: Context) {
+        mapView.update()
     }
 }
 
 #Preview {
-    MapKitGPXEditView(segments: GPXEditModel())
+    let segments = GPXEditModel()
+    return MapKitGPXEditView(viewModel: segments)
 }
+

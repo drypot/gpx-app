@@ -46,4 +46,10 @@ struct GPXEditDocument: FileDocument {
         ])
         return fileWrapper
     }
+    
+    func importFiles() {
+        Task {
+            await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+        }
+    }
 }

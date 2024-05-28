@@ -27,12 +27,11 @@ struct MainEntryPoint {
     }
 }
 
-class GlobalActions {
-    typealias Action = () -> Void
-    static let shared = GlobalActions()
-    private init() {}
-    
-    var exportGPX: Action?
+struct TestApp: App {
+    var body: some Scene {
+        WindowGroup {
+        }
+    }
 }
 
 struct MainApp: App {
@@ -41,42 +40,46 @@ struct MainApp: App {
         DocumentGroup(newDocument: GPXEditDocument()) { file in
             GPXEditView(document: file.$document)
         }
-//        WindowGroup {
-//            SegmentView()
-//        }
         .commands {
             CustomCommands()
         }
     }
 }
 
-struct TestApp: App {
-    var body: some Scene {
-        WindowGroup {
-        }
-    }
+class GlobalActions {
+    typealias Action = () -> Void
+    static let shared = GlobalActions()
+    private init() {}
+    
+    var exportGPX: Action?
 }
 
 struct CustomCommands: Commands {
     var body: some Commands {
-        CommandGroup(replacing: .newItem) {
-            Button(action: newFile) {
-                Text("New")
+//        CommandGroup(replacing: .newItem) {
+//            Button(action: newFile) {
+//                Text("New")
+//            }
+//            Button(action: openFile) {
+//                Text("Open…")
+//            }
+//            .keyboardShortcut("O", modifiers: .command)
+//            Button("Save") {
+//                saveFile()
+//            }
+//            .keyboardShortcut("S", modifiers: .command)
+//            Button("Export GPX") {
+//                GlobalActions.shared.exportGPX?()
+//            }
+//            .keyboardShortcut("E", modifiers: [.command, .shift])
+//        }
+
+        CommandGroup(after: .newItem) {
+            Button(action: importFiles) {
+                Text("Import")
             }
-            Button(action: openFile) {
-                Text("Open…")
-            }
-            .keyboardShortcut("O", modifiers: .command)
-            Button("Save") {
-                saveFile()
-            }
-            .keyboardShortcut("S", modifiers: .command)
-            Button("Export GPX") {
-                GlobalActions.shared.exportGPX?()
-            }
-            .keyboardShortcut("E", modifiers: [.command, .shift])
+            //.keyboardShortcut("I", modifiers: .command)
         }
-        
 //        CommandGroup(replacing: .pasteboard) {
 //            Button("Cut") {
 //                // Implement cut action
@@ -127,4 +130,9 @@ struct CustomCommands: Commands {
             }
         }
     }
+    
+    func importFiles() {
+        print("import files")
+    }
 }
+
