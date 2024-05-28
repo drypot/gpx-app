@@ -12,8 +12,7 @@ struct GPXEditView: View {
     
     var body: some View {
         VStack {
-            GPXEditMKMapViewRepresentable(viewModel: document.segments)
-            .padding()
+            MapKitGPXEditView(viewModel: document.segments)
             
 //            .onAppear {
 //                GlobalActions.shared.exportGPX = {

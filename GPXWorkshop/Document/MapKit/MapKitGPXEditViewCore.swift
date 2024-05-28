@@ -1,5 +1,5 @@
 //
-//  GPXEditMKMapView.swift
+//  MapKitGPXEditViewCore.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 5/24/24.
@@ -9,14 +9,14 @@ import Foundation
 import SwiftUI
 import MapKit
 
-final class GPXEditMKMapView : MKMapView {
-    var viewModel: GPXEditModel
+final class MapKitGPXEditViewCore : MKMapView {
+    var viewModel: GPXEditViewModel
     
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
     
-    init(_ viewModel: GPXEditModel) {
+    init(_ viewModel: GPXEditViewModel) {
         self.viewModel = viewModel
         super.init(frame: .zero)
         self.delegate = self
@@ -124,7 +124,7 @@ final class GPXEditMKMapView : MKMapView {
 
 }
 
-extension GPXEditMKMapView : MKMapViewDelegate {
+extension MapKitGPXEditViewCore : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)

@@ -9,10 +9,10 @@ import UniformTypeIdentifiers
 
 extension UTType {
     static var gpx: UTType {
-        UTType("com.topografix.gpx")!
+        UTType(exportedAs: "com.topografix.gpx", conformingTo: .xml)
     }
     static var gpxWorkshopBundle: UTType {
-        UTType("com.drypot.gpxworkshop")!
+        UTType(exportedAs: "com.drypot.gpxworkshop")
     }
 }
 
@@ -20,11 +20,11 @@ struct GPXEditDocument: FileDocument {
     
     static var readableContentTypes: [UTType] { [.gpxWorkshopBundle] }
     
-    var segments: GPXEditModel
+    var segments: GPXEditViewModel
     var content: String
     
     init() {
-        self.segments = GPXEditModel()
+        self.segments = GPXEditViewModel()
         self.content = "Hello World"
     }
     
@@ -35,7 +35,7 @@ struct GPXEditDocument: FileDocument {
             let content = String(data: fileData, encoding: .utf8) else {
             throw CocoaError(.fileReadCorruptFile)
         }
-        self.segments = GPXEditModel()
+        self.segments = GPXEditViewModel()
         self.content = content
     }
     

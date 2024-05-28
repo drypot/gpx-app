@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0016ECD12BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016ECD02BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift */; };
+		0016ECD12BEF8CB600FE63D8 /* MapKitGPXEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */; };
 		0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
 		0017C14F2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
 		001C20AA2BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */; };
-		002E4B0E2BEFAE9300F5E59B /* GPXEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002E4B0D2BEFAE9300F5E59B /* GPXEditModel.swift */; };
+		002E4B0E2BEFAE9300F5E59B /* GPXEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002E4B0D2BEFAE9300F5E59B /* GPXEditViewModel.swift */; };
 		003F595E2BCB1647009C9D61 /* LocationManagerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003F595D2BCB1647009C9D61 /* LocationManagerTestView.swift */; };
 		0046A08B2BF5FE09009191FC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08A2BF5FE09009191FC /* Error.swift */; };
 		0046A08C2BF5FE0C009191FC /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08A2BF5FE09009191FC /* Error.swift */; };
 		0046A08E2BF5FF30009191FC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
 		0046A08F2BF5FF30009191FC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
-		0049D5AD2C002E3E0044F024 /* GPXEditMKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0049D5AC2C002E3E0044F024 /* GPXEditMKMapView.swift */; };
+		0049D5AD2C002E3E0044F024 /* MapKitGPXEditViewCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */; };
 		004DB52D2BC796DF004B8715 /* GPXSamplePlotaRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */; };
 		004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
 		004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
@@ -76,17 +76,17 @@
 
 /* Begin PBXFileReference section */
 		001558602BEF89E900A4BFDC /* GPXEditMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditMapView.swift; sourceTree = "<group>"; };
-		0016ECD02BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditMKMapViewRepresentable.swift; sourceTree = "<group>"; };
+		0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitGPXEditView.swift; sourceTree = "<group>"; };
 		0017C14D2BBD737300D09F93 /* GPXParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
 		001C20A92BBA52CB006DDBCF /* GPXSamplePlotaRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXSamplePlotaRoute.swift; sourceTree = "<group>"; };
-		002E4B0D2BEFAE9300F5E59B /* GPXEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditModel.swift; sourceTree = "<group>"; };
+		002E4B0D2BEFAE9300F5E59B /* GPXEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditViewModel.swift; sourceTree = "<group>"; };
 		0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXParserErrorTests.swift; sourceTree = "<group>"; };
 		003F595D2BCB1647009C9D61 /* LocationManagerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerTestView.swift; sourceTree = "<group>"; };
 		003F59612BCB7DC3009C9D61 /* CoreLocationDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationDoc.swift; sourceTree = "<group>"; };
 		004363CA2BF25A3F0080DEB1 /* MapKitDoc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitDoc.swift; sourceTree = "<group>"; };
 		0046A08A2BF5FE09009191FC /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
-		0049D5AC2C002E3E0044F024 /* GPXEditMKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditMKMapView.swift; sourceTree = "<group>"; };
+		0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitGPXEditViewCore.swift; sourceTree = "<group>"; };
 		006750E22C0527EB00A756BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0067511D2C05AE6500A756BB /* GPXEditDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditDocument.swift; sourceTree = "<group>"; };
 		009923572BFC198000BB5877 /* MapKitSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSegmentTests.swift; sourceTree = "<group>"; };
@@ -149,22 +149,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0015585F2BEF89C300A4BFDC /* MKMapView */ = {
+		0015585F2BEF89C300A4BFDC /* MapKit */ = {
 			isa = PBXGroup;
 			children = (
 				00D1BBA62C02E71700335555 /* Archives */,
-				0049D5AC2C002E3E0044F024 /* GPXEditMKMapView.swift */,
-				0016ECD02BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift */,
+				0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */,
+				0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */,
 			);
-			path = MKMapView;
+			path = MapKit;
 			sourceTree = "<group>";
 		};
 		0049D5AE2C0034D30044F024 /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				0015585F2BEF89C300A4BFDC /* MKMapView */,
+				0015585F2BEF89C300A4BFDC /* MapKit */,
 				0067511D2C05AE6500A756BB /* GPXEditDocument.swift */,
-				002E4B0D2BEFAE9300F5E59B /* GPXEditModel.swift */,
+				002E4B0D2BEFAE9300F5E59B /* GPXEditViewModel.swift */,
 				00A174972C05B95600F5C151 /* GPXEditView.swift */,
 			);
 			path = Document;
@@ -512,7 +512,7 @@
 				00D40EA62BBA4A0F00B755CE /* Publisher.swift in Sources */,
 				004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */,
 				00E29FBA2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */,
-				002E4B0E2BEFAE9300F5E59B /* GPXEditModel.swift in Sources */,
+				002E4B0E2BEFAE9300F5E59B /* GPXEditViewModel.swift in Sources */,
 				0067511E2C05AE6500A756BB /* GPXEditDocument.swift in Sources */,
 				00CB93482BBDCB2300AD0241 /* XML.swift in Sources */,
 				00A174982C05B95600F5C151 /* GPXEditView.swift in Sources */,
@@ -520,9 +520,9 @@
 				0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */,
 				00F89F902BF715D100D04DEB /* Always.swift in Sources */,
 				00EDDE392BC9FD2500A9A406 /* LocationManager.swift in Sources */,
-				0049D5AD2C002E3E0044F024 /* GPXEditMKMapView.swift in Sources */,
+				0049D5AD2C002E3E0044F024 /* MapKitGPXEditViewCore.swift in Sources */,
 				004DB52D2BC796DF004B8715 /* GPXSamplePlotaRoute.swift in Sources */,
-				0016ECD12BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift in Sources */,
+				0016ECD12BEF8CB600FE63D8 /* MapKitGPXEditView.swift in Sources */,
 				00D40E782BBA403200B755CE /* App.swift in Sources */,
 				004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */,
 				00D40EA72BBA4A0F00B755CE /* GPX.swift in Sources */,

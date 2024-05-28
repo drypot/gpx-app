@@ -1,5 +1,5 @@
 //
-//  SegmentViewModel.swift
+//  GPXEditViewModel.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-final class GPXEditModel: ObservableObject {
+final class GPXEditViewModel: ObservableObject {
     private var segments: Set<MKPolyline> = []
     
     private(set) var route: Route!
@@ -54,7 +54,7 @@ final class GPXEditModel: ObservableObject {
 
     // 모델에서 MKMapView 를 직접 받으면 안 되지만;
     // 프로토콜로 빼긴 귀찮으니 당분간은 그냥 이렇게 쓰기로 한다.
-    func sync(with mapView: GPXEditMKMapView) {
+    func sync(with mapView: MapKitGPXEditViewCore) {
         if !segmentsToAdd.isEmpty {
             segmentsToAdd.forEach { polyline in
                 segments.insert(polyline)
@@ -76,10 +76,10 @@ final class GPXEditModel: ObservableObject {
     }
     
     final class Route {
-        unowned private let parent: GPXEditModel
+        unowned private let parent: GPXEditViewModel
         private var segments: [MKPolyline] = []
         
-        init(_ parent: GPXEditModel) {
+        init(_ parent: GPXEditViewModel) {
             self.parent = parent
         }
         
