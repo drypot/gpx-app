@@ -35,7 +35,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00D40E842BBA403400B755CE"
+               BlueprintIdentifier = "001558372C076F7E000691EE"
                BuildableName = "GPXWorkshopTests.xctest"
                BlueprintName = "GPXWorkshopTests"
                ReferencedContainer = "container:GPXWorkshop.xcodeproj">

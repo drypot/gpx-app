@@ -8,18 +8,16 @@
 import Foundation
 import MapKit
 
-final class GPX {
+struct GPX {
     let uuid = UUID()
     var creator: String = ""
     var version: String = ""
-    let metadata: Metadata = .init()
+    var metadata: Metadata = .init()
     var waypoints: [Waypoint] = []
     //var routes: [GPXRoute]
     var tracks: [Track] = []
-}
 
-extension GPX {
-    final class Metadata {
+    struct Metadata {
         var name: String = ""
         var description: String = ""
         //var author
@@ -29,10 +27,8 @@ extension GPX {
         //var keywords: String?
         //var bounds:
     }
-}
 
-extension GPX {
-    final class Waypoint: GPXCoordinate {
+    struct Waypoint: GPXCoordinate {
         var latitude = 0.0
         var longitude = 0.0
         var elevation = 0.0
@@ -57,10 +53,8 @@ extension GPX {
         //var ageofdgpsdata
         //var dgpsid
     }
-}
 
-extension GPX {
-    final class Track {
+    struct Track {
         var name: String = ""
         var comment: String = ""
         var description: String = ""
@@ -70,15 +64,11 @@ extension GPX {
         //var type: String?
         var segments: [Segment] = []
     }
-}
 
-extension GPX {
-    final class Segment {
+    struct Segment {
         var points: [Point] = []
     }
-}
 
-extension GPX {
     struct Point: GPXCoordinate {
         var latitude = 0.0
         var longitude = 0.0

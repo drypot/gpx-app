@@ -11,36 +11,17 @@
 import Foundation
 
 enum XML {
-}
-
-extension XML {
+    
     enum Error: Swift.Error /*, Equatable */ {
         case parsingError(NSError, Int)
     }
-}
-
-extension XML {
-    final class Node /*: Equatable, Hashable */ {
-        var name: String
-        var attributes:[String: String]
-        var content: String
-        var children: [Node]
-        
-        init(
-            name: String = "",
-            attributes: [String : String] = .init(),
-            content: String = "",
-            children: [Node] = .init()
-        ) {
-            self.name = name
-            self.attributes = attributes
-            self.content = content
-            self.children = children
-        }
+    
+    struct Node /*: Equatable, Hashable */ {
+        var name: String = ""
+        var attributes:[String: String] = [:]
+        var content: String = ""
+        var children: [Node] = []
     }
-}
-
-extension XML {
     
     final class Parser: NSObject, XMLParserDelegate {
         
@@ -81,5 +62,5 @@ extension XML {
             print(parseError.localizedDescription)
         }
     }
-    
+
 }

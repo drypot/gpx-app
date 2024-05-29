@@ -57,10 +57,10 @@ final class FileEnumeratorTests: XCTestCase {
     
 //    func testFilesPublisherUnlimited() throws {
 //        try XCTSkipIf(true, "skip unlimited FilesPublisher tests")
-//        
+//
 //        let baseURL = URL(fileURLWithPath: defaultGPXFolderPath)
 //        var count = 0
-//        
+//
 //        let _ = FilesPublisher(url: baseURL).sink { url in
 //            count += 1
 //            if (count > 3000) {
