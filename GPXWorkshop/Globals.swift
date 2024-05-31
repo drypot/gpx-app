@@ -8,3 +8,11 @@
 import Foundation
 
 let defaultGPXFolderPath = "Documents/GPX Files"
+
+class GlobalActions {
+    typealias Action = () -> Void
+    static let shared = GlobalActions()
+    private init() {}
+    
+    var exportGPX: Action?
+}

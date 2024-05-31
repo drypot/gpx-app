@@ -46,14 +46,6 @@ struct MainApp: App {
     }
 }
 
-class GlobalActions {
-    typealias Action = () -> Void
-    static let shared = GlobalActions()
-    private init() {}
-    
-    var exportGPX: Action?
-}
-
 struct CustomCommands: Commands {
     var body: some Commands {
 //        CommandGroup(replacing: .newItem) {
