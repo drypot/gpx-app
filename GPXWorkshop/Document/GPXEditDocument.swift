@@ -7,18 +7,9 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-extension UTType {
-    static var gpx: UTType {
-        UTType(exportedAs: "com.topografix.gpx", conformingTo: .xml)
-    }
-    static var gpxWorkshopBundle: UTType {
-        UTType(exportedAs: "com.drypot.gpxworkshop")
-    }
-}
-
 struct GPXEditDocument: FileDocument {
     
-    static var readableContentTypes: [UTType] { [.gpxWorkshopBundle] }
+    static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx] }
     
     var segments: GPXEditViewModel
     var content: String

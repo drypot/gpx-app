@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UniformTypeIdentifiers
 
 let defaultGPXFolderPath = "Documents/GPX Files"
 
@@ -15,4 +16,9 @@ class GlobalActions {
     private init() {}
     
     var exportGPX: Action?
+}
+
+extension UTType {
+    static var gpxWorkshopBundle: UTType = UTType(exportedAs: "com.drypot.gpxworkshop")
+    static let gpx: UTType = UTType(importedAs: "com.topografix.gpx")
 }
