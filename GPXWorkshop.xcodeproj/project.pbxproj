@@ -10,7 +10,6 @@
 		001558422C076FF0000691EE /* XMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFD4752BBB162B0040291B /* XMLParserTests.swift */; };
 		001558442C076FF3000691EE /* BasicXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */; };
 		001558462C076FF7000691EE /* BasicXMLParserErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402CB2BC1ED4800AFAF44 /* BasicXMLParserErrorTests.swift */; };
-		001558472C076FFC000691EE /* GPXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */; };
 		001558482C07700B000691EE /* GPXParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */; };
 		001558492C077015000691EE /* GPXParserErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */; };
 		0015584A2C077018000691EE /* MapKitSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009923572BFC198000BB5877 /* MapKitSegmentTests.swift */; };
@@ -95,7 +94,6 @@
 		00D40E952BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrypotGPXUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		00D40EA32BBA4A0F00B755CE /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		00D40EA52BBA4A0F00B755CE /* GPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPX.swift; sourceTree = "<group>"; };
-		00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXTests.swift; sourceTree = "<group>"; };
 		00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherTests.swift; sourceTree = "<group>"; };
 		00D40EAF2BBA4A9700B755CE /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		00D40EB02BBA4A9700B755CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -291,7 +289,6 @@
 		00D40EA92BBA4A4F00B755CE /* GPX */ = {
 			isa = PBXGroup;
 			children = (
-				00D40EAA2BBA4A4F00B755CE /* GPXTests.swift */,
 				00F402CF2BC222AA00AFAF44 /* GPXParserTests.swift */,
 				0033E2B72BC3B60300563C17 /* GPXParserErrorTests.swift */,
 			);
@@ -461,7 +458,6 @@
 			files = (
 				0015584D2C077025000691EE /* PublisherTests.swift in Sources */,
 				001558532C07705A000691EE /* GPXParser.swift in Sources */,
-				001558472C076FFC000691EE /* GPXTests.swift in Sources */,
 				001558442C076FF3000691EE /* BasicXMLParserTests.swift in Sources */,
 				001558522C077057000691EE /* GPX.swift in Sources */,
 				001558572C07709A000691EE /* Globals.swift in Sources */,

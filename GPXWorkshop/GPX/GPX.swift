@@ -8,6 +8,9 @@
 import Foundation
 import MapKit
 
+// 참고
+// https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
+
 struct GPX {
     let uuid = UUID()
     var creator: String = ""
@@ -28,10 +31,8 @@ struct GPX {
         //var bounds:
     }
 
-    struct Waypoint: GPXCoordinate {
-        var latitude = 0.0
-        var longitude = 0.0
-        var elevation = 0.0
+    struct Waypoint {
+        var point: Point = Point()
         
         //var time
         //var magvar
@@ -69,26 +70,16 @@ struct GPX {
         var points: [Point] = []
     }
 
-    struct Point: GPXCoordinate {
+    struct Point {
         var latitude = 0.0
         var longitude = 0.0
         var elevation = 0.0
+
+        func almostEqual(_ target: Self) -> Bool {
+            (self.latitude - target.latitude).magnitude < 0.000001 &&
+            (self.longitude - target.longitude).magnitude < 0.000001 &&
+            (self.elevation - target.elevation).magnitude < 0.00001
+        }
     }
 }
 
-// 참고
-// https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
-
-protocol GPXCoordinate {
-    var latitude: Double { get set }
-    var longitude: Double { get set }
-    var elevation: Double { get set }
-}
-
-extension GPXCoordinate {
-    func almostEqual(_ target: GPXCoordinate) -> Bool {
-        (self.latitude - target.latitude).magnitude < 0.000001 &&
-        (self.longitude - target.longitude).magnitude < 0.000001 &&
-        (self.elevation - target.elevation).magnitude < 0.00001
-    }
-}

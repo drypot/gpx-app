@@ -54,7 +54,7 @@ extension GPX {
                 
         private func parse(waypointNode: XML.Node) -> Waypoint {
             var waypoint = Waypoint()
-            setCoordinate(of: &waypoint, from: waypointNode)
+            waypoint.point = parse(pointNode: waypointNode)
             waypoint.name = content(of: waypointNode, tag: "name")
             waypoint.comment = content(of: waypointNode, tag: "cmt")
             waypoint.description = content(of: waypointNode, tag: "desc")
@@ -79,13 +79,20 @@ extension GPX {
             var segment = Segment()
             for pointNode in segmentNode.children {
                 if pointNode.name != "trkpt" { continue }
-                var p = Point()
-                setCoordinate(of: &p, from: pointNode)
+                let p = parse(pointNode: pointNode)
                 segment.points.append(p)
             }
             return segment
         }
         
+        private func parse(pointNode: XML.Node) -> Point {
+            var p = Point()
+            p.latitude = Double(pointNode.attributes["lat"] ?? "") ?? 0.0
+            p.longitude = Double(pointNode.attributes["lon"] ?? "")  ?? 0.0
+            p.elevation = Double(content(of: pointNode, tag: "ele")) ?? 0.0
+            return p
+        }
+
         private func child(of node: XML.Node, tag: String) -> XML.Node? {
             node.children.first {
                 $0.name.lowercased() == tag
@@ -102,11 +109,6 @@ extension GPX {
             child(of: node, tag: tag)?.content ?? ""
         }
 
-        private func setCoordinate<T: GPXCoordinate>(of p: inout T, from node: XML.Node) {
-            p.latitude = Double(node.attributes["lat"] ?? "") ?? 0.0
-            p.longitude = Double(node.attributes["lon"] ?? "")  ?? 0.0
-            p.elevation = Double(content(of: node, tag: "ele")) ?? 0.0
-        }
     }
 }
 

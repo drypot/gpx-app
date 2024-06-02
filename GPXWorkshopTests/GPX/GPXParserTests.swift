@@ -34,8 +34,9 @@ final class GPXParserTests: XCTestCase {
     func testWaypoints() throws {
         XCTAssertEqual(gpx.waypoints.count, 1)
         let wp = gpx.waypoints[0]
-        XCTAssertEqual(wp.latitude, 37.5458958)
-        XCTAssertEqual(wp.longitude, 127.0304489)
+        XCTAssertEqual(wp.point.latitude, 37.5458958)
+        XCTAssertEqual(wp.point.longitude, 127.0304489)
+        XCTAssertEqual(wp.point.elevation, 0.0)
         XCTAssertEqual(wp.name, "wp1name")
         XCTAssertEqual(wp.comment, "wp1cmt")
         XCTAssertEqual(wp.description, "wp1desc")
