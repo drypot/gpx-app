@@ -7,15 +7,15 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct GPXEditDocument: FileDocument {
+final class GPXEditDocument: FileDocument {
     
     static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx] }
     
-    var segments: GPXEditViewModel
+    var segments: Segments
     var content: String
     
     init() {
-        self.segments = GPXEditViewModel()
+        self.segments = Segments()
         self.content = "Hello World"
     }
     
@@ -26,7 +26,7 @@ struct GPXEditDocument: FileDocument {
             let content = String(data: fileData, encoding: .utf8) else {
             throw CocoaError(.fileReadCorruptFile)
         }
-        self.segments = GPXEditViewModel()
+        self.segments = Segments()
         self.content = content
     }
     
@@ -40,7 +40,8 @@ struct GPXEditDocument: FileDocument {
     
     func importFiles() {
         Task {
-            await segments.appendGPXFiles(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            let newSegments = await GPX.makeSegments(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            segments.append(newSegments)
         }
     }
 }

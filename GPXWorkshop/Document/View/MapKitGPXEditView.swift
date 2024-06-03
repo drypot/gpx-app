@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MapKitGPXEditView: NSViewRepresentable {
-    @ObservedObject var viewModel: GPXEditViewModel
+    var segments: Segments
     
     func makeNSView(context: Context) -> MapKitGPXEditViewCore {
-        return MapKitGPXEditViewCore(viewModel)
+        return MapKitGPXEditViewCore(segments)
     }
 
     func updateNSView(_ mapView: MapKitGPXEditViewCore, context: Context) {
@@ -20,7 +20,7 @@ struct MapKitGPXEditView: NSViewRepresentable {
 }
 
 #Preview {
-    let segments = GPXEditViewModel()
-    return MapKitGPXEditView(viewModel: segments)
+    let segments = Segments()
+    return MapKitGPXEditView(segments: segments)
 }
 

@@ -111,12 +111,3 @@ extension GPX {
 
     }
 }
-
-extension GPX {
-    static func makeGPX(from url: URL) -> Result<GPX, Error> {
-        guard let data = try? Data(contentsOf: url) else {
-            return .failure(.readingError(url))
-        }
-        return Parser().parse(data)
-    }
-}
