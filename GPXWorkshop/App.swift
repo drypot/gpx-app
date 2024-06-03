@@ -14,16 +14,13 @@ import UniformTypeIdentifiers
  */
 
 @main
-struct MainEntryPoint {
+struct Main {
     static func main() {
-        if isTesting() {
+        if NSClassFromString("XCTestCase") != nil {
             TestApp.main()
         } else {
             MainApp.main()
         }
-    }
-    private static func isTesting() -> Bool {
-        return NSClassFromString("XCTestCase") != nil
     }
 }
 
@@ -35,11 +32,12 @@ struct TestApp: App {
 }
 
 struct MainApp: App {
-    
     var body: some Scene {
-        DocumentGroup(newDocument: GPXEditDocument()) { file in
-            GPXEditView(document: file.$document)
-        }
+        DocumentGroup(newDocument: {
+            GPXEditDocument()
+        }, editor: { file in
+            GPXEditView(document: file.document)
+        })
         .commands {
             CustomCommands()
         }

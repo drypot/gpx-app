@@ -15,28 +15,8 @@ extension GPX {
         }
         return GPXParser().parse(data)
     }
-        
-    static func makeSegments(fromDirectory url: URL) async -> [MKPolyline] {
-        var newSegments: [MKPolyline] = []
-        FilesSequence(url: url)
-            .prefix(10)
-            .forEach { url in
-                switch GPX.makeGPX(from: url) {
-                case .success(let gpx):
-                    gpx
-                        .tracks
-                        .flatMap { $0.segments }
-                        .map { MKPolyline($0) }
-                        .forEach { newSegments.append($0) }
-                case .failure(.readingError(let url)):
-                    print("file reading error at \(url)")
-                    return
-                case .failure(.parsingError(_, let lineNumber)):
-                    print("gpx file parsing error at \(lineNumber) from \(url)")
-                    return
-                }
-            }
-        return newSegments
+    
+    static func makeGPX(from data: Data) -> Result<GPX, GPXError> {
+        return GPXParser().parse(data)
     }
-
 }

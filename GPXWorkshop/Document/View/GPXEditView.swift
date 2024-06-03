@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct GPXEditView: View {
-    @Binding var document: GPXEditDocument
+    
+    @ObservedObject var document: GPXEditDocument
     
     var body: some View {
         VStack {
@@ -26,9 +27,10 @@ struct GPXEditView: View {
 //                }
 //            }
         }
-        
     }
+    
 }
+
 #Preview {
-    GPXEditView(document: .constant(GPXEditDocument()))
+    GPXEditView(document: GPXEditDocument())
 }

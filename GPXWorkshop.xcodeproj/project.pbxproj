@@ -222,9 +222,9 @@
 		00D40E762BBA403200B755CE /* GPXWorkshop */ = {
 			isa = PBXGroup;
 			children = (
-				006750E22C0527EB00A756BB /* Info.plist */,
 				00D40E772BBA403200B755CE /* App.swift */,
 				0046A08D2BF5FF30009191FC /* Globals.swift */,
+				006750E22C0527EB00A756BB /* Info.plist */,
 				00D40E7B2BBA403400B755CE /* Assets.xcassets */,
 				00D40E802BBA403400B755CE /* GPXWorkshop.entitlements */,
 				005B15F32BF11E6200133CDC /* XML */,

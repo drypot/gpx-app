@@ -6,9 +6,11 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+import MapKit
 
-final class GPXEditDocument: FileDocument {
-    
+final class GPXEditDocument: ReferenceFileDocument {
+    typealias Snapshot = [MKPolyline]
+        
     static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx] }
     
     let segments: Segments
@@ -20,17 +22,60 @@ final class GPXEditDocument: FileDocument {
     }
     
     init(configuration: ReadConfiguration) throws {
-        let fileWrapper = configuration.file
-        guard
-            let fileData = fileWrapper.fileWrappers?["data.txt"]?.regularFileContents,
-            let content = String(data: fileData, encoding: .utf8) else {
+        guard let data = configuration.file.regularFileContents else {
             throw CocoaError(.fileReadCorruptFile)
         }
         self.segments = Segments()
-        self.content = content
+        self.content = "Hello World"
+        switch makeSegments(from: data) {
+        case .success(let newSegments):
+            segments.append(newSegments)
+        case .failure(let error):
+            throw error
+        }
     }
     
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+    func makeSegments(from data: Data) -> Result<[MKPolyline], Error> {
+        var newSegments: [MKPolyline] = []
+        switch GPX.makeGPX(from: data) {
+        case .success(let gpx):
+            newSegments = gpx.tracks
+                .flatMap { $0.segments }
+                .map { MKPolyline($0) }
+            return .success(newSegments)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func makeSegments(fromDirectory url: URL) async -> [MKPolyline] {
+        var newSegments: [MKPolyline] = []
+        FilesSequence(url: url)
+            .prefix(10)
+            .forEach { url in
+                switch GPX.makeGPX(from: url) {
+                case .success(let gpx):
+                    gpx
+                        .tracks
+                        .flatMap { $0.segments }
+                        .map { MKPolyline($0) }
+                        .forEach { newSegments.append($0) }
+                case .failure(.readingError(let url)):
+                    print("file reading error at \(url)")
+                    return
+                case .failure(.parsingError(_, let lineNumber)):
+                    print("gpx file parsing error at \(lineNumber) from \(url)")
+                    return
+                }
+            }
+        return newSegments
+    }
+    
+    func snapshot(contentType: UTType) throws -> [MKPolyline] {
+        return []
+    }
+    
+    func fileWrapper(snapshot: [MKPolyline], configuration: WriteConfiguration) throws -> FileWrapper {
         let data = Data(content.utf8)
         let fileWrapper = FileWrapper(directoryWithFileWrappers: [
             "data.txt": FileWrapper(regularFileWithContents: data)
@@ -40,7 +85,7 @@ final class GPXEditDocument: FileDocument {
     
     func importFiles() {
         Task {
-            let newSegments = await GPX.makeSegments(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            let newSegments = await makeSegments(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
             segments.append(newSegments)
         }
     }
