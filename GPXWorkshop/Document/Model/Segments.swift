@@ -131,13 +131,13 @@ final class Segments: ObservableObject {
 
     // Route
     
-    func appendToRoute(_ polyline: MKPolyline) {
+    func addRouteSegment(_ polyline: MKPolyline) {
         objectWillChange.send()
         routeSegments.append(polyline)
         self.segmentsToUpdate.insert(polyline)
     }
     
-    func removeFromRoute(_ polyline: MKPolyline) {
+    func removeRouteSegment(_ polyline: MKPolyline) {
         objectWillChange.send()
         if let index = routeSegments.firstIndex(of: polyline) {
             routeSegments.remove(at: index)
@@ -157,14 +157,14 @@ final class Segments: ObservableObject {
         return routeSegments.contains(polyline)
     }
     
-    func appendOrRemoveFromRoute(_ polyline: MKPolyline) {
+    func appendOrRemoveRouteSegment(_ polyline: MKPolyline) {
         objectWillChange.send()
         if routeContains(polyline) {
             if routeSegments.last == polyline {
-                removeFromRoute(polyline)
+                removeRouteSegment(polyline)
             }
         } else {
-            appendToRoute(polyline)
+            addRouteSegment(polyline)
         }
     }
 }
