@@ -10,104 +10,102 @@
 
 import Foundation
 
-extension GPX {
-    enum Error: Swift.Error /*, Equatable */ {
-        case readingError(URL)
-        case parsingError(NSError, Int)
-        //case smoothingError
+enum GPXError: Swift.Error /*, Equatable */ {
+    case readingError(URL)
+    case parsingError(NSError, Int)
+    //case smoothingError
+}
+
+struct GPXParser {
+    
+    func parse(_ data: Data) -> Result<GPX, GPXError> {
+        switch BasicXMLParser().parse(data) {
+        case let .success(root):
+            return parse(rootNode: root)
+        case let .failure(.parsingError(error, lineNumber)):
+            return .failure(.parsingError(error, lineNumber))
+        }
     }
     
-    struct Parser {
+    private func parse(rootNode: XMLNode) -> Result<GPX, GPXError> {
+        var gpx = GPX()
         
-        func parse(_ data: Data) -> Result<GPX, Error> {
-            switch XML.Parser().parse(data) {
-            case let .success(root):
-                return parse(rootNode: root)
-            case let .failure(.parsingError(error, lineNumber)):
-                return .failure(.parsingError(error, lineNumber))
-            }
-        }
+        gpx.creator = rootNode.attributes["creator"] ?? ""
+        gpx.version = rootNode.attributes["version"] ?? ""
         
-        private func parse(rootNode: XML.Node) -> Result<GPX, Error> {
-            var gpx = GPX()
-            
-            gpx.creator = rootNode.attributes["creator"] ?? ""
-            gpx.version = rootNode.attributes["version"] ?? ""
-            
-            if let metadataNode = child(of: rootNode, tag: "metadata") {
-                gpx.metadata.name = content(of: metadataNode, tag: "name")
-                gpx.metadata.description = content(of: metadataNode, tag: "desc")
-            }
-                        
-            for waypointNode in children(of: rootNode, tag: "wpt") {
-                let waypoint = parse(waypointNode: waypointNode)
-                gpx.waypoints.append(waypoint)
-            }
-
-            for trackNode in children(of: rootNode, tag: "trk") {
-                let track = parse(trackNode: trackNode)
-                gpx.tracks.append(track)
-            }
-            
-            return .success(gpx)
-        }
-                
-        private func parse(waypointNode: XML.Node) -> Waypoint {
-            var waypoint = Waypoint()
-            waypoint.point = parse(pointNode: waypointNode)
-            waypoint.name = content(of: waypointNode, tag: "name")
-            waypoint.comment = content(of: waypointNode, tag: "cmt")
-            waypoint.description = content(of: waypointNode, tag: "desc")
-            waypoint.symbol = content(of: waypointNode, tag: "sym")
-            waypoint.type = content(of: waypointNode, tag: "type")
-            return waypoint
+        if let metadataNode = child(of: rootNode, tag: "metadata") {
+            gpx.metadata.name = content(of: metadataNode, tag: "name")
+            gpx.metadata.description = content(of: metadataNode, tag: "desc")
         }
         
-        private func parse(trackNode: XML.Node) -> Track {
-            var track = Track()
-            track.name = content(of: trackNode, tag: "name")
-            track.comment = content(of: trackNode, tag: "cmt")
-            track.description = content(of: trackNode, tag: "desc")
-            for segmentNode in children(of: trackNode, tag: "trkseg") {
-                let segment = parse(segmentNode: segmentNode)
-                track.segments.append(segment)
-            }
-            return track
+        for waypointNode in children(of: rootNode, tag: "wpt") {
+            let waypoint = parse(waypointNode: waypointNode)
+            gpx.waypoints.append(waypoint)
         }
         
-        private func parse(segmentNode: XML.Node) -> Segment {
-            var segment = Segment()
-            for pointNode in segmentNode.children {
-                if pointNode.name != "trkpt" { continue }
-                let p = parse(pointNode: pointNode)
-                segment.points.append(p)
-            }
-            return segment
+        for trackNode in children(of: rootNode, tag: "trk") {
+            let track = parse(trackNode: trackNode)
+            gpx.tracks.append(track)
         }
         
-        private func parse(pointNode: XML.Node) -> Point {
-            var p = Point()
-            p.latitude = Double(pointNode.attributes["lat"] ?? "") ?? 0.0
-            p.longitude = Double(pointNode.attributes["lon"] ?? "")  ?? 0.0
-            p.elevation = Double(content(of: pointNode, tag: "ele")) ?? 0.0
-            return p
-        }
-
-        private func child(of node: XML.Node, tag: String) -> XML.Node? {
-            node.children.first {
-                $0.name.lowercased() == tag
-            }
-        }
-        
-        private func children(of node: XML.Node, tag: String) -> [XML.Node] {
-            node.children.filter {
-                $0.name.lowercased() == tag
-            }
-        }
-        
-        private func content(of node: XML.Node, tag: String) -> String {
-            child(of: node, tag: tag)?.content ?? ""
-        }
-
+        return .success(gpx)
     }
+    
+    private func parse(waypointNode: XMLNode) -> GPXWaypoint {
+        var waypoint = GPXWaypoint()
+        waypoint.point = parse(pointNode: waypointNode)
+        waypoint.name = content(of: waypointNode, tag: "name")
+        waypoint.comment = content(of: waypointNode, tag: "cmt")
+        waypoint.description = content(of: waypointNode, tag: "desc")
+        waypoint.symbol = content(of: waypointNode, tag: "sym")
+        waypoint.type = content(of: waypointNode, tag: "type")
+        return waypoint
+    }
+    
+    private func parse(trackNode: XMLNode) -> GPXTrack {
+        var track = GPXTrack()
+        track.name = content(of: trackNode, tag: "name")
+        track.comment = content(of: trackNode, tag: "cmt")
+        track.description = content(of: trackNode, tag: "desc")
+        for segmentNode in children(of: trackNode, tag: "trkseg") {
+            let segment = parse(segmentNode: segmentNode)
+            track.segments.append(segment)
+        }
+        return track
+    }
+    
+    private func parse(segmentNode: XMLNode) -> GPXSegment {
+        var segment = GPXSegment()
+        for pointNode in segmentNode.children {
+            if pointNode.name != "trkpt" { continue }
+            let p = parse(pointNode: pointNode)
+            segment.points.append(p)
+        }
+        return segment
+    }
+    
+    private func parse(pointNode: XMLNode) -> GPXPoint {
+        var p = GPXPoint()
+        p.latitude = Double(pointNode.attributes["lat"] ?? "") ?? 0.0
+        p.longitude = Double(pointNode.attributes["lon"] ?? "")  ?? 0.0
+        p.elevation = Double(content(of: pointNode, tag: "ele")) ?? 0.0
+        return p
+    }
+    
+    private func child(of node: XMLNode, tag: String) -> XMLNode? {
+        node.children.first {
+            $0.name.lowercased() == tag
+        }
+    }
+    
+    private func children(of node: XMLNode, tag: String) -> [XMLNode] {
+        node.children.filter {
+            $0.name.lowercased() == tag
+        }
+    }
+    
+    private func content(of node: XMLNode, tag: String) -> String {
+        child(of: node, tag: tag)?.content ?? ""
+    }
+    
 }

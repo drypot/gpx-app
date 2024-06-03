@@ -11,7 +11,7 @@ final class XMLParserErrorTests: XCTestCase {
     
     func testNoContent() throws {
         let data = Data(gpxSampleNoContent.utf8)
-        switch XML.Parser().parse(data) {
+        switch BasicXMLParser().parse(data) {
         case .success:
             XCTFail()
         case .failure(.parsingError(_, let lineNumber)):
@@ -21,7 +21,7 @@ final class XMLParserErrorTests: XCTestCase {
     
     func testBadFormat() throws {
         let data = Data(gpxSampleBad.utf8)
-        switch XML.Parser().parse(data) {
+        switch BasicXMLParser().parse(data) {
         case .success:
             XCTFail()
         case .failure(.parsingError(_, let lineNumber)):
@@ -31,7 +31,7 @@ final class XMLParserErrorTests: XCTestCase {
     
     func testNoTrack() throws {
         let data = Data(gpxSampleNoTrack.utf8)
-        switch XML.Parser().parse(data) {
+        switch BasicXMLParser().parse(data) {
         case .success(let root):
             XCTAssertEqual(root.name, "gpx")
             XCTAssertEqual(root.children.first?.name, nil)

@@ -11,20 +11,19 @@ final class GPXParserErrorTests: XCTestCase {
     
     func testNoContent() throws {
         let data = Data(gpxSampleNoContent.utf8)
-        switch GPX.Parser().parse(data) {
+        switch GPXParser().parse(data) {
         case .success:
             XCTFail()
         case .failure(.readingError(_)):
             XCTFail()
         case .failure(.parsingError(_, let lineNumber)):
             XCTAssertEqual(lineNumber, 0)
-            
         }
     }
     
     func testBadFormat() throws {
         let data = Data(gpxSampleBad.utf8)
-        switch GPX.Parser().parse(data) {
+        switch GPXParser().parse(data) {
         case .success:
             XCTFail()
         case .failure(.readingError(_)):
@@ -36,7 +35,7 @@ final class GPXParserErrorTests: XCTestCase {
     
     func testNoTrack() throws {
         let data = Data(gpxSampleNoTrack.utf8)
-        switch GPX.Parser().parse(data) {
+        switch GPXParser().parse(data) {
         case .success(let gpx):
             XCTAssertEqual(gpx.creator, "texteditor")
             XCTAssertEqual(gpx.tracks.count, 0)

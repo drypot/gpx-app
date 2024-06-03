@@ -9,11 +9,11 @@ import XCTest
 
 final class BasicXMLParserTests: XCTestCase {
     
-    var root = XML.Node()
+    var root = XMLNode()
     
     override func setUp() {
         let data = Data(gpxSamplePlotaRouteShort.utf8)
-        switch XML.Parser().parse(data) {
+        switch BasicXMLParser().parse(data) {
         case .success(let root):
             self.root = root
         case .failure:

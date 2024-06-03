@@ -13,7 +13,7 @@ final class GPXParserTests: XCTestCase {
     
     override func setUp() {
         let data = Data(gpxSampleManual.utf8)
-        switch GPX.Parser().parse(data) {
+        switch GPXParser().parse(data) {
         case .success(let gpx):
             self.gpx = gpx
         case .failure:

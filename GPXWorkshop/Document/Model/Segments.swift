@@ -15,7 +15,7 @@ import MapKit
 // 다른 지도 사용할 경우는, 그때 가서 생각;
 
 extension MKPolyline {
-    convenience init(_ gpxSegment: GPX.Segment) {
+    convenience init(_ gpxSegment: GPXSegment) {
         let points = gpxSegment.points.map {
             CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
         }

@@ -9,11 +9,11 @@ import Foundation
 import MapKit
 
 extension GPX {
-    static func makeGPX(from url: URL) -> Result<GPX, Error> {
+    static func makeGPX(from url: URL) -> Result<GPX, GPXError> {
         guard let data = try? Data(contentsOf: url) else {
             return .failure(.readingError(url))
         }
-        return Parser().parse(data)
+        return GPXParser().parse(data)
     }
         
     static func makeSegments(fromDirectory url: URL) async -> [MKPolyline] {
