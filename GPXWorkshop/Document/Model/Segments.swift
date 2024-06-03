@@ -23,7 +23,8 @@ extension MKPolyline {
     }
 }
 
-struct Segments {
+final class Segments: ObservableObject {
+    
     var segments: Set<MKPolyline> = []
     
     var selectedSegments: Set<MKPolyline> = []
@@ -41,7 +42,7 @@ struct Segments {
     
     // 모델에서 MKMapView 를 직접 받으면 안 되지만;
     // 프로토콜로 빼긴 귀찮으니 당분간은 그냥 이렇게 쓰기로 한다.
-    mutating func sync(with mapView: MapKitGPXEditViewCore) {
+    func sync(with mapView: MapKitGPXEditViewCore) {
         if !segmentsToAdd.isEmpty {
             segmentsToAdd.forEach { polyline in
                 segments.insert(polyline)
@@ -62,17 +63,20 @@ struct Segments {
         }
     }
     
-    mutating func append(_ newSegments: [MKPolyline]) {
+    func append(_ newSegments: [MKPolyline]) {
+        objectWillChange.send()
         segmentsToAdd.append(contentsOf: newSegments)
         needZoomToFit = true
     }
 
-    mutating func selectSegment(_ polyline: MKPolyline) {
+    func selectSegment(_ polyline: MKPolyline) {
+        objectWillChange.send()
         selectedSegments.insert(polyline)
         segmentsToUpdate.insert(polyline)
     }
     
-    mutating func deselectSegment(_ polyline: MKPolyline) {
+    func deselectSegment(_ polyline: MKPolyline) {
+        objectWillChange.send()
         selectedSegments.remove(polyline)
         segmentsToUpdate.insert(polyline)
     }
@@ -81,7 +85,8 @@ struct Segments {
         return selectedSegments.contains(polyline)
     }
     
-    mutating func toggleSegmentSelection(_ polyline: MKPolyline) {
+    func toggleSegmentSelection(_ polyline: MKPolyline) {
+        objectWillChange.send()
         if isSelectedSegment(polyline) {
             deselectSegment(polyline)
         } else {
@@ -126,36 +131,40 @@ struct Segments {
 
     // Route
     
-    mutating func append(_ polyline: MKPolyline) {
+    func appendToRoute(_ polyline: MKPolyline) {
+        objectWillChange.send()
         routeSegments.append(polyline)
         self.segmentsToUpdate.insert(polyline)
     }
     
-    mutating func remove(_ polyline: MKPolyline) {
+    func removeFromRoute(_ polyline: MKPolyline) {
+        objectWillChange.send()
         if let index = routeSegments.firstIndex(of: polyline) {
             routeSegments.remove(at: index)
             self.segmentsToUpdate.insert(polyline)
         }
     }
 
-    mutating func removeLast() {
+    func removeLastRouteSegment() {
+        objectWillChange.send()
         if !routeSegments.isEmpty {
             let last = routeSegments.removeLast()
             self.segmentsToUpdate.insert(last)
         }
     }
 
-    func contains(_ polyline: MKPolyline) -> Bool {
+    func routeContains(_ polyline: MKPolyline) -> Bool {
         return routeSegments.contains(polyline)
     }
     
-    mutating func appendOrRemove(_ polyline: MKPolyline) {
-        if contains(polyline) {
+    func appendOrRemoveFromRoute(_ polyline: MKPolyline) {
+        objectWillChange.send()
+        if routeContains(polyline) {
             if routeSegments.last == polyline {
-                remove(polyline)
+                removeFromRoute(polyline)
             }
         } else {
-            append(polyline)
+            appendToRoute(polyline)
         }
     }
 }

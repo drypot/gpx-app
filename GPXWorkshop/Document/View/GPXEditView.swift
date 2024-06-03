@@ -12,7 +12,7 @@ struct GPXEditView: View {
     
     var body: some View {
         VStack {
-            MapKitGPXEditView(viewModel: document.segments)
+            MapKitGPXEditView(segments: document.segments)
             
 //            .onAppear {
 //                GlobalActions.shared.exportGPX = {

@@ -11,7 +11,7 @@ final class GPXEditDocument: FileDocument {
     
     static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx] }
     
-    var segments: Segments
+    let segments: Segments
     var content: String
     
     init() {

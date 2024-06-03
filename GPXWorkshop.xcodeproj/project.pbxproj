@@ -134,10 +134,10 @@
 		0015585F2BEF89C300A4BFDC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				00A174972C05B95600F5C151 /* GPXEditView.swift */,
-				001558602BEF89E900A4BFDC /* GPXEditViewE2.swift */,
 				0049D5AC2C002E3E0044F024 /* MapKitGPXEditViewCore.swift */,
 				0016ECD02BEF8CB600FE63D8 /* MapKitGPXEditView.swift */,
+				00A174972C05B95600F5C151 /* GPXEditView.swift */,
+				001558602BEF89E900A4BFDC /* GPXEditViewE2.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
