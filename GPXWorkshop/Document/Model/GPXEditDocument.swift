@@ -27,46 +27,28 @@ final class GPXEditDocument: ReferenceFileDocument {
         }
         self.segments = Segments()
         self.content = "Hello World"
-        switch makeSegments(from: data) {
-        case .success(let newSegments):
-            segments.append(newSegments)
-        case .failure(let error):
-            throw error
-        }
+        let newSegments = try makeSegments(from: data)
+        segments.append(newSegments)
     }
     
-    func makeSegments(from data: Data) -> Result<[MKPolyline], Error> {
-        var newSegments: [MKPolyline] = []
-        switch GPX.makeGPX(from: data) {
-        case .success(let gpx):
-            newSegments = gpx.tracks
-                .flatMap { $0.segments }
-                .map { MKPolyline($0) }
-            return .success(newSegments)
-        case .failure(let error):
-            return .failure(error)
-        }
+    func makeSegments(from data: Data) throws -> [MKPolyline] {
+        let gpx = try GPX.makeGPX(from: data)
+        let newSegments = gpx.tracks
+            .flatMap { $0.segments }
+            .map { MKPolyline($0) }
+        return newSegments
     }
     
-    func makeSegments(fromDirectory url: URL) async -> [MKPolyline] {
+    func makeSegments(fromDirectory url: URL) async throws -> [MKPolyline] {
         var newSegments: [MKPolyline] = []
-        FilesSequence(url: url)
+        try FilesSequence(url: url)
             .prefix(10)
             .forEach { url in
-                switch GPX.makeGPX(from: url) {
-                case .success(let gpx):
-                    gpx
-                        .tracks
-                        .flatMap { $0.segments }
-                        .map { MKPolyline($0) }
-                        .forEach { newSegments.append($0) }
-                case .failure(.readingError(let url)):
-                    print("file reading error at \(url)")
-                    return
-                case .failure(.parsingError(_, let lineNumber)):
-                    print("gpx file parsing error at \(lineNumber) from \(url)")
-                    return
-                }
+                try GPX.makeGPX(from: url)
+                    .tracks
+                    .flatMap { $0.segments }
+                    .map { MKPolyline($0) }
+                    .forEach { newSegments.append($0) }
             }
         return newSegments
     }
@@ -85,7 +67,7 @@ final class GPXEditDocument: ReferenceFileDocument {
     
     func importFiles() {
         Task {
-            let newSegments = await makeSegments(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
+            let newSegments = try await makeSegments(fromDirectory: URL(fileURLWithPath: defaultGPXFolderPath))
             segments.append(newSegments)
         }
     }

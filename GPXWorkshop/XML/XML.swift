@@ -10,8 +10,8 @@
 
 import Foundation
 
-enum XMLError: Swift.Error /*, Equatable */ {
-    case parsingError(NSError, Int)
+enum XMLError: Swift.Error, Equatable {
+    case parsingError(Int)
 }
 
 struct XMLNode /*: Equatable, Hashable */ {
@@ -25,19 +25,17 @@ final class BasicXMLParser: NSObject, XMLParserDelegate {
     
     private var stack = [XMLNode()]
     
-    func parse(_ data: Data) -> Result<XMLNode, XMLError> {
+    func parse(_ data: Data) throws -> XMLNode {
         let parser = XMLParser(data: data)
         parser.delegate = self
         let result = autoreleasepool {
             parser.parse()
         }
         if !result {
-            let error = XMLError.parsingError(parser.parserError! as NSError, parser.lineNumber)
-            return .failure(error)
-        } else {
-            let root = stack.first?.children.first ?? stack[0]
-            return .success(root)
+            throw XMLError.parsingError(parser.lineNumber)
         }
+        let root = stack.first?.children.first ?? stack[0]
+        return root
     }
     
     func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?,

@@ -11,37 +11,23 @@ final class GPXParserErrorTests: XCTestCase {
     
     func testNoContent() throws {
         let data = Data(gpxSampleNoContent.utf8)
-        switch GPXParser().parse(data) {
-        case .success:
-            XCTFail()
-        case .failure(.readingError(_)):
-            XCTFail()
-        case .failure(.parsingError(_, let lineNumber)):
-            XCTAssertEqual(lineNumber, 0)
-        }
+        var error: Error?
+        XCTAssertThrowsError(try GPXParser().parse(data)) { error = $0 }
+        XCTAssertEqual(error as! XMLError, XMLError.parsingError(0))
     }
     
     func testBadFormat() throws {
         let data = Data(gpxSampleBad.utf8)
-        switch GPXParser().parse(data) {
-        case .success:
-            XCTFail()
-        case .failure(.readingError(_)):
-            XCTFail()
-        case .failure(.parsingError(_, let lineNumber)):
-            XCTAssertEqual(lineNumber, 9)
-        }
+        var error: Error?
+        XCTAssertThrowsError(try GPXParser().parse(data)) { error = $0 }
+        XCTAssertEqual(error as! XMLError, XMLError.parsingError(9))
     }
     
     func testNoTrack() throws {
         let data = Data(gpxSampleNoTrack.utf8)
-        switch GPXParser().parse(data) {
-        case .success(let gpx):
-            XCTAssertEqual(gpx.creator, "texteditor")
-            XCTAssertEqual(gpx.tracks.count, 0)
-        case .failure:
-            XCTFail()
-        }
+        let gpx = try GPXParser().parse(data)
+        XCTAssertEqual(gpx.creator, "texteditor")
+        XCTAssertEqual(gpx.tracks.count, 0)
     }
     
 }

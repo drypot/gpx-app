@@ -9,29 +9,31 @@ import XCTest
 
 final class GPXParserTests: XCTestCase {
     
-    var gpx = GPX()
+    static var gpx = GPX()
     
-    override func setUp() {
+    override static func setUp() {
         let data = Data(gpxSampleManual.utf8)
-        switch GPXParser().parse(data) {
-        case .success(let gpx):
-            self.gpx = gpx
-        case .failure:
+        do {
+            gpx = try GPXParser().parse(data)
+        } catch {
             XCTFail()
         }
     }
     
     func testRoot() throws {
+        let gpx = Self.gpx
         XCTAssertEqual(gpx.creator, "texteditor")
         XCTAssertEqual(gpx.version, "1.1")
     }
     
     func testMetadata() throws {
+        let gpx = Self.gpx
         XCTAssertEqual(gpx.metadata.name, "name1")
         XCTAssertEqual(gpx.metadata.description, "desc1")
     }
     
     func testWaypoints() throws {
+        let gpx = Self.gpx
         XCTAssertEqual(gpx.waypoints.count, 1)
         let wp = gpx.waypoints[0]
         XCTAssertEqual(wp.point.latitude, 37.5458958)
@@ -45,6 +47,7 @@ final class GPXParserTests: XCTestCase {
     }
     
     func testTrack() throws {
+        let gpx = Self.gpx
         XCTAssertEqual(gpx.tracks.count, 1)
         let t = gpx.tracks[0]
         XCTAssertEqual(t.name, "trk1name")
@@ -53,6 +56,7 @@ final class GPXParserTests: XCTestCase {
     }
     
     func testTrackSegment() throws {
+        let gpx = Self.gpx
         XCTAssertEqual(gpx.tracks[0].segments.count, 1)
         let ps = gpx.tracks[0].segments[0].points
         XCTAssertEqual(ps[0].latitude, 37.5323012)

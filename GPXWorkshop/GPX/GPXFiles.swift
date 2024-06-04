@@ -9,14 +9,12 @@ import Foundation
 import MapKit
 
 extension GPX {
-    static func makeGPX(from url: URL) -> Result<GPX, GPXError> {
-        guard let data = try? Data(contentsOf: url) else {
-            return .failure(.readingError(url))
-        }
-        return GPXParser().parse(data)
+    static func makeGPX(from url: URL) throws -> GPX {
+        let data = try Data(contentsOf: url)
+        return try GPXParser().parse(data)
     }
     
-    static func makeGPX(from data: Data) -> Result<GPX, GPXError> {
-        return GPXParser().parse(data)
+    static func makeGPX(from data: Data) throws -> GPX {
+        return try GPXParser().parse(data)
     }
 }

@@ -10,24 +10,14 @@
 
 import Foundation
 
-enum GPXError: Swift.Error /*, Equatable */ {
-    case readingError(URL)
-    case parsingError(NSError, Int)
-    //case smoothingError
-}
-
 struct GPXParser {
     
-    func parse(_ data: Data) -> Result<GPX, GPXError> {
-        switch BasicXMLParser().parse(data) {
-        case let .success(root):
-            return parse(rootNode: root)
-        case let .failure(.parsingError(error, lineNumber)):
-            return .failure(.parsingError(error, lineNumber))
-        }
+    func parse(_ data: Data) throws -> GPX {
+        let root = try BasicXMLParser().parse(data)
+        return parse(rootNode: root)
     }
     
-    private func parse(rootNode: XMLNode) -> Result<GPX, GPXError> {
+    private func parse(rootNode: XMLNode) -> GPX {
         var gpx = GPX()
         
         gpx.creator = rootNode.attributes["creator"] ?? ""
@@ -48,7 +38,7 @@ struct GPXParser {
             gpx.tracks.append(track)
         }
         
-        return .success(gpx)
+        return gpx
     }
     
     private func parse(waypointNode: XMLNode) -> GPXWaypoint {
