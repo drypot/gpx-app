@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 import CoreLocation
 
+fileprivate var renderCount = 0
+
 struct LocationObserverTestView: View {
     
     @ObservedObject var observer: LocationObserver
@@ -18,13 +20,18 @@ struct LocationObserverTestView: View {
         let locationDesc = string(from: observer.currentLocation)
         let errorDesc = observer.error?.localizedDescription ?? ""
         print("---")
+        print("\(renderCount)")
+        renderCount += 1
         print("status: \(statusDesc)")
         print("location: \(locationDesc)")
         print("error: \(errorDesc)")
         
         return VStack {
-            Button("request current location") {
+            Button("Request current location") {
                 observer.requestLocation()
+            }
+            Button("Rerender") {
+                observer.objectWillChange.send()
             }
         }
         .padding()
