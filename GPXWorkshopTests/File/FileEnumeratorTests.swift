@@ -10,6 +10,59 @@ import Combine
 
 final class FileEnumeratorTests: XCTestCase {
 
+    func testFilesSequence() throws {
+        let url = fixtureURL("Sub1")
+        let fixtures = [
+            "Fixtures/Sub1/dummy3.txt",
+            "Fixtures/Sub1/dummy4.txt"
+        ]
+        var count = 0
+        Files(url: url).forEach { url in
+            count += 1
+            let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
+            XCTAssertEqual(contains, 1)
+        }
+        XCTAssertEqual(count, 2)
+    }
+
+    func testFilesSequence2() throws {
+        let urls = [
+            fixtureURL("dummy1.txt"),
+            fixtureURL("Sub1")
+        ]
+        let fixtures = [
+            "Fixtures/dummy1.txt",
+            "Fixtures/Sub1/dummy3.txt",
+            "Fixtures/Sub1/dummy4.txt"
+        ]
+        var count = 0
+        Files(urls: urls).forEach { url in
+            count += 1
+            let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
+            XCTAssertEqual(contains, 1)
+        }
+        XCTAssertEqual(count, 3)
+    }
+
+    func testFilesSequence3() throws {
+        let urls = [
+            fixtureURL(""),
+        ]
+        let fixtures = [
+            "Fixtures/dummy1.txt",
+            "Fixtures/dummy2.txt",
+            "Fixtures/Sub1/dummy3.txt",
+            "Fixtures/Sub1/dummy4.txt"
+        ]
+        var count = 0
+        Files(urls: urls).forEach { url in
+            count += 1
+            let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
+            XCTAssertEqual(contains, 1)
+        }
+        XCTAssertEqual(count, 4)
+    }
+
     func testEnumerateFiles() throws {
         let baseUrl = URL(fileURLWithPath: defaultGPXFolderPath)
         var count = 0
@@ -32,17 +85,6 @@ final class FileEnumeratorTests: XCTestCase {
         }
     }
 
-    func testFilesSequence() throws {
-        let baseURL = URL(fileURLWithPath: defaultGPXFolderPath)
-        var count = 0
-        
-        FilesSequence(url: baseURL).prefix(5).forEach { url in
-            count += 1
-            //print(url)
-        }
-        XCTAssertEqual(count, 5)
-    }
-
     func testFilesPublisher() throws {
         let baseURL = URL(fileURLWithPath: defaultGPXFolderPath)
         var count = 0
@@ -54,21 +96,5 @@ final class FileEnumeratorTests: XCTestCase {
         }
         XCTAssertEqual(count, 5)
     }
-    
-//    func testFilesPublisherUnlimited() throws {
-//        try XCTSkipIf(true, "skip unlimited FilesPublisher tests")
-//
-//        let baseURL = URL(fileURLWithPath: defaultGPXFolderPath)
-//        var count = 0
-//
-//        let _ = FilesPublisher(url: baseURL).sink { url in
-//            count += 1
-//            if (count > 3000) {
-//                print(count, terminator: " ")
-//            }
-//            XCTAssertTrue(count <= 3020)
-//        }
-//        XCTAssertTrue(count <= 3020)
-//    }
 
 }

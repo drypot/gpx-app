@@ -13,6 +13,79 @@ import Combine
  https://stackoverflow.com/questions/46383143/why-does-filemanager-enumerator-use-an-absurd-amount-of-memory
  */
 
+/*
+ Files Sequence
+ */
+
+struct Files: Sequence  {
+    static let defaultResourceKeys: [URLResourceKey] = [.isRegularFileKey, .isDirectoryKey]
+    static let defaultResourceKeysSet: Set<URLResourceKey> = Set(defaultResourceKeys)
+    static let defaultOptions: FileManager.DirectoryEnumerationOptions = [.skipsHiddenFiles]
+    
+    private let urls: [URL]
+    
+    init(urls: [URL]) {
+        self.urls = urls
+    }
+    
+    init(url: URL) {
+        self.urls = [url]
+    }
+    
+    func makeIterator() -> Self.Iterator {
+        return Iterator(urls: self.urls)
+    }
+    
+    struct Iterator: IteratorProtocol {
+        private var urls: [URL]
+        private var enumerator: FileManager.DirectoryEnumerator?
+
+        init(urls: [URL]) {
+            self.urls = urls
+        }
+        
+        mutating func next() -> URL? {
+            do {
+                if let enumerator {
+                    return try autoreleasepool {
+                        while true {
+                            guard let url = enumerator.nextObject() as? URL else {
+                                self.enumerator = nil
+                                return next()
+                            }
+                            let resourceValues = try url.resourceValues(forKeys: Files.defaultResourceKeysSet)
+                            if resourceValues.isRegularFile! {
+                                return url
+                            }
+                        }
+                    }
+                } else {
+                    guard !urls.isEmpty else { return nil }
+                    let url = urls.removeFirst()
+                    let resourceValues = try url.resourceValues(forKeys: Files.defaultResourceKeysSet)
+                    if resourceValues.isRegularFile! {
+                        return url
+                    }
+                    enumerator = FileManager.default.enumerator(
+                        at: url,
+                        includingPropertiesForKeys: Files.defaultResourceKeys,
+                        options: Files.defaultOptions
+                    )
+                    return next()
+                }
+            } catch {
+                return nil
+            }
+        }
+        
+    }
+    
+}
+
+/*
+ use Result
+ */
+
 func enumerateFiles(url: URL, handler: (URL) -> Result<Bool, Error>) -> Result<Void, Error> {
     guard let enumerator = FileManager.default.enumerator(
         at: url,
@@ -45,46 +118,6 @@ func enumerateFiles(url: URL, handler: (URL) -> Result<Bool, Error>) -> Result<V
     } catch {
         //print("Error getting resource values for \(fileURL): \(error)")
         return .failure(error)
-    }
-}
-
-/*
- Files Sequence
- */
-
-struct FilesSequence: Sequence, IteratorProtocol  {
-    private var enumerator: FileManager.DirectoryEnumerator?
-    private let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey]
-
-    init(url: URL) {
-        self.enumerator = FileManager.default.enumerator(
-            at: url,
-            includingPropertiesForKeys: [.isRegularFileKey],
-            options: [.skipsHiddenFiles]
-        )
-    }
-    
-    mutating func next() -> URL? {
-        guard let enumerator else {
-            return nil
-        }
-        do {
-            return try autoreleasepool {
-                while true {
-                    guard let fileURL = enumerator.nextObject() as? URL else {
-                        self.enumerator = nil
-                        return nil
-                    }
-                    let resourceValues = try fileURL.resourceValues(forKeys: resourceKeys)
-                    if resourceValues.isRegularFile! {
-                        return fileURL
-                    }
-                }
-            }
-        } catch {
-            //print("Error getting resource values for \(fileURL): \(error)")
-            return nil
-        }
     }
 }
 
