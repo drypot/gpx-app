@@ -1,5 +1,5 @@
 //
-//  Segments.swift
+//  GPXEditor.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 5/11/24.
@@ -23,21 +23,45 @@ extension MKPolyline {
     }
 }
 
-final class Segments: ObservableObject {
+@MainActor
+final class GPXEditor: ObservableObject {
     
-    var segments: Set<MKPolyline> = []
+    private var document: GPXDocument?
     
-    var selectedSegments: Set<MKPolyline> = []
+    private var segments: Set<MKPolyline> = []
     
-    var segmentsToAdd: [MKPolyline] = []
-    var segmentsToRemove: [MKPolyline] = []
-    var segmentsToUpdate: Set<MKPolyline> = []
+    private var selectedSegments: Set<MKPolyline> = []
     
-    var routeSegments: [MKPolyline] = []
+    private var segmentsToAdd: [MKPolyline] = []
+    private var segmentsToRemove: [MKPolyline] = []
+    private var segmentsToUpdate: Set<MKPolyline> = []
     
-    var needZoomToFit = false
+    private var routeSegments: [MKPolyline] = []
     
-    init() {
+    private var needZoomToFit = false
+    
+    init(document: GPXDocument? = nil) {
+        self.document = document
+        guard let data = document?.data else { return }
+        do {
+            try load(from: data)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func load(from data: Data) throws {
+        let newSegments = try loadSegments(from: data)
+        append(newSegments)
+    }
+    
+    func load(from urls: [URL]) throws {
+        Task {
+            print("start importing")
+            let newSegments = try await loadSegments(from: urls)
+            append(newSegments)
+            print("end importing")
+        }
     }
     
     // 모델에서 MKMapView 를 직접 받으면 안 되지만;
@@ -167,6 +191,7 @@ final class Segments: ObservableObject {
             addRouteSegment(polyline)
         }
     }
+
 }
 
 func distance(from point: MKMapPoint, to polyline: MKPolyline) -> CLLocationDistance {
@@ -217,3 +242,23 @@ func distance(from point: MKMapPoint, toSegmentBetween pointA: MKMapPoint, and p
     }
 }
 
+func loadSegments(from data: Data) throws -> [MKPolyline] {
+    let gpx = try GPX.gpx(from: data)
+    let newSegments = gpx.tracks
+        .flatMap { $0.segments }
+        .map { MKPolyline($0) }
+    return newSegments
+}
+
+func loadSegments(from urls: [URL]) async throws -> [MKPolyline] {
+    var newSegments: [MKPolyline] = []
+    for url in Files(urls: urls) {
+        let gpx = try GPX.gpx(from: url)
+        for track in gpx.tracks {
+            for segment in track.segments {
+                newSegments.append(MKPolyline(segment))
+            }
+        }
+    }
+    return newSegments
+}

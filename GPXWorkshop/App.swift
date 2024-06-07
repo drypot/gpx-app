@@ -34,9 +34,9 @@ struct TestApp: App {
 struct MainApp: App {
     var body: some Scene {
         DocumentGroup(newDocument: {
-            GPXEditDocument()
+            GPXDocument()
         }, editor: { file in
-            GPXEditView(document: file.document)
+            GPXEditView(editor: GPXEditor(document: file.document))
         })
         .commands {
             CustomCommands()
@@ -46,50 +46,13 @@ struct MainApp: App {
 
 struct CustomCommands: Commands {
     var body: some Commands {
-//        CommandGroup(replacing: .newItem) {
-//            Button(action: newFile) {
-//                Text("New")
-//            }
-//            Button(action: openFile) {
-//                Text("Open…")
-//            }
-//            .keyboardShortcut("O", modifiers: .command)
-//            Button("Save") {
-//                saveFile()
-//            }
-//            .keyboardShortcut("S", modifiers: .command)
-//            Button("Export GPX") {
-//                GlobalActions.shared.exportGPX?()
-//            }
-//            .keyboardShortcut("E", modifiers: [.command, .shift])
-//        }
-
-        CommandGroup(after: .newItem) {
-            Button(action: importFiles) {
-                Text("Import")
-            }
+        CommandGroup(replacing: .importExport) {
+            Button("Import GPX", action: importGPX)
+            Button("Export as GPX", action: exportAsGPX)
+                .keyboardShortcut("E", modifiers: [.command, .shift])
+            
             //.keyboardShortcut("I", modifiers: .command)
         }
-//        CommandGroup(replacing: .pasteboard) {
-//            Button("Cut") {
-//                // Implement cut action
-//            }
-//            .keyboardShortcut("X", modifiers: .command)
-//            
-//            Button("Copy") {
-//                // Implement copy action
-//            }
-//            .keyboardShortcut("C", modifiers: .command)
-//            
-//            Button("Paste") {
-//                // Implement paste action
-//            }
-//            .keyboardShortcut("V", modifiers: .command)
-//        }
-    }
-    
-    func newFile() {
-            
     }
     
     func openFile() {
@@ -120,9 +83,28 @@ struct CustomCommands: Commands {
             }
         }
     }
-    
-    func importFiles() {
-        print("import files")
+
+    func importGPX() {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseFiles = true
+        openPanel.canChooseDirectories = true
+        openPanel.allowsMultipleSelection = true
+        openPanel.allowedContentTypes = [.gpx]
+        openPanel.begin { response in
+            guard response == .OK else { return }
+            do {
+                for url in openPanel.urls {
+                    print(url)
+                }
+            } catch {
+                print("Failed to import file: \(error)")
+            }
+        }
     }
+    
+    func exportAsGPX() {
+        print("export as gpx")
+    }
+    
 }
 

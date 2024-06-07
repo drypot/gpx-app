@@ -9,12 +9,11 @@ import SwiftUI
 
 struct GPXEditView: View {
     
-    @ObservedObject var document: GPXEditDocument
+    @ObservedObject var editor: GPXEditor
     
     var body: some View {
         VStack {
-            MapKitGPXEditView(segments: document.segments)
-            
+            MapKitGPXEditView(editor: editor)
 //            .onAppear {
 //                GlobalActions.shared.exportGPX = {
 //                    print("export GPX!")
@@ -32,5 +31,5 @@ struct GPXEditView: View {
 }
 
 #Preview {
-    GPXEditView(document: GPXEditDocument())
+    GPXEditView(editor: GPXEditor())
 }

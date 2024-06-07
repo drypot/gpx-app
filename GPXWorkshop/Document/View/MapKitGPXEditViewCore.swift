@@ -10,13 +10,13 @@ import SwiftUI
 import MapKit
 
 final class MapKitGPXEditViewCore : MKMapView {
-    var segments: Segments
+    var segments: GPXEditor
     
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
     
-    init(_ segments: Segments) {
+    init(_ segments: GPXEditor) {
         self.segments = segments
         super.init(frame: .zero)
         self.delegate = self
