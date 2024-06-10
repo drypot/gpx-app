@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MapKitGPXEditView: NSViewRepresentable {
-    var document: GPXDocument
+    @ObservedObject var document: GPXDocument
     
     func makeNSView(context: Context) -> MapKitGPXEditViewCore {
         return MapKitGPXEditViewCore(document)

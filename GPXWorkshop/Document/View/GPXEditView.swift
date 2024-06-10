@@ -14,20 +14,24 @@ struct GPXEditView: View {
     var body: some View {
         VStack {
             MapKitGPXEditView(document: document)
-//            .onAppear {
-//                GlobalActions.shared.exportGPX = {
-//                    print("export GPX!")
-//                }
-//            }
-            
-//            .contextMenu {
-//                Button("Mark Start") {
-//                    print("mark start")
-//                }
-//            }
+                .focusedSceneValue(\.activeGPXDocument, document)
+            Button("Debug Info") {
+                document.dumpDebugInfo()
+            }
         }
     }
     
+}
+
+struct ActiveGPXDocumentKey: FocusedValueKey {
+  typealias Value = GPXDocument
+}
+
+extension FocusedValues {
+  var activeGPXDocument: GPXDocument? {
+    get { self[ActiveGPXDocumentKey.self] }
+    set { self[ActiveGPXDocumentKey.self] = newValue }
+  }
 }
 
 #Preview {

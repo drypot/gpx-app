@@ -56,11 +56,14 @@ final class GPXDocument: ReferenceFileDocument {
         }
     }
 
+    @MainActor
     func importGPX(from urls: [URL]) async throws {
         Task {
             print("start importing")
+            print("\(urls)")
             let newSegments = try await loadSegments(from: urls)
             append(newSegments)
+            print("\(newSegments.count)")
             //segments.formUnion(newSegments)
             print("end importing")
         }
@@ -90,6 +93,12 @@ final class GPXDocument: ReferenceFileDocument {
         return newSegments
     }
 
+    func dumpDebugInfo() {
+        print("---")
+        print("segments: \(segments.count)")
+        print("segmentsToAdd: \(segmentsToAdd.count)")
+    }
+    
     func snapshot(contentType: UTType) throws -> [MKPolyline] {
         return []
     }

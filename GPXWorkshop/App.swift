@@ -43,9 +43,13 @@ struct MainApp: App {
 }
 
 struct CustomCommands: Commands {
+    
+    @FocusedValue(\.activeGPXDocument) var document
+    
     var body: some Commands {
         CommandGroup(replacing: .importExport) {
             Button("Import GPX", action: importGPX)
+                .keyboardShortcut("I", modifiers: [.command, .shift])
             Button("Export as GPX", action: exportAsGPX)
                 .keyboardShortcut("E", modifiers: [.command, .shift])
             
@@ -53,34 +57,34 @@ struct CustomCommands: Commands {
         }
     }
     
-    func openFile() {
-        let openPanel = NSOpenPanel()
-        openPanel.canChooseFiles = true
-        openPanel.canChooseDirectories = true
-        openPanel.allowsMultipleSelection = true
-        openPanel.allowedContentTypes = [.gpx]
-        openPanel.begin { result in
-            if result == .OK {
-                print("Selected file: \(openPanel.urls)")
-            }
-        }
-    }
-        
-    func saveFile() {
-        let savePanel = NSSavePanel()
-        savePanel.canCreateDirectories = true
-        savePanel.allowsOtherFileTypes = false
-        savePanel.isExtensionHidden = false
-        savePanel.title = "Save your document"
-        savePanel.prompt = "Save"
-        
-        if savePanel.runModal() == .OK {
-            if let url = savePanel.url {
-                // Handle the file URL where the user wants to save
-                print("File saved at: \(url.path)")
-            }
-        }
-    }
+//    func openFile() {
+//        let openPanel = NSOpenPanel()
+//        openPanel.canChooseFiles = true
+//        openPanel.canChooseDirectories = true
+//        openPanel.allowsMultipleSelection = true
+//        openPanel.allowedContentTypes = [.gpx]
+//        openPanel.begin { result in
+//            if result == .OK {
+//                print("Selected file: \(openPanel.urls)")
+//            }
+//        }
+//    }
+//        
+//    func saveFile() {
+//        let savePanel = NSSavePanel()
+//        savePanel.canCreateDirectories = true
+//        savePanel.allowsOtherFileTypes = false
+//        savePanel.isExtensionHidden = false
+//        savePanel.title = "Save your document"
+//        savePanel.prompt = "Save"
+//        
+//        if savePanel.runModal() == .OK {
+//            if let url = savePanel.url {
+//                // Handle the file URL where the user wants to save
+//                print("File saved at: \(url.path)")
+//            }
+//        }
+//    }
 
     func importGPX() {
         let openPanel = NSOpenPanel()
@@ -90,12 +94,12 @@ struct CustomCommands: Commands {
         openPanel.allowedContentTypes = [.gpx]
         openPanel.begin { response in
             guard response == .OK else { return }
-            do {
-                for url in openPanel.urls {
-                    print(url)
+            Task {
+                do {
+                    try await document?.importGPX(from: openPanel.urls)
+                } catch {
+                    print("Failed to import file: \(error)")
                 }
-            } catch {
-                print("Failed to import file: \(error)")
             }
         }
     }
