@@ -24,7 +24,6 @@
 		001558542C077068000691EE /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
 		001558552C077078000691EE /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40EA32BBA4A0F00B755CE /* Publisher.swift */; };
 		001558562C07707B000691EE /* Always.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F89F8F2BF715D100D04DEB /* Always.swift */; };
-		001558572C07709A000691EE /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
 		001558582C0770A5000691EE /* FileEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E29FB92BF525DC0000C6D1 /* FileEnumerator.swift */; };
 		0016ECD12BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016ECD02BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift */; };
 		0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0017C14D2BBD737300D09F93 /* GPXParser.swift */; };
@@ -36,6 +35,7 @@
 		004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
 		004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
 		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
+		004FC6A12C1755F700FB4A70 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
 		00524ED62C0C358300E792E9 /* GPXFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00524ED52C0C358300E792E9 /* GPXFiles.swift */; };
 		0067511E2C05AE6500A756BB /* GPXDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067511D2C05AE6500A756BB /* GPXDocument.swift */; };
 		0076AD132C13542300866954 /* FixtureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076AD122C13542300866954 /* FixtureURL.swift */; };
@@ -80,7 +80,7 @@
 		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		0049D5AC2C002E3E0044F024 /* GPXEditMKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditMKMapView.swift; sourceTree = "<group>"; };
 		00524ED52C0C358300E792E9 /* GPXFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXFiles.swift; sourceTree = "<group>"; };
-		006750E22C0527EB00A756BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		006750E22C0527EB00A756BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0067511D2C05AE6500A756BB /* GPXDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXDocument.swift; sourceTree = "<group>"; };
 		0076AD122C13542300866954 /* FixtureURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureURL.swift; sourceTree = "<group>"; };
 		0076AD152C1354BD00866954 /* FixtureURLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureURLTests.swift; sourceTree = "<group>"; };
@@ -508,7 +508,6 @@
 				001558532C07705A000691EE /* GPXParser.swift in Sources */,
 				001558442C076FF3000691EE /* BasicXMLParserTests.swift in Sources */,
 				001558522C077057000691EE /* GPX.swift in Sources */,
-				001558572C07709A000691EE /* Globals.swift in Sources */,
 				001558422C076FF0000691EE /* XMLParserTests.swift in Sources */,
 				001558462C076FF7000691EE /* BasicXMLParserErrorTests.swift in Sources */,
 				001558542C077068000691EE /* XML.swift in Sources */,
@@ -520,6 +519,7 @@
 				009860B42C07774300B5716B /* FileEnumeratorTests.swift in Sources */,
 				0076AD142C13542300866954 /* FixtureURL.swift in Sources */,
 				001558502C077043000691EE /* GPXSampleBad.swift in Sources */,
+				004FC6A12C1755F700FB4A70 /* Globals.swift in Sources */,
 				0015584C2C077022000691EE /* AlwaysTests.swift in Sources */,
 				001558562C07707B000691EE /* Always.swift in Sources */,
 				001558552C077078000691EE /* Publisher.swift in Sources */,
