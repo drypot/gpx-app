@@ -18,6 +18,7 @@ import Combine
  */
 
 struct Files: Sequence  {
+    
     static let defaultResourceKeys: [URLResourceKey] = [.isRegularFileKey, .isDirectoryKey]
     static let defaultResourceKeysSet: Set<URLResourceKey> = Set(defaultResourceKeys)
     static let defaultOptions: FileManager.DirectoryEnumerationOptions = [.skipsHiddenFiles]
@@ -46,38 +47,37 @@ struct Files: Sequence  {
         
         mutating func next() -> URL? {
             do {
-                if let enumerator {
-                    return try autoreleasepool {
-                        while true {
-                            guard let url = enumerator.nextObject() as? URL else {
-                                self.enumerator = nil
-                                return next()
-                            }
-                            let resourceValues = try url.resourceValues(forKeys: Files.defaultResourceKeysSet)
-                            if resourceValues.isRegularFile! {
-                                return url
-                            }
-                        }
+                if enumerator == nil {
+                    if urls.isEmpty {
+                        return nil
                     }
-                } else {
-                    guard !urls.isEmpty else { return nil }
                     let url = urls.removeFirst()
-                    let resourceValues = try url.resourceValues(forKeys: Files.defaultResourceKeysSet)
+                    let resourceValues = try url.resourceValues(forKeys: defaultResourceKeysSet)
                     if resourceValues.isRegularFile! {
                         return url
                     }
-                    enumerator = FileManager.default.enumerator(
-                        at: url,
-                        includingPropertiesForKeys: Files.defaultResourceKeys,
-                        options: Files.defaultOptions
-                    )
+                    if resourceValues.isDirectory! {
+                        enumerator = FileManager.default.enumerator(
+                            at: url,
+                            includingPropertiesForKeys: defaultResourceKeys,
+                            options: defaultOptions
+                        )
+                    }
                     return next()
                 }
+                guard let url = enumerator!.nextObject() as? URL else {
+                    self.enumerator = nil
+                    return next()
+                }
+                let resourceValues = try url.resourceValues(forKeys: defaultResourceKeysSet)
+                if resourceValues.isRegularFile! {
+                    return url
+                }
+                return next()
             } catch {
                 return nil
             }
         }
-        
     }
     
 }
