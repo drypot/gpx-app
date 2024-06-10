@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MapKitGPXEditView: NSViewRepresentable {
-    var editor: GPXEditor
+    var document: GPXDocument
     
     func makeNSView(context: Context) -> MapKitGPXEditViewCore {
-        return MapKitGPXEditViewCore(editor)
+        return MapKitGPXEditViewCore(document)
     }
 
     func updateNSView(_ mapView: MapKitGPXEditViewCore, context: Context) {
@@ -20,7 +20,7 @@ struct MapKitGPXEditView: NSViewRepresentable {
 }
 
 #Preview {
-    let editor = GPXEditor()
-    return MapKitGPXEditView(editor: editor)
+    let document = GPXDocument()
+    return MapKitGPXEditView(document: document)
 }
 

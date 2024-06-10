@@ -33,11 +33,9 @@ struct TestApp: App {
 
 struct MainApp: App {
     var body: some Scene {
-        DocumentGroup(newDocument: {
-            GPXDocument()
-        }, editor: { file in
-            GPXEditView(editor: GPXEditor(document: file.document))
-        })
+        DocumentGroup(newDocument: { GPXDocument() }) { file in
+            GPXEditView(document: file.document)
+        }
         .commands {
             CustomCommands()
         }

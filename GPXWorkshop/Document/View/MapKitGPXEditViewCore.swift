@@ -10,14 +10,14 @@ import SwiftUI
 import MapKit
 
 final class MapKitGPXEditViewCore : MKMapView {
-    var segments: GPXEditor
+    var document: GPXDocument
     
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
     
-    init(_ segments: GPXEditor) {
-        self.segments = segments
+    init(_ document: GPXDocument) {
+        self.document = document
         super.init(frame: .zero)
         self.delegate = self
         setupEventHandlers()
@@ -82,7 +82,7 @@ final class MapKitGPXEditViewCore : MKMapView {
 //    }
     
     func update() {
-        segments.sync(with: self)
+        document.sync(with: self)
     }
     
     func zoomToFitAllOverlays() {
@@ -113,13 +113,13 @@ final class MapKitGPXEditViewCore : MKMapView {
         let p1 = MKMapPoint(self.convert(point, toCoordinateFrom: self))
         let p2 = MKMapPoint(self.convert(CGPoint(x: point.x + 10, y: point.y), toCoordinateFrom: self))
         let tolerance = p1.distance(to: p2)
-        if let closest = segments.closestSegment(from: p1, tolerance: tolerance) {
-            segments.appendOrRemoveRouteSegment(closest)
+        if let closest = document.closestSegment(from: p1, tolerance: tolerance) {
+            document.appendOrRemoveRouteSegment(closest)
         }
     }
     
     func handleDelete() {
-        segments.removeLastRouteSegment()
+        document.removeLastRouteSegment()
     }
 
 }
@@ -128,7 +128,7 @@ extension MapKitGPXEditViewCore : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
-            if segments.routeContains(polyline) {
+            if document.routeContains(polyline) {
                 renderer.strokeColor = .red
             } else {
                 renderer.strokeColor = .blue
