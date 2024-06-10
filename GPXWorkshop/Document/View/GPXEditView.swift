@@ -13,7 +13,7 @@ struct GPXEditView: View {
     
     var body: some View {
         VStack {
-            MapKitGPXEditView(document: document)
+            GPXEditMKMapViewRepresentable(document: document)
                 .focusedSceneValue(\.activeGPXDocument, document)
             Button("Debug Info") {
                 document.dumpDebugInfo()

@@ -109,7 +109,7 @@ final class GPXDocument: ReferenceFileDocument {
     
     // 모델에서 MKMapView 를 직접 받으면 안 되지만;
     // 프로토콜로 빼긴 귀찮으니 당분간은 그냥 이렇게 쓰기로 한다.
-    func sync(with mapView: MapKitGPXEditViewCore) {
+    func sync(with mapView: GPXEditMKMapView) {
         if !segmentsToAdd.isEmpty {
             segmentsToAdd.forEach { polyline in
                 segments.insert(polyline)
