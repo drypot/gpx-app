@@ -8,7 +8,7 @@
 import XCTest
 import CoreLocation
 
-final class MapKitSegmentTests: XCTestCase {
+final class GPXDocumentTests: XCTestCase {
 
 //    func testDistance() throws {
 //        let p1 = CLLocationCoordinate2D(latitude: 37.5655326, longitude: 126.9785429) // 서울시청
