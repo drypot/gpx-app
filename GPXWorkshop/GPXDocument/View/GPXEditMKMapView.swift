@@ -114,7 +114,8 @@ final class GPXEditMKMapView : MKMapView {
         let p2 = MKMapPoint(self.convert(CGPoint(x: point.x + 10, y: point.y), toCoordinateFrom: self))
         let tolerance = p1.distance(to: p2)
         if let closest = document.closestSegment(from: p1, tolerance: tolerance) {
-            document.appendOrRemoveRouteSegment(closest)
+            //document.appendOrRemoveRouteSegment(closest)
+            document.toggleSegmentSelection(closest)
         }
     }
     

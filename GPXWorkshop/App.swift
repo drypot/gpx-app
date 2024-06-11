@@ -44,32 +44,79 @@ struct MainApp: App {
 
 struct CustomCommands: Commands {
     
-    @FocusedValue(\.activeGPXDocument) var document
+    @FocusedValue(\.activeGPXDocument) var activeDocument
+    @Environment(\.newDocument) private var newDocument
     
     var body: some Commands {
-        CommandGroup(replacing: .importExport) {
-            Button("Import GPX", action: importGPX)
-                .keyboardShortcut("I", modifiers: [.command, .shift])
-            Button("Export as GPX", action: exportAsGPX)
-                .keyboardShortcut("E", modifiers: [.command, .shift])
+        CommandGroup(replacing: .newItem) {
+            Button("New") {
+                // ReferenceFileDocument 타입 문서는 newDocument(...) 인자로 바로 사용할 수 없다.
+                newDocument.callAsFunction { GPXDocument() }
+            }
+            .keyboardShortcut("N", modifiers: [.command])
             
-            //.keyboardShortcut("I", modifiers: .command)
+            Button("Open...") {
+                let openPanel = NSOpenPanel()
+                openPanel.canChooseFiles = true
+                openPanel.canChooseDirectories = true
+                openPanel.allowsMultipleSelection = true
+                openPanel.allowedContentTypes = [.gpx, .gpxWorkshopBundle]
+                openPanel.begin { result in
+                    if result != .OK { return }
+                    for url in openPanel.urls {
+                        openURL(url)
+                    }
+                }
+            }
+            .keyboardShortcut("O", modifiers: [.command])
+            
+            Button("Open Samples") {
+                let url = URL(fileURLWithPath: sampleGPXFolderPath)
+                openURL(url)
+            }
+            .keyboardShortcut("N", modifiers: [.command, .shift])
+        }
+        
+        CommandGroup(replacing: .importExport) {
+            Button("Import GPX") {
+                let openPanel = NSOpenPanel()
+                openPanel.canChooseFiles = true
+                openPanel.canChooseDirectories = true
+                openPanel.allowsMultipleSelection = true
+                openPanel.allowedContentTypes = [.gpx]
+                openPanel.begin { response in
+                    guard response == .OK else { return }
+                    Task {
+                        do {
+                            try await activeDocument?.importGPX(from: openPanel.urls)
+                        } catch {
+                            print("Failed to import file: \(error)")
+                        }
+                    }
+                }
+                
+            }
+            .keyboardShortcut("I", modifiers: [.command, .shift])
+            
+            Button("Export as GPX") {
+                print("export as gpx")
+            }
+            .keyboardShortcut("E", modifiers: [.command, .shift])
         }
     }
-    
-//    func openFile() {
-//        let openPanel = NSOpenPanel()
-//        openPanel.canChooseFiles = true
-//        openPanel.canChooseDirectories = true
-//        openPanel.allowsMultipleSelection = true
-//        openPanel.allowedContentTypes = [.gpx]
-//        openPanel.begin { result in
-//            if result == .OK {
-//                print("Selected file: \(openPanel.urls)")
-//            }
-//        }
-//    }
-//        
+        
+    func openURL(_ url: URL) {
+        Task { @MainActor in
+            do {
+                let document = GPXDocument()
+                try await document.importGPX(from: [url])
+                newDocument.callAsFunction { document }
+            } catch {
+                print(error)
+            }
+        }
+    }
+      
 //    func saveFile() {
 //        let savePanel = NSSavePanel()
 //        savePanel.canCreateDirectories = true
@@ -86,27 +133,5 @@ struct CustomCommands: Commands {
 //        }
 //    }
 
-    func importGPX() {
-        let openPanel = NSOpenPanel()
-        openPanel.canChooseFiles = true
-        openPanel.canChooseDirectories = true
-        openPanel.allowsMultipleSelection = true
-        openPanel.allowedContentTypes = [.gpx]
-        openPanel.begin { response in
-            guard response == .OK else { return }
-            Task {
-                do {
-                    try await document?.importGPX(from: openPanel.urls)
-                } catch {
-                    print("Failed to import file: \(error)")
-                }
-            }
-        }
-    }
-    
-    func exportAsGPX() {
-        print("export as gpx")
-    }
-    
 }
 

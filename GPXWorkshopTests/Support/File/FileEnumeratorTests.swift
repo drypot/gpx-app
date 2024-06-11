@@ -64,7 +64,7 @@ final class FileEnumeratorTests: XCTestCase {
     }
 
     func testEnumerateFiles() throws {
-        let baseUrl = URL(fileURLWithPath: defaultGPXFolderPath)
+        let baseUrl = fixtureURL("")
         var count = 0
         let limit = 5
         
@@ -79,22 +79,22 @@ final class FileEnumeratorTests: XCTestCase {
         
         switch result {
         case .success:
-            XCTAssertEqual(count, 5)
+            XCTAssertEqual(count, 4)
         case .failure:
             XCTFail()
         }
     }
 
     func testFilesPublisher() throws {
-        let baseURL = URL(fileURLWithPath: defaultGPXFolderPath)
+        let baseURL = fixtureURL("")
         var count = 0
         
-        let _ = FilesPublisher(url: baseURL).prefix(5).sink { url in
+        let _ = FilesPublisher(url: baseURL).sink { url in
             count += 1
             //print(url)
             XCTAssertTrue(count <= 5)
         }
-        XCTAssertEqual(count, 5)
+        XCTAssertEqual(count, 4)
     }
 
 }

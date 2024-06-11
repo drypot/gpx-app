@@ -8,7 +8,7 @@
 import Foundation
 import UniformTypeIdentifiers
 
-let defaultGPXFolderPath = "Documents/GPX Files"
+let sampleGPXFolderPath = "Documents/GPX Files Subset"
 
 class GlobalActions {
     typealias Action = () -> Void

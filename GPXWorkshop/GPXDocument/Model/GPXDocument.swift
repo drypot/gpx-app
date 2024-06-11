@@ -26,7 +26,7 @@ extension MKPolyline {
 final class GPXDocument: ReferenceFileDocument {
     typealias Snapshot = [MKPolyline]
         
-    static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx] }
+    static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx, .folder] }
     
     var segments: Set<MKPolyline> = []
     
@@ -161,40 +161,40 @@ final class GPXDocument: ReferenceFileDocument {
         }
     }
     
-//    func closestSegmentV0(from point: MKMapPoint, tolerance: CLLocationDistance) -> MKPolyline? {
-//        var closest: MKPolyline?
-//        var minDistance: CLLocationDistance = .greatestFiniteMagnitude
-//        for polyline in segments {
-//            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
-//            if !rect.contains(point) {
-//                continue
-//            }
-//            let distance = distance(from: point, to: polyline)
-//            if distance < tolerance, distance < minDistance {
-//                minDistance = distance
-//                closest = polyline
-//            }
-//        }
-//        return closest
-//    }
-
     func closestSegment(from point: MKMapPoint, tolerance: CLLocationDistance) -> MKPolyline? {
-        struct Distance {
-            let polyline: MKPolyline?
-            let distance: CLLocationDistance
+        var closest: MKPolyline?
+        var minDistance: CLLocationDistance = .greatestFiniteMagnitude
+        for polyline in segments {
+            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
+            if !rect.contains(point) {
+                continue
+            }
+            let distance = distance(from: point, to: polyline)
+            if distance < tolerance, distance < minDistance {
+                minDistance = distance
+                closest = polyline
+            }
         }
-        return segments.lazy
-            .filter { polyline in
-                polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance).contains(point)
-            }
-            .map { polyline in
-                Distance(polyline: polyline, distance: distance(from: point, to: polyline))
-            }
-            .reduce(Distance(polyline: nil, distance: .greatestFiniteMagnitude)) { (r, e) in
-                if e.distance < tolerance, e.distance < r.distance { e } else { r }
-            }
-            .polyline
+        return closest
     }
+
+//    func closestSegment(from point: MKMapPoint, tolerance: CLLocationDistance) -> MKPolyline? {
+//        struct Distance {
+//            let polyline: MKPolyline?
+//            let distance: CLLocationDistance
+//        }
+//        return segments.lazy
+//            .filter { polyline in
+//                polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance).contains(point)
+//            }
+//            .map { polyline in
+//                Distance(polyline: polyline, distance: distance(from: point, to: polyline))
+//            }
+//            .reduce(Distance(polyline: nil, distance: .greatestFiniteMagnitude)) { (r, e) in
+//                if e.distance < tolerance, e.distance < r.distance { e } else { r }
+//            }
+//            .polyline
+//    }
 
     // Route
     
