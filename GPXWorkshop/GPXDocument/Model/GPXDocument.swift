@@ -26,7 +26,7 @@ extension MKPolyline {
 final class GPXDocument: ReferenceFileDocument {
     typealias Snapshot = [MKPolyline]
         
-    static var readableContentTypes: [UTType] { [.gpxWorkshopBundle, .gpx, .folder] }
+    static var readableContentTypes: [UTType] { [.gpxWorkshop, .gpx, .folder] }
     
     var segments: Set<MKPolyline> = []
     

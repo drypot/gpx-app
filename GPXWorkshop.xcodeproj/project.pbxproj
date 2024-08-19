@@ -35,7 +35,6 @@
 		004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402D12BC2237200AFAF44 /* GPXSampleManual.swift */; };
 		004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C92BC1EB4C00AFAF44 /* GPXSampleBad.swift */; };
 		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
-		004FC6A12C1755F700FB4A70 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0046A08D2BF5FF30009191FC /* Globals.swift */; };
 		00524ED62C0C358300E792E9 /* GPXFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00524ED52C0C358300E792E9 /* GPXFiles.swift */; };
 		0067511E2C05AE6500A756BB /* GPXDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0067511D2C05AE6500A756BB /* GPXDocument.swift */; };
 		0076AD132C13542300866954 /* FixtureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076AD122C13542300866954 /* FixtureURL.swift */; };
@@ -43,6 +42,11 @@
 		0076AD162C1354BD00866954 /* FixtureURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076AD152C1354BD00866954 /* FixtureURLTests.swift */; };
 		009860B42C07774300B5716B /* FileEnumeratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009860B32C07774300B5716B /* FileEnumeratorTests.swift */; };
 		00A174982C05B95600F5C151 /* GPXEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A174972C05B95600F5C151 /* GPXEditView.swift */; };
+		00C0489E2C7368C200CB25C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0489A2C7368C200CB25C5 /* AppDelegate.swift */; };
+		00C0489F2C7368C200CB25C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C0489B2C7368C200CB25C5 /* Main.storyboard */; };
+		00C048A02C7368C200CB25C5 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0489C2C7368C200CB25C5 /* Document.swift */; };
+		00C048A12C7368C200CB25C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0489D2C7368C200CB25C5 /* ViewController.swift */; };
+		00C048A42C73962300CB25C5 /* UTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C048A32C73962300CB25C5 /* UTType.swift */; };
 		00CB93482BBDCB2300AD0241 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CB93472BBDCB2300AD0241 /* XML.swift */; };
 		00D40E782BBA403200B755CE /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D40E772BBA403200B755CE /* App.swift */; };
 		00D40E7C2BBA403400B755CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00D40E7B2BBA403400B755CE /* Assets.xcassets */; };
@@ -91,6 +95,11 @@
 		009860B32C07774300B5716B /* FileEnumeratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEnumeratorTests.swift; sourceTree = "<group>"; };
 		009923572BFC198000BB5877 /* GPXDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXDocumentTests.swift; sourceTree = "<group>"; };
 		00A174972C05B95600F5C151 /* GPXEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXEditView.swift; sourceTree = "<group>"; };
+		00C0489A2C7368C200CB25C5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		00C0489B2C7368C200CB25C5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		00C0489C2C7368C200CB25C5 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		00C0489D2C7368C200CB25C5 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		00C048A32C73962300CB25C5 /* UTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTType.swift; sourceTree = "<group>"; };
 		00CB93472BBDCB2300AD0241 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
 		00CB93492BBDD93F00AD0241 /* BasicXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicXMLParserTests.swift; sourceTree = "<group>"; };
 		00CFD4752BBB162B0040291B /* XMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParserTests.swift; sourceTree = "<group>"; };
@@ -245,6 +254,35 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		00C048982C73670E00CB25C5 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				00D40E772BBA403200B755CE /* App.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		00C048992C73671C00CB25C5 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				00C048982C73670E00CB25C5 /* SwiftUI */,
+				00C0489A2C7368C200CB25C5 /* AppDelegate.swift */,
+				00C0489B2C7368C200CB25C5 /* Main.storyboard */,
+				00C0489D2C7368C200CB25C5 /* ViewController.swift */,
+				0046A08D2BF5FF30009191FC /* Globals.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		00C048A22C7376AD00CB25C5 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				00C0489C2C7368C200CB25C5 /* Document.swift */,
+				00C048A32C73962300CB25C5 /* UTType.swift */,
+			);
+			path = Document;
+			sourceTree = "<group>";
+		};
 		00D40E6B2BBA403200B755CE = {
 			isa = PBXGroup;
 			children = (
@@ -270,11 +308,11 @@
 		00D40E762BBA403200B755CE /* GPXWorkshop */ = {
 			isa = PBXGroup;
 			children = (
-				00D40E772BBA403200B755CE /* App.swift */,
-				0046A08D2BF5FF30009191FC /* Globals.swift */,
 				006750E22C0527EB00A756BB /* Info.plist */,
 				00D40E7B2BBA403400B755CE /* Assets.xcassets */,
 				00D40E802BBA403400B755CE /* GPXWorkshop.entitlements */,
+				00C048992C73671C00CB25C5 /* Main */,
+				00C048A22C7376AD00CB25C5 /* Document */,
 				00D40EA42BBA4A0F00B755CE /* GPX */,
 				0049D5AE2C0034D30044F024 /* GPXDocument */,
 				004FC69D2C1750AB00FB4A70 /* Support */,
@@ -491,6 +529,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C0489F2C7368C200CB25C5 /* Main.storyboard in Resources */,
 				00D40E7F2BBA403400B755CE /* Preview Assets.xcassets in Resources */,
 				00D40E7C2BBA403400B755CE /* Assets.xcassets in Resources */,
 			);
@@ -519,7 +558,6 @@
 				009860B42C07774300B5716B /* FileEnumeratorTests.swift in Sources */,
 				0076AD142C13542300866954 /* FixtureURL.swift in Sources */,
 				001558502C077043000691EE /* GPXSampleBad.swift in Sources */,
-				004FC6A12C1755F700FB4A70 /* Globals.swift in Sources */,
 				0015584C2C077022000691EE /* AlwaysTests.swift in Sources */,
 				001558562C07707B000691EE /* Always.swift in Sources */,
 				001558552C077078000691EE /* Publisher.swift in Sources */,
@@ -532,6 +570,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C0489E2C7368C200CB25C5 /* AppDelegate.swift in Sources */,
 				00ECF27A2BCDEA5400278FD6 /* PreviewWrapper.swift in Sources */,
 				00D40EA62BBA4A0F00B755CE /* Publisher.swift in Sources */,
 				004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */,
@@ -539,6 +578,8 @@
 				0076AD132C13542300866954 /* FixtureURL.swift in Sources */,
 				0067511E2C05AE6500A756BB /* GPXDocument.swift in Sources */,
 				00CB93482BBDCB2300AD0241 /* XML.swift in Sources */,
+				00C048A12C7368C200CB25C5 /* ViewController.swift in Sources */,
+				00C048A42C73962300CB25C5 /* UTType.swift in Sources */,
 				00524ED62C0C358300E792E9 /* GPXFiles.swift in Sources */,
 				00A174982C05B95600F5C151 /* GPXEditView.swift in Sources */,
 				0046A08E2BF5FF30009191FC /* Globals.swift in Sources */,
@@ -550,6 +591,7 @@
 				0016ECD12BEF8CB600FE63D8 /* GPXEditMKMapViewRepresentable.swift in Sources */,
 				00D40E782BBA403200B755CE /* App.swift in Sources */,
 				004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */,
+				00C048A02C7368C200CB25C5 /* Document.swift in Sources */,
 				00D40EA72BBA4A0F00B755CE /* GPX.swift in Sources */,
 				004DB52F2BC796E4004B8715 /* GPXSampleBad.swift in Sources */,
 				003F595E2BCB1647009C9D61 /* LocationObserverTestView.swift in Sources */,
@@ -659,7 +701,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -717,7 +759,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -735,18 +777,22 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "GPXWorkshop/Preview\\ Content";
 				DEVELOPMENT_TEAM = XFTC3W2MNQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GPXWorkshop/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -765,18 +811,22 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "GPXWorkshop/Preview\\ Content";
 				DEVELOPMENT_TEAM = XFTC3W2MNQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GPXWorkshop/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";

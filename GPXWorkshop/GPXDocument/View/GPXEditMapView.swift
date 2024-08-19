@@ -25,6 +25,8 @@ struct GPXEditMapView: View {
     //        )
     //    )
 
+    @ObservedObject var document: GPXDocument
+    
 //    @StateObject var segments = MapKitSegments()
 //    @State var tappedCoordinate: CLLocationCoordinate2D?
     
@@ -32,6 +34,8 @@ struct GPXEditMapView: View {
         VStack {
             MapReader { mapProxy in
                 Map {
+//                    ForEach(document.segments)
+                    
 //                    ForEach(segments.segments) { segment in
 //                        MapPolyline(coordinates: segment.points)
 //                            .stroke(segment.isSelected ? .red : .blue, lineWidth: 3)
@@ -58,14 +62,14 @@ struct GPXEditMapView: View {
     }
 }
 
-#Preview {
-    //var segments = MapKitSegments()
-    /*
-     @State var segment: MapKitSegment = {
-         var gpx = GPXManager.shared.gpxFromSampleString()
-         return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
-     }()
-     */
-    return GPXEditMapView(/*segments: segments*/)
-}
-
+//#Preview {
+//    //var segments = MapKitSegments()
+//    /*
+//     @State var segment: MapKitSegment = {
+//         var gpx = GPXManager.shared.gpxFromSampleString()
+//         return MapKitSegment(gpxSegment: gpx.tracks[0].segments[0])
+//     }()
+//     */
+//    return GPXEditMapView(/*segments: segments*/)
+//}
+//

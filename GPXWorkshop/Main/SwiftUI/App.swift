@@ -13,7 +13,7 @@ import UniformTypeIdentifiers
  https://qualitycoding.org/bypass-swiftui-app-launch-unit-testing/
  */
 
-@main
+//@main
 struct Main {
     static func main() {
         if NSClassFromString("XCTestCase") != nil {
@@ -60,7 +60,7 @@ struct CustomCommands: Commands {
                 openPanel.canChooseFiles = true
                 openPanel.canChooseDirectories = true
                 openPanel.allowsMultipleSelection = true
-                openPanel.allowedContentTypes = [.gpx, .gpxWorkshopBundle]
+                openPanel.allowedContentTypes = [.gpx, .gpxWorkshop]
                 openPanel.begin { result in
                     if result != .OK { return }
                     for url in openPanel.urls {
