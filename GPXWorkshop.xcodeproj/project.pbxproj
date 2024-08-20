@@ -113,8 +113,6 @@
 		00D40E7B2BBA403400B755CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		00D40E7E2BBA403400B755CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		00D40E802BBA403400B755CE /* GPXWorkshop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GPXWorkshop.entitlements; sourceTree = "<group>"; };
-		00D40E932BBA403500B755CE /* DrypotGPXUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrypotGPXUITests.swift; sourceTree = "<group>"; };
-		00D40E952BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrypotGPXUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		00D40EA32BBA4A0F00B755CE /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		00D40EA52BBA4A0F00B755CE /* GPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPX.swift; sourceTree = "<group>"; };
 		00D40EAC2BBA4A4F00B755CE /* PublisherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherTests.swift; sourceTree = "<group>"; };
@@ -277,7 +275,6 @@
 				005B15F22BF11C5600133CDC /* Doc */,
 				00D40E762BBA403200B755CE /* GPXWorkshop */,
 				00D40E882BBA403400B755CE /* GPXWorkshopTests */,
-				00D40E922BBA403500B755CE /* GPXWorkshopUITests */,
 				00D40E752BBA403200B755CE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -331,15 +328,6 @@
 				00D40EAB2BBA4A4F00B755CE /* Combine */,
 			);
 			path = GPXWorkshopTests;
-			sourceTree = "<group>";
-		};
-		00D40E922BBA403500B755CE /* GPXWorkshopUITests */ = {
-			isa = PBXGroup;
-			children = (
-				00D40E932BBA403500B755CE /* DrypotGPXUITests.swift */,
-				00D40E952BBA403500B755CE /* DrypotGPXUITestsLaunchTests.swift */,
-			);
-			path = GPXWorkshopUITests;
 			sourceTree = "<group>";
 		};
 		00D40EA22BBA4A0F00B755CE /* Combine */ = {
