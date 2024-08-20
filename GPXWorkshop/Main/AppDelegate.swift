@@ -12,7 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        print("applicationDidFinishLaunching")
+        print("Current working directory: \(URL.currentDirectory())")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

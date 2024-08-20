@@ -10,7 +10,7 @@ import MapKit
 
 class Workplace {
     
-    var mapView: MKMapView!
+    weak var mapView: MKMapView!
  
     private var polylines: Set<MKPolyline> = []
     private var selectedPolylines: Set<MKPolyline> = []
@@ -122,7 +122,7 @@ class Workplace {
         selectedPolylines.forEach { polyline in
             polylines.remove(polyline)
             mapView.removeOverlay(polyline)
-            mapViewNeedUpdate()
         }
+        mapViewNeedUpdate()
     }
 }

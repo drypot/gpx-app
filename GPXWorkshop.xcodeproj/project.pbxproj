@@ -35,6 +35,8 @@
 		004DB5302BC796E7004B8715 /* GPXSampleStrava.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F402C52BC1972000AFAF44 /* GPXSampleStrava.swift */; };
 		00524ED62C0C358300E792E9 /* GPXFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00524ED52C0C358300E792E9 /* GPXFiles.swift */; };
 		005354502C74CD6F0043EA3E /* Workplace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0053544F2C74CD6F0043EA3E /* Workplace.swift */; };
+		005354522C7501A20043EA3E /* WorkplaceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005354512C7501A20043EA3E /* WorkplaceWindowController.swift */; };
+		005354542C7512D20043EA3E /* WorkplaceMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005354532C7512D20043EA3E /* WorkplaceMapView.swift */; };
 		0076AD132C13542300866954 /* FixtureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076AD122C13542300866954 /* FixtureURL.swift */; };
 		0076AD142C13542300866954 /* FixtureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076AD122C13542300866954 /* FixtureURL.swift */; };
 		0076AD162C1354BD00866954 /* FixtureURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0076AD152C1354BD00866954 /* FixtureURLTests.swift */; };
@@ -82,6 +84,8 @@
 		0046A08D2BF5FF30009191FC /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		00524ED52C0C358300E792E9 /* GPXFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXFiles.swift; sourceTree = "<group>"; };
 		0053544F2C74CD6F0043EA3E /* Workplace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workplace.swift; sourceTree = "<group>"; };
+		005354512C7501A20043EA3E /* WorkplaceWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceWindowController.swift; sourceTree = "<group>"; };
+		005354532C7512D20043EA3E /* WorkplaceMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceMapView.swift; sourceTree = "<group>"; };
 		006750E22C0527EB00A756BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0067511D2C05AE6500A756BB /* WorkplaceDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDocument.swift; sourceTree = "<group>"; };
 		0076AD122C13542300866954 /* FixtureURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureURL.swift; sourceTree = "<group>"; };
@@ -273,6 +277,8 @@
 			children = (
 				00524ED22C0C216300E792E9 /* SwiftUI */,
 				00C048A52C73B9AE00CB25C5 /* WorkplaceController.swift */,
+				005354532C7512D20043EA3E /* WorkplaceMapView.swift */,
+				005354512C7501A20043EA3E /* WorkplaceWindowController.swift */,
 				0053544F2C74CD6F0043EA3E /* Workplace.swift */,
 				00C048A72C73BA2B00CB25C5 /* MapKitExtension.swift */,
 			);
@@ -570,12 +576,14 @@
 				00ECF27A2BCDEA5400278FD6 /* PreviewWrapper.swift in Sources */,
 				00D40EA62BBA4A0F00B755CE /* Publisher.swift in Sources */,
 				004DB52E2BC796E1004B8715 /* GPXSampleManual.swift in Sources */,
+				005354542C7512D20043EA3E /* WorkplaceMapView.swift in Sources */,
 				00E29FBA2BF525DC0000C6D1 /* FileEnumerator.swift in Sources */,
 				00C048AB2C73D1B600CB25C5 /* Layout.swift in Sources */,
 				0076AD132C13542300866954 /* FixtureURL.swift in Sources */,
 				00CB93482BBDCB2300AD0241 /* XML.swift in Sources */,
 				00C048A12C7368C200CB25C5 /* ViewController.swift in Sources */,
 				00C048A42C73962300CB25C5 /* UTType.swift in Sources */,
+				005354522C7501A20043EA3E /* WorkplaceWindowController.swift in Sources */,
 				00524ED62C0C358300E792E9 /* GPXFiles.swift in Sources */,
 				0046A08E2BF5FF30009191FC /* Globals.swift in Sources */,
 				0017C14E2BBD737300D09F93 /* GPXParser.swift in Sources */,

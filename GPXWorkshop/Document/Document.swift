@@ -19,11 +19,12 @@ class Document: NSDocument {
     }
 
     override func makeWindowControllers() {
+        Swift.print("makeWindowControllers")
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as! NSWindowController
+        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Workplace Window Controller")) as! NSWindowController
         self.addWindowController(windowController)
     }
-
+    
     override func data(ofType typeName: String) throws -> Data {
         Swift.print("data")
         // Insert code here to write your document to data of the specified type, throwing an error in case of failure.

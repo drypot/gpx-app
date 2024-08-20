@@ -104,19 +104,19 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="h4h-lK-Qyj"/>
-                                        <menuItem title="Import" keyEquivalent="I" id="sAR-HB-cSC">
+                                        <menuItem title="Import" keyEquivalent="i" id="sAR-HB-cSC">
                                             <connections>
-                                                <action selector="importGPX:" target="Ady-hI-5gd" id="bTR-Is-YSx"/>
+                                                <action selector="importFiles:" target="Ady-hI-5gd" id="da6-np-PDh"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Import For Test" keyEquivalent="i" id="9mT-6d-Rud">
+                                        <menuItem title="Import Samples" keyEquivalent="I" id="9mT-6d-Rud">
                                             <connections>
-                                                <action selector="importGPXForTest:" target="Ady-hI-5gd" id="ceM-nx-DMA"/>
+                                                <action selector="importSamples:" target="Ady-hI-5gd" id="LMU-gc-FRq"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Export" keyEquivalent="E" id="G7F-Eb-UoX">
                                             <connections>
-                                                <action selector="exportGPX:" target="Ady-hI-5gd" id="CGb-dh-P5E"/>
+                                                <action selector="exportFile:" target="Ady-hI-5gd" id="Nsj-Ru-1yO"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
@@ -699,7 +699,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController storyboardIdentifier="Document Window Controller" id="jGA-0Y-lOj" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="Workplace Window Controller" id="jGA-0Y-lOj" customClass="WorkplaceWindowController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="Ckk-yw-fiv">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>

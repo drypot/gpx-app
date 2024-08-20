@@ -9,10 +9,10 @@ import Foundation
 import MapKit
 
 final class WorkplaceController: NSViewController {
-    
-    private var mapView: MKMapView!
-    
+
     private var workplace = Workplace()
+
+    private var mapView: WorkplaceMapView!
     
     private var initialClickLocation: NSPoint?
     private var isDragging = false
@@ -21,16 +21,14 @@ final class WorkplaceController: NSViewController {
     override func loadView() {
         super.loadView()
         
-        mapView = MKMapView()
+        mapView = WorkplaceMapView()
         mapView.delegate = self
+        mapView.keyEventDelegate = self
         mapView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mapView)
         mapView.addConstrants(fill: view)
 
         workplace.mapView = mapView
-        
-//        let tapGesture = NSClickGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-//        self.addGestureRecognizer(tapGesture)
     }
 
     override func viewDidLoad() {
@@ -43,7 +41,7 @@ final class WorkplaceController: NSViewController {
         }
     }
     
-    @IBAction func importGPX(_ sender: Any) {
+    @IBAction func importFiles(_ sender: Any) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.canChooseDirectories = true
@@ -58,32 +56,15 @@ final class WorkplaceController: NSViewController {
         }
     }
     
-    @IBAction func importGPXForTest(_ sender: Any) {
-        let urls = [URL(string: "file:///Users/drypot/Library/Containers/com.drypot.GPXWorkshop/Data/Documents/GPX%20Files%20Subset/")!]
+    @IBAction func importSamples(_ sender: Any) {
+        let urls = [URL(string: "Documents/GPX%20Files%20Subset/", relativeTo:  .currentDirectory())!]
         workplace.importGPX(from: urls) {
             //
         }
     }
     
-    @IBAction func exportGPX(_ sender: Any) {
+    @IBAction func exportFile(_ sender: Any) {
         workplace.exportGPX()
-    }
-    
-    
-    override var acceptsFirstResponder: Bool {
-        return true
-    }
-    
-    override func keyDown(with event: NSEvent) {
-        let characters = event.charactersIgnoringModifiers ?? ""
-        for character in characters {
-            switch character {
-            case "\u{7F}": // delete
-                handleDelete()
-            default:
-                super.keyDown(with: event)
-            }
-        }
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -114,12 +95,6 @@ final class WorkplaceController: NSViewController {
         isDragging = false
     }
     
-//    @objc func handleTap(_ gesture: NSGestureRecognizer) {
-//        let point = gesture.location(in: self)
-//        handleClick(at: point)
-//    }
-    
-    
     func handleClick(at point: NSPoint) {
         workplace.toggleSelection(at: point)
     }
@@ -128,7 +103,21 @@ final class WorkplaceController: NSViewController {
         workplace.removeSelected()
     }
     
-    
+}
+
+extension WorkplaceController: KeyEventDelegate {
+    func handleKeyDown(with event: NSEvent, on view: NSView) -> Bool {
+        let characters = event.charactersIgnoringModifiers ?? ""
+        for character in characters {
+            switch character {
+            case "\u{7F}": // delete
+                handleDelete()
+            default:
+                return false
+            }
+        }
+        return true
+    }
 }
 
 extension WorkplaceController: MKMapViewDelegate {
