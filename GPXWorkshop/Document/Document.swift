@@ -11,7 +11,6 @@ class Document: NSDocument {
 
     override init() {
         super.init()
-        Swift.print("Document init")
         // Add your subclass-specific initialization here.
     }
 
@@ -20,8 +19,6 @@ class Document: NSDocument {
     }
 
     override func makeWindowControllers() {
-        // Returns the Storyboard that contains your Document window.
-        Swift.print("makeWindowControllers")
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as! NSWindowController
         self.addWindowController(windowController)

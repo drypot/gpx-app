@@ -33,7 +33,7 @@ struct TestApp: App {
 
 struct MainApp: App {
     var body: some Scene {
-        DocumentGroup(newDocument: { GPXDocument() }) { file in
+        DocumentGroup(newDocument: { WorkplaceDocument() }) { file in
             GPXEditView(document: file.document)
         }
         .commands {
@@ -51,7 +51,7 @@ struct CustomCommands: Commands {
         CommandGroup(replacing: .newItem) {
             Button("New") {
                 // ReferenceFileDocument 타입 문서는 newDocument(...) 인자로 바로 사용할 수 없다.
-                newDocument.callAsFunction { GPXDocument() }
+                newDocument.callAsFunction { WorkplaceDocument() }
             }
             .keyboardShortcut("N", modifiers: [.command])
             
@@ -108,7 +108,7 @@ struct CustomCommands: Commands {
     func openURL(_ url: URL) {
         Task { @MainActor in
             do {
-                let document = GPXDocument()
+                let document = WorkplaceDocument()
                 try await document.importGPX(from: [url])
                 newDocument.callAsFunction { document }
             } catch {

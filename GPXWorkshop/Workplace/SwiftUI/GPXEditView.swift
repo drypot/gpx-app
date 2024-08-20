@@ -9,11 +9,11 @@ import SwiftUI
 
 struct GPXEditView: View {
     
-    @ObservedObject var document: GPXDocument
+    @ObservedObject var document: WorkplaceDocument
     
     var body: some View {
         VStack {
-            GPXEditMKMapViewRepresentable(document: document)
+            WorkplaceRepresentable(document: document)
                 .focusedSceneValue(\.activeGPXDocument, document)
             Button("Debug Info") {
                 document.dumpDebugInfo()
@@ -24,16 +24,16 @@ struct GPXEditView: View {
 }
 
 struct ActiveGPXDocumentKey: FocusedValueKey {
-  typealias Value = GPXDocument
+  typealias Value = WorkplaceDocument
 }
 
 extension FocusedValues {
-  var activeGPXDocument: GPXDocument? {
+  var activeGPXDocument: WorkplaceDocument? {
     get { self[ActiveGPXDocumentKey.self] }
     set { self[ActiveGPXDocumentKey.self] = newValue }
   }
 }
 
 #Preview {
-    GPXEditView(document: GPXDocument())
+    GPXEditView(document: WorkplaceDocument())
 }

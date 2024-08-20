@@ -25,7 +25,7 @@ struct GPXEditMapView: View {
     //        )
     //    )
 
-    @ObservedObject var document: GPXDocument
+    @ObservedObject var document: WorkplaceDocument
     
 //    @StateObject var segments = MapKitSegments()
 //    @State var tappedCoordinate: CLLocationCoordinate2D?

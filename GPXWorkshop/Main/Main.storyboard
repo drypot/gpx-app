@@ -103,6 +103,22 @@
                                                 <action selector="revertDocumentToSaved:" target="Ady-hI-5gd" id="iJ3-Pv-kwq"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="h4h-lK-Qyj"/>
+                                        <menuItem title="Import" keyEquivalent="I" id="sAR-HB-cSC">
+                                            <connections>
+                                                <action selector="importGPX:" target="Ady-hI-5gd" id="bTR-Is-YSx"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Import For Test" keyEquivalent="i" id="9mT-6d-Rud">
+                                            <connections>
+                                                <action selector="importGPXForTest:" target="Ady-hI-5gd" id="ceM-nx-DMA"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Export" keyEquivalent="E" id="G7F-Eb-UoX">
+                                            <connections>
+                                                <action selector="exportGPX:" target="Ady-hI-5gd" id="CGb-dh-P5E"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
                                         <menuItem title="Page Setup…" keyEquivalent="P" id="qIS-W8-SiK">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
@@ -701,27 +717,13 @@
             </objects>
             <point key="canvasLocation" x="74" y="297"/>
         </scene>
-        <!--View Controller-->
+        <!--Workplace Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="5gI-5U-AMq" customClass="ViewController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5gI-5U-AMq" customClass="WorkplaceController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ERx-hH-rdd">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="TyV-c9-G0C">
-                                <rect key="frame" x="117" y="125" width="246" height="21"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Your document contents here" id="Cc7-nU-5Mv">
-                                    <font key="font" metaFont="system" size="18"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="centerY" secondItem="TyV-c9-G0C" secondAttribute="centerY" id="Rxv-Yd-F43"/>
-                            <constraint firstAttribute="centerX" secondItem="TyV-c9-G0C" secondAttribute="centerX" id="Zn4-Y4-lbg"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
