@@ -11,6 +11,7 @@ import MapKit
 class Workplace {
     
     weak var mapView: MKMapView!
+    weak var undoManager: UndoManager!
  
     private var polylines: Set<MKPolyline> = []
     private var selectedPolylines: Set<MKPolyline> = []
@@ -39,22 +40,12 @@ class Workplace {
         print("Export GPX")
     }
     
-    func mapViewNeedUpdate() {
-        mapView.needsDisplay = true
-    }
-    
-    func updateMapViewOverlay(_ overlay: MKOverlay) {
-        mapView.removeOverlay(overlay)
-        mapView.addOverlay(overlay)
-    }
-    
     func append(_ newPolylines: [MKPolyline]) {
         newPolylines.forEach { polyline in
             polylines.insert(polyline)
             mapView.addOverlay(polyline)
         }
         zoomToFitAllOverlays()
-        mapViewNeedUpdate()
     }
 
     func zoomToFitAllOverlays() {
@@ -74,23 +65,23 @@ class Workplace {
     
     func select(_ polyline: MKPolyline) {
         selectedPolylines.insert(polyline)
-        updateMapViewOverlay(polyline)
-        mapViewNeedUpdate()
+        mapView.removeOverlay(polyline)
+        mapView.addOverlay(polyline)
     }
     
     func deselect(_ polyline: MKPolyline) {
         selectedPolylines.remove(polyline)
-        updateMapViewOverlay(polyline)
-        mapViewNeedUpdate()
+        mapView.removeOverlay(polyline)
+        mapView.addOverlay(polyline)
     }
 
     func deselectAll() {
-        var polylines = selectedPolylines
+        let polylines = selectedPolylines
         selectedPolylines.removeAll()
         for polyline in polylines {
-            updateMapViewOverlay(polyline)
+            mapView.removeOverlay(polyline)
+            mapView.addOverlay(polyline)
         }
-        mapViewNeedUpdate()
     }
 
     func select(at point: NSPoint) {
@@ -143,6 +134,6 @@ class Workplace {
             polylines.remove(polyline)
             mapView.removeOverlay(polyline)
         }
-        mapViewNeedUpdate()
+        selectedPolylines.removeAll()
     }
 }

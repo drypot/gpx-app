@@ -29,6 +29,7 @@ final class WorkplaceController: NSViewController {
         mapView.addConstrants(fill: view)
 
         workplace.mapView = mapView
+        workplace.undoManager = undoManager
     }
 
     override func viewDidLoad() {
