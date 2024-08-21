@@ -39,6 +39,15 @@ class Workplace {
         print("Export GPX")
     }
     
+    func mapViewNeedUpdate() {
+        mapView.needsDisplay = true
+    }
+    
+    func updateMapViewOverlay(_ overlay: MKOverlay) {
+        mapView.removeOverlay(overlay)
+        mapView.addOverlay(overlay)
+    }
+    
     func append(_ newPolylines: [MKPolyline]) {
         newPolylines.forEach { polyline in
             polylines.insert(polyline)
@@ -59,8 +68,8 @@ class Workplace {
         }
     }
 
-    func mapViewNeedUpdate() {
-        mapView.needsDisplay = true
+    func isSelected(_ polyline: MKPolyline) -> Bool {
+        return selectedPolylines.contains(polyline)
     }
     
     func select(_ polyline: MKPolyline) {
@@ -75,20 +84,22 @@ class Workplace {
         mapViewNeedUpdate()
     }
 
-    func updateMapViewOverlay(_ overlay: MKOverlay) {
-        mapView.removeOverlay(overlay)
-        mapView.addOverlay(overlay)
+    func deselectAll() {
+        var polylines = selectedPolylines
+        selectedPolylines.removeAll()
+        for polyline in polylines {
+            updateMapViewOverlay(polyline)
+        }
+        mapViewNeedUpdate()
     }
-    
-    func isSelected(_ polyline: MKPolyline) -> Bool {
-        return selectedPolylines.contains(polyline)
+
+    func select(at point: NSPoint) {
+        deselectAll()
+        toggleSelection(at: point)
     }
     
     func toggleSelection(at point: NSPoint) {
-        let p1 = MKMapPoint(mapView.convert(point, toCoordinateFrom: mapView))
-        let p2 = MKMapPoint(mapView.convert(CGPoint(x: point.x + 10, y: point.y), toCoordinateFrom: mapView))
-        let tolerance = p1.distance(to: p2)
-        if let closest = closestPolyline(from: p1, tolerance: tolerance) {
+        if let closest = closestPolyline(from: point) {
             toggleSelection(closest)
         }
     }
@@ -101,15 +112,16 @@ class Workplace {
         }
     }
     
-    func closestPolyline(from point: MKMapPoint, tolerance: CLLocationDistance) -> MKPolyline? {
+    func closestPolyline(from point: NSPoint) -> MKPolyline? {
+        let (mapPoint, tolerance) = mapPoint(at: point)
         var closest: MKPolyline?
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
         for polyline in polylines {
             let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
-            if !rect.contains(point) {
+            if !rect.contains(mapPoint) {
                 continue
             }
-            let distance = distance(from: point, to: polyline)
+            let distance = distance(from: mapPoint, to: polyline)
             if distance < tolerance, distance < minDistance {
                 minDistance = distance
                 closest = polyline
@@ -118,6 +130,14 @@ class Workplace {
         return closest
     }
 
+    func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {
+        let limit = 10.0
+        let p1 = MKMapPoint(mapView.convert(point, toCoordinateFrom: mapView))
+        let p2 = MKMapPoint(mapView.convert(CGPoint(x: point.x + limit, y: point.y), toCoordinateFrom: mapView))
+        let tolerance = p1.distance(to: p2)
+        return (p1,tolerance)
+    }
+    
     func removeSelected() {
         selectedPolylines.forEach { polyline in
             polylines.remove(polyline)

@@ -89,13 +89,21 @@ final class WorkplaceController: NSViewController {
     
     override func mouseUp(with event: NSEvent) {
         if !isDragging, let initialClickLocation = initialClickLocation {
-            handleClick(at: initialClickLocation)
+            if event.modifierFlags.contains(.shift) {
+                handleShiftClick(at: initialClickLocation)
+            } else {
+                handleClick(at: initialClickLocation)
+            }
         }
         initialClickLocation = nil
         isDragging = false
     }
     
     func handleClick(at point: NSPoint) {
+        workplace.select(at: point)
+    }
+    
+    func handleShiftClick(at point: NSPoint) {
         workplace.toggleSelection(at: point)
     }
     
