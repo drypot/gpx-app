@@ -27,13 +27,17 @@ final class WorkplaceController: NSViewController {
         mapView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mapView)
         mapView.addConstrants(fill: view)
-
-        workplace.mapView = mapView
-        workplace.undoManager = undoManager
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        // ViewController.undoManager 는 이때쯤부터 사용 가능하다.
+        workplace.mapView = mapView
+        workplace.undoManager = undoManager
     }
 
     override var representedObject: Any? {
@@ -109,7 +113,7 @@ final class WorkplaceController: NSViewController {
     }
     
     func handleDelete() {
-        workplace.removeSelected()
+        workplace.deleteSelected()
     }
     
 }

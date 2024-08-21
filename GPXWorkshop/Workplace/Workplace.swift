@@ -40,12 +40,22 @@ class Workplace {
         print("Export GPX")
     }
     
-    func append(_ newPolylines: [MKPolyline]) {
-        newPolylines.forEach { polyline in
-            polylines.insert(polyline)
+    @objc func append(_ polylines: [MKPolyline]) {
+        print("in workplace \(String(describing: undoManager))")
+        undoManager?.registerUndo(withTarget: self, selector: #selector(delete), object: polylines)
+        polylines.forEach { polyline in
+            self.polylines.insert(polyline)
             mapView.addOverlay(polyline)
         }
         zoomToFitAllOverlays()
+    }
+    
+    @objc func delete(_ polylines: [MKPolyline]) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(append), object: polylines)
+        polylines.forEach { polyline in
+            self.polylines.remove(polyline)
+            mapView.removeOverlay(polyline)
+        }
     }
 
     func zoomToFitAllOverlays() {
@@ -63,19 +73,31 @@ class Workplace {
         return selectedPolylines.contains(polyline)
     }
     
-    func select(_ polyline: MKPolyline) {
+    @objc func select(_ polyline: MKPolyline) {
+        undoManager.registerUndo(withTarget: self, selector: #selector(deselect), object: polyline)
         selectedPolylines.insert(polyline)
         mapView.removeOverlay(polyline)
         mapView.addOverlay(polyline)
     }
     
-    func deselect(_ polyline: MKPolyline) {
+    @objc func deselect(_ polyline: MKPolyline) {
+        undoManager.registerUndo(withTarget: self, selector: #selector(select(_:)), object: polyline)
         selectedPolylines.remove(polyline)
         mapView.removeOverlay(polyline)
         mapView.addOverlay(polyline)
     }
 
-    func deselectAll() {
+    @objc func selectAll(_ polylines: Set<MKPolyline>) {
+        undoManager.registerUndo(withTarget: self, selector: #selector(deselectAll), object: nil)
+        selectedPolylines = polylines
+        for polyline in polylines {
+            mapView.removeOverlay(polyline)
+            mapView.addOverlay(polyline)
+        }
+    }
+    
+    @objc func deselectAll() {
+        undoManager.registerUndo(withTarget: self, selector: #selector(selectAll), object: selectedPolylines)
         let polylines = selectedPolylines
         selectedPolylines.removeAll()
         for polyline in polylines {
@@ -85,8 +107,10 @@ class Workplace {
     }
 
     func select(at point: NSPoint) {
+        undoManager?.beginUndoGrouping()
         deselectAll()
         toggleSelection(at: point)
+        undoManager?.endUndoGrouping()
     }
     
     func toggleSelection(at point: NSPoint) {
@@ -129,9 +153,19 @@ class Workplace {
         return (p1,tolerance)
     }
     
-    func removeSelected() {
+    @objc func insertSelected(_ polylines: Set<MKPolyline>) {
+        undoManager.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
+        selectedPolylines = polylines
+        polylines.forEach { polyline in
+            self.polylines.insert(polyline)
+            mapView.addOverlay(polyline)
+        }
+    }
+    
+    @objc func deleteSelected() {
+        undoManager.registerUndo(withTarget: self, selector: #selector(insertSelected), object: selectedPolylines)
         selectedPolylines.forEach { polyline in
-            polylines.remove(polyline)
+            self.polylines.remove(polyline)
             mapView.removeOverlay(polyline)
         }
         selectedPolylines.removeAll()
