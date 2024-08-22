@@ -12,7 +12,7 @@ import MapKit
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
 struct GPX {
-    let uuid = UUID()
+    //let uuid = UUID()
     var creator: String = ""
     var version: String = ""
     var metadata: GPXMetadata = .init()
