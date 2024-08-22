@@ -236,7 +236,6 @@
 			children = (
 				00C048982C73670E00CB25C5 /* SwiftUI */,
 				00C0489A2C7368C200CB25C5 /* AppDelegate.swift */,
-				00C0489B2C7368C200CB25C5 /* Main.storyboard */,
 				00C0489D2C7368C200CB25C5 /* ViewController.swift */,
 				0046A08D2BF5FF30009191FC /* Globals.swift */,
 			);
@@ -292,6 +291,7 @@
 				006750E22C0527EB00A756BB /* Info.plist */,
 				00D40E7B2BBA403400B755CE /* Assets.xcassets */,
 				00D40E802BBA403400B755CE /* GPXWorkshop.entitlements */,
+				00C0489B2C7368C200CB25C5 /* Main.storyboard */,
 				00C048992C73671C00CB25C5 /* Main */,
 				00C048A22C7376AD00CB25C5 /* Document */,
 				00C048A92C73BB2200CB25C5 /* Workplace */,

@@ -112,10 +112,13 @@ final class WorkplaceController: NSViewController {
         workplace.toggleSelection(at: point)
     }
     
-    func handleDelete() {
+    @objc func delete() {
         workplace.deleteSelected()
     }
     
+    @objc func selectAll() {
+        workplace.selectAll()
+    }
 }
 
 extension WorkplaceController: KeyEventDelegate {
@@ -124,7 +127,7 @@ extension WorkplaceController: KeyEventDelegate {
         for character in characters {
             switch character {
             case "\u{7F}": // delete
-                handleDelete()
+                delete()
             default:
                 return false
             }
