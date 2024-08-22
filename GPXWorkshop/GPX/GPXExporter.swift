@@ -19,7 +19,9 @@ struct GPXExporter {
     }
     
     func xml() -> String {
-        let content = trks(gpx.tracks)
+        var content = ""
+        content += metadata()
+        content += trks(gpx.tracks)
         return gpx(content: content)
     }
     
@@ -33,6 +35,18 @@ struct GPXExporter {
             \(content)
             </gpx>
             """
+    }
+    
+    func metadata() -> String {
+        var result = "<metadata>\n"
+        if gpx.metadata.name.isEmpty == false {
+            result += "<name>" + gpx.metadata.name + "</name>\n"
+        }
+        if gpx.metadata.description.isEmpty == false {
+            result += "<desc>" + gpx.metadata.description + "</desc>\n"
+        }
+        result += "</metadata>\n"
+        return result
     }
     
     func trks(_ tracks: [GPXTrack]) -> String {

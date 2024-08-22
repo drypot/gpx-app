@@ -14,6 +14,17 @@ import MapKit
 // 모델 내부 데이터 타입도 MapKit 타입을 쓰는 것이 속도에서 유리할 것 같다.
 // 다른 지도 사용할 경우는, 그때 가서 생각;
 
+extension GPX {
+    mutating func addTracks(from polylines: Set<MKPolyline>) {
+        for polyline in polylines {
+            var track = GPXTrack()
+            var segment = GPXSegment(polyline)
+            track.segments.append(segment)
+            self.tracks.append(track)
+        }
+    }
+}
+
 extension GPXSegment {
     init(_ polyline: MKPolyline) {
         let count = polyline.pointCount

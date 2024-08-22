@@ -6,14 +6,13 @@
 //
 
 import Cocoa
+import UniformTypeIdentifiers
 
 class Document: NSDocument {
 
-    var currentFileName: String? {
-        guard let fileURL = self.fileURL else { return nil }
-        return fileURL.lastPathComponent
-    }
-
+    var workplace = Workplace()
+    var dataToLoad: Data?
+    
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
@@ -35,20 +34,18 @@ class Document: NSDocument {
     }
     
     override func data(ofType typeName: String) throws -> Data {
-        Swift.print("data")
-        // Insert code here to write your document to data of the specified type, throwing an error in case of failure.
-        // Alternatively, you could remove this method and override fileWrapper(ofType:), write(to:ofType:), or write(to:ofType:for:originalContentsURL:) instead.
-        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        return try workplace.data()
     }
 
     override func read(from data: Data, ofType typeName: String) throws {
-        Swift.print("read")
-        // Insert code here to read your document from the given data of the specified type, throwing an error in case of failure.
-        // Alternatively, you could remove this method and override read(from:ofType:) instead.
-        // If you do, you should also override isEntireFileLoaded to return false if the contents are lazily loaded.
-        throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+        if UTType(typeName) == .gpx {
+            dataToLoad = data
+//            let newURL = fileURL?.deletingPathExtension().appendingPathExtension(".gpxws")
+//            self.fileURL = newURL
+        } else {
+            dataToLoad = data
+        }
     }
-
 
 }
 

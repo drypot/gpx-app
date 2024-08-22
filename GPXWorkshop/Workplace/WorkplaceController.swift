@@ -10,7 +10,7 @@ import MapKit
 
 final class WorkplaceController: NSViewController {
 
-    private var workplace = Workplace()
+    private weak var workplace: Workplace!
 
     private var mapView: WorkplaceMapView!
     
@@ -18,6 +18,11 @@ final class WorkplaceController: NSViewController {
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
+
+    var document: Document {
+        return view.window?.windowController?.document as! Document
+    }
+    
     override func loadView() {
         super.loadView()
         
@@ -36,8 +41,17 @@ final class WorkplaceController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         // ViewController.undoManager 는 이때쯤부터 사용 가능하다.
+        workplace = document.workplace
         workplace.mapView = mapView
         workplace.undoManager = undoManager
+        if let dataToLoad = document.dataToLoad {
+            do {
+                try workplace.importGPX(from: dataToLoad)
+                document.dataToLoad = nil
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 
     override var representedObject: Any? {
@@ -69,7 +83,17 @@ final class WorkplaceController: NSViewController {
     }
     
     @IBAction func exportFile(_ sender: Any) {
-        workplace.exportGPX()
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.gpx]
+        panel.begin { result in
+            guard result == .OK else { return }
+            guard let url = panel.url else { return }
+            do {
+                try self.workplace.export(to: url)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     override func mouseDown(with event: NSEvent) {

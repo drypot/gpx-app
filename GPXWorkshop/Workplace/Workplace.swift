@@ -36,8 +36,28 @@ class Workplace {
         }
     }
     
-    func exportGPX() {
-        print("Export GPX")
+    func export(to url: URL) throws {
+        try data().write(to: url)
+    }
+    
+    func data() throws -> Data {
+        var gpx = GPX()
+        gpx.addTracks(from: polylines)
+//        let name = url.deletingPathExtension().lastPathComponent
+//        gpx.metadata.name = name
+        let xml = GPXExporter(gpx).xml()
+        return Data(xml.utf8)
+    }
+    
+    private func gpxFromPolylines() -> GPX {
+        var gpx = GPX()
+        for polyline in self.polylines {
+            var track = GPXTrack()
+            var segment = GPXSegment(polyline)
+            track.segments.append(segment)
+            gpx.tracks.append(track)
+        }
+        return gpx
     }
     
     @objc func append(_ polylines: [MKPolyline]) {

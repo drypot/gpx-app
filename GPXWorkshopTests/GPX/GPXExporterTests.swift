@@ -73,6 +73,19 @@ final class GPXExporterTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
     
+    func testMetadata() throws {
+        let exp = Self.exp!
+        let result = exp.metadata()
+        let expected = """
+            <metadata>
+            <name>name1</name>
+            <desc>desc1</desc>
+            </metadata>
+            
+            """
+        XCTAssertEqual(result, expected)
+    }
+    
     func testGpx() throws {
         let exp = Self.exp!
         let result = exp.gpx(content: "<trk></trk>")
