@@ -9,6 +9,10 @@ import Foundation
 
 let sampleGPXFolderPath = "Documents/GPX Files Subset"
 
+var isRunningTests: Bool = {
+    return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+}()
+
 class GlobalActions {
     typealias Action = () -> Void
     static let shared = GlobalActions()

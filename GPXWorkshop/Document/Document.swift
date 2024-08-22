@@ -9,6 +9,11 @@ import Cocoa
 
 class Document: NSDocument {
 
+    var currentFileName: String? {
+        guard let fileURL = self.fileURL else { return nil }
+        return fileURL.lastPathComponent
+    }
+
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
@@ -19,6 +24,10 @@ class Document: NSDocument {
     }
 
     override func makeWindowControllers() {
+        guard !isRunningTests else {
+            Swift.print("makeWindowControllers skipped")
+            return
+        }
         Swift.print("makeWindowControllers")
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Workplace Window Controller")) as! NSWindowController
