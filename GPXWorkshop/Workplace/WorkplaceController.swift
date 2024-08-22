@@ -112,11 +112,19 @@ final class WorkplaceController: NSViewController {
         workplace.toggleSelection(at: point)
     }
     
-    @objc func delete() {
+    @IBAction func copy(_ sender: Any) {
+        workplace.copyPolylines()
+    }
+    
+    @IBAction func paste(_ sender: Any) {
+        workplace.pastePolylines()
+    }
+    
+    @IBAction func delete(_ sender: Any?) {
         workplace.deleteSelected()
     }
     
-    @objc func selectAll() {
+    @IBAction override func selectAll(_ sender: Any?) {
         workplace.selectAll()
     }
 }
@@ -127,7 +135,7 @@ extension WorkplaceController: KeyEventDelegate {
         for character in characters {
             switch character {
             case "\u{7F}": // delete
-                delete()
+                delete(nil)
             default:
                 return false
             }

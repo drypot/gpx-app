@@ -101,7 +101,7 @@ class Workplace {
         undoManager.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: selectedPolylines)
         let polylinesToRedraw = self.polylines.subtracting(selectedPolylines)
         selectedPolylines = self.polylines
-        redrawPolylines(polylinesToRedraw)
+        redrawPolylines(polylinesToRedraw)
     }
     
     @objc func deselectAll() {
@@ -165,7 +165,16 @@ class Workplace {
         return (p1,tolerance)
     }
     
-    @objc func insertSelected(_ polylines: Set<MKPolyline>) {
+    @objc func deleteSelected() {
+        undoManager.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: selectedPolylines)
+        selectedPolylines.forEach { polyline in
+            self.polylines.remove(polyline)
+            mapView.removeOverlay(polyline)
+        }
+        selectedPolylines.removeAll()
+    }
+    
+    @objc func undeleteSelected(_ polylines: Set<MKPolyline>) {
         undoManager.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
         selectedPolylines = polylines
         polylines.forEach { polyline in
@@ -174,12 +183,15 @@ class Workplace {
         }
     }
     
-    @objc func deleteSelected() {
-        undoManager.registerUndo(withTarget: self, selector: #selector(insertSelected), object: selectedPolylines)
-        selectedPolylines.forEach { polyline in
-            self.polylines.remove(polyline)
-            mapView.removeOverlay(polyline)
-        }
-        selectedPolylines.removeAll()
+    @objc func copyPolylines() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        //pasteboard.writeObjects(Array(selectedPolylines))
     }
+    
+    @objc func pastePolylines() {
+//        let pasteboard = NSPasteboard.general
+//        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
+    }
+    
 }
