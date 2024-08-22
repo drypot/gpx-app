@@ -160,6 +160,30 @@
 			path = Workplace;
 			sourceTree = "<group>";
 		};
+		003DCCEE2C77CC1700E812B3 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				00A083412BF742B700AB449D /* Error */,
+				00F89F8A2BF709D200D04DEB /* File */,
+				005B15F32BF11E6200133CDC /* XML */,
+				004FC69D2C1750AB00FB4A70 /* AppKit */,
+				00EDDE3A2BC9FE4900A9A406 /* Location */,
+				00D40EA22BBA4A0F00B755CE /* Combine */,
+				00ECF2772BCDE83800278FD6 /* SwiftUI */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		003DCCEF2C77CC7900E812B3 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				00F89F8B2BF709F300D04DEB /* File */,
+				005B15F42BF11E6F00133CDC /* XML */,
+				00D40EAB2BBA4A4F00B755CE /* Combine */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		004FC69D2C1750AB00FB4A70 /* AppKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,13 +330,7 @@
 				00C048A22C7376AD00CB25C5 /* Document */,
 				00C048A92C73BB2200CB25C5 /* Workplace */,
 				00D40EA42BBA4A0F00B755CE /* GPX */,
-				004FC69D2C1750AB00FB4A70 /* AppKit */,
-				005B15F32BF11E6200133CDC /* XML */,
-				00F89F8A2BF709D200D04DEB /* File */,
-				00EDDE3A2BC9FE4900A9A406 /* Location */,
-				00D40EA22BBA4A0F00B755CE /* Combine */,
-				00ECF2772BCDE83800278FD6 /* SwiftUI */,
-				00A083412BF742B700AB449D /* Error */,
+				003DCCEE2C77CC1700E812B3 /* Support */,
 				00D40E7D2BBA403400B755CE /* Preview Content */,
 			);
 			path = GPXWorkshop;
@@ -331,9 +349,7 @@
 			children = (
 				003DCCE62C77908F00E812B3 /* Workplace */,
 				00D40EA92BBA4A4F00B755CE /* GPX */,
-				005B15F42BF11E6F00133CDC /* XML */,
-				00F89F8B2BF709F300D04DEB /* File */,
-				00D40EAB2BBA4A4F00B755CE /* Combine */,
+				003DCCEF2C77CC7900E812B3 /* Support */,
 			);
 			path = GPXWorkshopTests;
 			sourceTree = "<group>";

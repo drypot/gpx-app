@@ -53,7 +53,7 @@ class Workplace {
         var gpx = GPX()
         for polyline in self.polylines {
             var track = GPXTrack()
-            var segment = GPXSegment(polyline)
+            let segment = GPXSegment(polyline)
             track.segments.append(segment)
             gpx.tracks.append(track)
         }
