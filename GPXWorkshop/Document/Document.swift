@@ -7,11 +7,11 @@
 
 import Cocoa
 import UniformTypeIdentifiers
+import MapKit
 
 class Document: NSDocument {
 
     var workplace = Workplace()
-    var dataToLoad: Data?
     
     override init() {
         super.init()
@@ -38,13 +38,19 @@ class Document: NSDocument {
     }
 
     override func read(from data: Data, ofType typeName: String) throws {
-        if UTType(typeName) == .gpx {
-            dataToLoad = data
+        do {
+            let polylines = try MKPolyline.polylines(from: data)
+            workplace.importPolylines(polylines)
+        } catch {
+            Swift.print(error.localizedDescription)
+        }
+
+//        if UTType(typeName) == .gpx {
 //            let newURL = fileURL?.deletingPathExtension().appendingPathExtension(".gpxws")
 //            self.fileURL = newURL
-        } else {
-            dataToLoad = data
-        }
+//        } else {
+//        }
+        
     }
 
 }

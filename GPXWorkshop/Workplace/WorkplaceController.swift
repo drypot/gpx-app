@@ -18,14 +18,13 @@ final class WorkplaceController: NSViewController {
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
-
     var document: Document {
         return view.window?.windowController?.document as! Document
     }
     
     override func loadView() {
         super.loadView()
-        
+
         mapView = WorkplaceMapView()
         mapView.delegate = self
         mapView.keyEventDelegate = self
@@ -42,16 +41,8 @@ final class WorkplaceController: NSViewController {
         super.viewWillAppear()
         // ViewController.undoManager 는 이때쯤부터 사용 가능하다.
         workplace = document.workplace
-        workplace.mapView = mapView
-        workplace.undoManager = undoManager
-        if let dataToLoad = document.dataToLoad {
-            do {
-                try workplace.importGPX(from: dataToLoad)
-                document.dataToLoad = nil
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+        mapView.addOverlays(Array(workplace.polylines))
+        zoomToFitAllOverlays()
     }
 
     override var representedObject: Any? {
@@ -69,19 +60,26 @@ final class WorkplaceController: NSViewController {
         panel.begin { [unowned self] result in
             guard result == .OK else { return }
             print(panel.urls)
-            workplace.importGPX(from: panel.urls) {
-                //
-            }
+            importPolylines(from: panel.urls)
         }
     }
     
     @IBAction func importSamples(_ sender: Any) {
         let urls = [URL(string: "Documents/GPX%20Files%20Subset/", relativeTo:  .currentDirectory())!]
-        workplace.importGPX(from: urls) {
-            //
-        }
+        importPolylines(from: urls)
     }
     
+    func importPolylines(from urls: [URL]) {
+        Task { [unowned self] in
+            let polylines = try await MKPolyline.polylines(from: urls)
+            Task { @MainActor in
+                workplace.importPolylines(polylines)
+                mapView.addOverlays(polylines)
+                zoomToFitAllOverlays()
+            }
+        }
+    }
+
     @IBAction func exportFile(_ sender: Any) {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.gpx]
@@ -89,7 +87,7 @@ final class WorkplaceController: NSViewController {
             guard result == .OK else { return }
             guard let url = panel.url else { return }
             do {
-                try self.workplace.export(to: url)
+                try self.workplace.data().write(to: url)
             } catch {
                 print(error.localizedDescription)
             }
@@ -129,28 +127,163 @@ final class WorkplaceController: NSViewController {
     }
     
     func handleClick(at point: NSPoint) {
-        workplace.select(at: point)
+        select(at: point)
     }
     
     func handleShiftClick(at point: NSPoint) {
-        workplace.toggleSelection(at: point)
+        toggleSelection(at: point)
     }
     
     @IBAction func copy(_ sender: Any) {
-        workplace.copyPolylines()
+        copyPolylines()
     }
     
     @IBAction func paste(_ sender: Any) {
-        workplace.pastePolylines()
+        pastePolylines()
     }
     
     @IBAction func delete(_ sender: Any?) {
-        workplace.deleteSelected()
+        deleteSelected()
     }
     
     @IBAction override func selectAll(_ sender: Any?) {
-        workplace.selectAll()
+        selectAll()
     }
+    
+    // Draw
+    
+    func zoomToFitAllOverlays() {
+        var zoomRect = MKMapRect.null
+        mapView.overlays.forEach { overlay in
+            zoomRect = zoomRect.union(overlay.boundingMapRect)
+        }
+        if !zoomRect.isNull {
+            let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
+            mapView.setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
+        }
+    }
+
+    func redrawPolyline(_ polyline: MKPolyline) {
+        mapView.removeOverlay(polyline)
+        mapView.addOverlay(polyline)
+    }
+
+    func redrawPolylines(_ polylines: Set<MKPolyline>) {
+        for polyline in polylines {
+            mapView.removeOverlay(polyline)
+            mapView.addOverlay(polyline)
+        }
+    }
+    
+    // Select
+    
+    func select(at point: NSPoint) {
+        undoManager?.beginUndoGrouping()
+        deselectAll()
+        toggleSelection(at: point)
+        undoManager?.endUndoGrouping()
+    }
+    
+    func toggleSelection(at point: NSPoint) {
+        if let closest = closestPolyline(from: point) {
+            toggleSelection(closest)
+        }
+    }
+    
+    func toggleSelection(_ polyline: MKPolyline) {
+        if workplace.selectedPolylines.contains(polyline) {
+            deselectPolyline(polyline)
+        } else {
+            selectPolyline(polyline)
+        }
+    }
+    
+    func closestPolyline(from point: NSPoint) -> MKPolyline? {
+        let (mapPoint, tolerance) = mapPoint(at: point)
+        var closest: MKPolyline?
+        var minDistance: CLLocationDistance = .greatestFiniteMagnitude
+        for polyline in workplace.polylines {
+            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
+            if !rect.contains(mapPoint) {
+                continue
+            }
+            let distance = distance(from: mapPoint, to: polyline)
+            if distance < tolerance, distance < minDistance {
+                minDistance = distance
+                closest = polyline
+            }
+        }
+        return closest
+    }
+    
+    func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {
+        let limit = 10.0
+        let p1 = MKMapPoint(mapView.convert(point, toCoordinateFrom: mapView))
+        let p2 = MKMapPoint(mapView.convert(CGPoint(x: point.x + limit, y: point.y), toCoordinateFrom: mapView))
+        let tolerance = p1.distance(to: p2)
+        return (p1,tolerance)
+    }
+    
+    @objc func selectPolyline(_ polyline: MKPolyline) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectPolyline), object: polyline)
+        workplace.selectedPolylines.insert(polyline)
+        redrawPolyline(polyline)
+    }
+    
+    @objc func deselectPolyline(_ polyline: MKPolyline) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(selectPolyline), object: polyline)
+        workplace.selectedPolylines.remove(polyline)
+        redrawPolyline(polyline)
+    }
+
+    @objc func selectAll() {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: workplace.selectedPolylines)
+        let polylinesToRedraw = workplace.polylines.subtracting(workplace.selectedPolylines)
+        workplace.selectedPolylines = workplace.polylines
+        redrawPolylines(polylinesToRedraw)
+    }
+    
+    @objc func deselectAll() {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: workplace.selectedPolylines)
+        let polylinesToRedraw = workplace.selectedPolylines
+        workplace.selectedPolylines.removeAll()
+        redrawPolylines(polylinesToRedraw)
+    }
+
+    @objc func resetSelectedPolylines(_ polylines: Set<MKPolyline>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: workplace.selectedPolylines)
+        let polylinesToRedraw = workplace.selectedPolylines.union(polylines)
+        workplace.selectedPolylines = polylines
+        redrawPolylines(polylinesToRedraw)
+    }
+    
+    // Copy & Paste
+    
+    @objc func copyPolylines() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        //pasteboard.writeObjects(Array(selectedPolylines))
+    }
+    
+    @objc func pastePolylines() {
+//        let pasteboard = NSPasteboard.general
+//        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
+    }
+    
+    // Delete
+    
+    @objc func deleteSelected() {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: workplace.selectedPolylines)
+        mapView.removeOverlays(Array(workplace.selectedPolylines))
+        workplace.deleteSelected()
+    }
+    
+    @objc func undeleteSelected(_ polylines: Set<MKPolyline>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
+        mapView.addOverlays(Array(polylines))
+        workplace.undeleteSelected(polylines)
+    }
+    
 }
 
 extension WorkplaceController: KeyEventDelegate {
@@ -172,7 +305,7 @@ extension WorkplaceController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
-            if workplace.isSelected(polyline) {
+            if workplace.selectedPolylines.contains(polyline) {
                 renderer.strokeColor = .red
             } else {
                 renderer.strokeColor = .blue
