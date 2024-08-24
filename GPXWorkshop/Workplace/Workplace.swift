@@ -133,7 +133,7 @@ class Workplace {
 
     @objc func resetSelectedPolylines(_ polylines: Set<MKPolyline>) {
         undoManager.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: selectedPolylines)
-        var polylinesToRedraw = selectedPolylines.union(polylines)
+        let polylinesToRedraw = selectedPolylines.union(polylines)
         selectedPolylines = polylines
         redrawPolylines(polylinesToRedraw)
     }
