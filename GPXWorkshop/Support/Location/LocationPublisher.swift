@@ -30,12 +30,9 @@ class LocationPublisher: NSObject {
     func requestLocation() {
         manager.requestLocation()
     }
-    
-
 
 }
 
 extension LocationPublisher: CLLocationManagerDelegate {
-    
     
 }

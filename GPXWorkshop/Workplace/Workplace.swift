@@ -13,11 +13,6 @@ class Workplace {
     var polylines: Set<MKPolyline> = []
     var selectedPolylines: Set<MKPolyline> = []
 
-    func dumpCount() {
-        print("---")
-        print("polylines: \(polylines.count)")
-    }
-
     func importPolylines(_ polylines: [MKPolyline]) {
         self.polylines.formUnion(polylines)
     }
@@ -39,4 +34,9 @@ class Workplace {
         selectedPolylines = polylines
     }
     
+    func dumpCount() {
+        print("---")
+        print("polylines: \(polylines.count)")
+    }
+
 }
