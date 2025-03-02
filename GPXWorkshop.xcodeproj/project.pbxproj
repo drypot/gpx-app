@@ -48,8 +48,8 @@
 		00E2E4602CBE4028006ADC0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"00-App/SwiftUI/App.swift",
 				Info.plist,
-				Main/SwiftUI/App.swift,
 				Workplace/SwiftUI/GPXEditMapView.swift,
 				Workplace/SwiftUI/GPXEditMKMapViewRepresentable.swift,
 				Workplace/SwiftUI/GPXEditView.swift,
