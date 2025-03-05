@@ -1,5 +1,5 @@
 //
-//  Workplace.swift
+//  Browser.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-class Workplace {
+class Browser {
     
     var polylines: Set<MKPolyline> = []
     var selectedPolylines: Set<MKPolyline> = []

@@ -49,11 +49,11 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"00-App/SwiftUI/App.swift",
+				Browser/SwiftUI/GPXEditMapView.swift,
+				Browser/SwiftUI/GPXEditMKMapViewRepresentable.swift,
+				Browser/SwiftUI/GPXEditView.swift,
+				Browser/SwiftUI/WorkplaceDocument.swift,
 				Info.plist,
-				Workplace/SwiftUI/GPXEditMapView.swift,
-				Workplace/SwiftUI/GPXEditMKMapViewRepresentable.swift,
-				Workplace/SwiftUI/GPXEditView.swift,
-				Workplace/SwiftUI/WorkplaceDocument.swift,
 			);
 			target = 00D40E732BBA403200B755CE /* GPXWorkshop */;
 		};

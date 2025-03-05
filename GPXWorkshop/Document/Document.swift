@@ -11,7 +11,7 @@ import MapKit
 
 class Document: NSDocument {
 
-    var workplace = Workplace()
+    var workplace = Browser()
     
     override init() {
         super.init()
@@ -29,7 +29,7 @@ class Document: NSDocument {
         }
         Swift.print("makeWindowControllers")
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Workplace Window Controller")) as! NSWindowController
+        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Browser Window Controller")) as! NSWindowController
         self.addWindowController(windowController)
     }
     

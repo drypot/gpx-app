@@ -8,40 +8,40 @@
 import Foundation
 import MapKit
 
-final class WorkplaceController: NSViewController {
+final class BrowserController: NSViewController {
 
-    private weak var workplace: Workplace!
+    private var browser = Browser()
 
-    private var mapView: WorkplaceMapView!
-    
+    private var mapView = BrowserMapView()
+
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
-    var document: Document {
-        return view.window?.windowController?.document as! Document
-    }
-    
     override func loadView() {
-        super.loadView()
+        view = NSView()
+        view.translatesAutoresizingMaskIntoConstraints = false
 
-        mapView = WorkplaceMapView()
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
         mapView.keyEventDelegate = self
-        mapView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mapView)
-        mapView.addConstrants(fill: view)
-    }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        NSLayoutConstraint.activate([
+            view.widthAnchor.constraint(greaterThanOrEqualToConstant: 400),
+            view.heightAnchor.constraint(greaterThanOrEqualToConstant: 400),
+
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 
     override func viewWillAppear() {
         super.viewWillAppear()
         // ViewController.undoManager 는 이때쯤부터 사용 가능하다.
-        workplace = document.workplace
-        mapView.addOverlays(Array(workplace.polylines))
+        mapView.addOverlays(Array(browser.polylines))
         zoomToFitAllOverlays()
     }
 
@@ -73,7 +73,7 @@ final class WorkplaceController: NSViewController {
         Task { [unowned self] in
             let polylines = try await MKPolyline.polylines(from: urls)
             Task { @MainActor in
-                workplace.importPolylines(polylines)
+                browser.importPolylines(polylines)
                 mapView.addOverlays(polylines)
                 zoomToFitAllOverlays()
             }
@@ -87,7 +87,7 @@ final class WorkplaceController: NSViewController {
             guard result == .OK else { return }
             guard let url = panel.url else { return }
             do {
-                try self.workplace.data().write(to: url)
+                try self.browser.data().write(to: url)
             } catch {
                 print(error.localizedDescription)
             }
@@ -191,7 +191,7 @@ final class WorkplaceController: NSViewController {
     }
     
     func toggleSelection(_ polyline: MKPolyline) {
-        if workplace.selectedPolylines.contains(polyline) {
+        if browser.selectedPolylines.contains(polyline) {
             deselectPolyline(polyline)
         } else {
             selectPolyline(polyline)
@@ -202,7 +202,7 @@ final class WorkplaceController: NSViewController {
         let (mapPoint, tolerance) = mapPoint(at: point)
         var closest: MKPolyline?
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
-        for polyline in workplace.polylines {
+        for polyline in browser.polylines {
             let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
             if !rect.contains(mapPoint) {
                 continue
@@ -226,34 +226,34 @@ final class WorkplaceController: NSViewController {
     
     @objc func selectPolyline(_ polyline: MKPolyline) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectPolyline), object: polyline)
-        workplace.selectedPolylines.insert(polyline)
+        browser.selectedPolylines.insert(polyline)
         redrawPolyline(polyline)
     }
     
     @objc func deselectPolyline(_ polyline: MKPolyline) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectPolyline), object: polyline)
-        workplace.selectedPolylines.remove(polyline)
+        browser.selectedPolylines.remove(polyline)
         redrawPolyline(polyline)
     }
 
     @objc func selectAll() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: workplace.selectedPolylines)
-        let polylinesToRedraw = workplace.polylines.subtracting(workplace.selectedPolylines)
-        workplace.selectedPolylines = workplace.polylines
+        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: browser.selectedPolylines)
+        let polylinesToRedraw = browser.polylines.subtracting(browser.selectedPolylines)
+        browser.selectedPolylines = browser.polylines
         redrawPolylines(polylinesToRedraw)
     }
     
     @objc func deselectAll() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: workplace.selectedPolylines)
-        let polylinesToRedraw = workplace.selectedPolylines
-        workplace.selectedPolylines.removeAll()
+        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: browser.selectedPolylines)
+        let polylinesToRedraw = browser.selectedPolylines
+        browser.selectedPolylines.removeAll()
         redrawPolylines(polylinesToRedraw)
     }
 
     @objc func resetSelectedPolylines(_ polylines: Set<MKPolyline>) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: workplace.selectedPolylines)
-        let polylinesToRedraw = workplace.selectedPolylines.union(polylines)
-        workplace.selectedPolylines = polylines
+        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: browser.selectedPolylines)
+        let polylinesToRedraw = browser.selectedPolylines.union(polylines)
+        browser.selectedPolylines = polylines
         redrawPolylines(polylinesToRedraw)
     }
     
@@ -273,20 +273,20 @@ final class WorkplaceController: NSViewController {
     // Delete
     
     @objc func deleteSelected() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: workplace.selectedPolylines)
-        mapView.removeOverlays(Array(workplace.selectedPolylines))
-        workplace.deleteSelected()
+        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: browser.selectedPolylines)
+        mapView.removeOverlays(Array(browser.selectedPolylines))
+        browser.deleteSelected()
     }
     
     @objc func undeleteSelected(_ polylines: Set<MKPolyline>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
         mapView.addOverlays(Array(polylines))
-        workplace.undeleteSelected(polylines)
+        browser.undeleteSelected(polylines)
     }
     
 }
 
-extension WorkplaceController: KeyEventDelegate {
+extension BrowserController: KeyEventDelegate {
     func handleKeyDown(with event: NSEvent, on view: NSView) -> Bool {
         let characters = event.charactersIgnoringModifiers ?? ""
         for character in characters {
@@ -301,11 +301,11 @@ extension WorkplaceController: KeyEventDelegate {
     }
 }
 
-extension WorkplaceController: MKMapViewDelegate {
+extension BrowserController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
-            if workplace.selectedPolylines.contains(polyline) {
+            if browser.selectedPolylines.contains(polyline) {
                 renderer.strokeColor = .red
             } else {
                 renderer.strokeColor = .blue

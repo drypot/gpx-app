@@ -694,7 +694,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController storyboardIdentifier="Workplace Window Controller" id="jGA-0Y-lOj" customClass="WorkplaceWindowController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="Workplace Window Controller" id="jGA-0Y-lOj" customClass="BrowserWindowController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="Ckk-yw-fiv">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -712,10 +712,10 @@
             </objects>
             <point key="canvasLocation" x="74" y="297"/>
         </scene>
-        <!--Workplace Controller-->
+        <!--Browser Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="5gI-5U-AMq" customClass="WorkplaceController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5gI-5U-AMq" customClass="BrowserController" customModule="GPXWorkshop" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ERx-hH-rdd">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
