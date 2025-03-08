@@ -11,7 +11,6 @@ import MapKit
 final class BrowserController: NSViewController {
 
     private var browser = Browser()
-
     private var mapView = BrowserMapView()
 
     private var initialClickLocation: NSPoint?
@@ -28,7 +27,7 @@ final class BrowserController: NSViewController {
         view.addSubview(mapView)
 
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(greaterThanOrEqualToConstant: 400),
+            view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600),
             view.heightAnchor.constraint(greaterThanOrEqualToConstant: 400),
 
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -81,17 +80,18 @@ final class BrowserController: NSViewController {
     }
 
     @IBAction func exportFile(_ sender: Any) {
-        let panel = NSSavePanel()
-        panel.allowedContentTypes = [.gpx]
-        panel.begin { result in
-            guard result == .OK else { return }
-            guard let url = panel.url else { return }
-            do {
-                try self.browser.data().write(to: url)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+        fatalError("Test!")
+//        let panel = NSSavePanel()
+//        panel.allowedContentTypes = [.gpx]
+//        panel.begin { result in
+//            guard result == .OK else { return }
+//            guard let url = panel.url else { return }
+//            do {
+//                try self.browser.data().write(to: url)
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        }
     }
     
     override func mouseDown(with event: NSEvent) {

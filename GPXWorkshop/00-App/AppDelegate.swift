@@ -30,32 +30,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return false
     }
 
-//    func openFileDialog() {
-//        let openPanel = NSOpenPanel()
-//        openPanel.canChooseFiles = true
-//        openPanel.canChooseDirectories = false
-//        openPanel.allowsMultipleSelection = false
-//
-//        if openPanel.runModal() == .OK, let url = openPanel.url {
-//            handleFileSelection(url)
-//        } else {
-//            NSApp.terminate(nil)
-//        }
-//    }
-//
-//    func handleFileSelection(_ url: URL) {
-//        print("Selected file: \(url.path)")
-//
-//        window = NSWindow(
-//            contentRect: NSMakeRect(100, 100, 600, 400),
-//            styleMask: [.titled, .closable, .resizable],
-//            backing: .buffered,
-//            defer: false
-//        )
-//        window.title = "File Viewer"
-//        window.makeKeyAndOrderFront(nil)
-//    }
-
 }
 
 
