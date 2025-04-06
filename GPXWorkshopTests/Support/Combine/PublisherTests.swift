@@ -42,8 +42,8 @@ final class PublisherTests: XCTestCase {
         waitForExpectations(timeout: 3)
         cancellable.cancel()
         
-        let value = try result?.get()
-        
+        let value = result?.get()
+
         XCTAssertEqual(value, "abc")
     }
     

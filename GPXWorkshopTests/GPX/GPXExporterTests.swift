@@ -5,27 +5,28 @@
 //  Created by Kyuhyun Park on 8/23/24.
 //
 
-import XCTest
+import Foundation
+import Testing
 
-final class GPXExporterTests: XCTestCase {
+struct GPXExporterTests {
 
-    static var gpx: GPX?
-    static var exp: GPXExporter?
-    
-    override static func setUp() {
+    static var gpx: GPX = {
         let data = Data(gpxSampleManualMultiple.utf8)
         do {
-            gpx = try GPXParser().parse(data)
-            exp = GPXExporter(gpx!)
+            return try GPXParser().parse(data)
         } catch {
-            XCTFail()
+            fatalError()
         }
-    }
+    }()
 
-    func testTrkseg() throws {
-        let gpx = Self.gpx!
-        let exp = Self.exp!
-        let result = exp.trksegs(gpx.tracks[0].segments)
+    static var exp: GPXExporter = {
+        return GPXExporter(gpx)
+    }()
+
+    @Test func testTrkseg() throws {
+        let gpx = Self.gpx
+        let exp = Self.exp
+        let result = exp.makeSegmentTags(gpx.tracks[0].segments)
         let expected = """
             <trkseg>
             <trkpt lat="37.5323012" lon="127.0596635"><ele>0</ele></trkpt>
@@ -38,13 +39,13 @@ final class GPXExporterTests: XCTestCase {
             </trkseg>
             
             """
-        XCTAssertEqual(result, expected)
+        #expect(result == expected)
     }
     
-    func testTrk() throws {
-        let gpx = Self.gpx!
-        let exp = Self.exp!
-        let result = exp.trks(gpx.tracks)
+    @Test func testTrk() throws {
+        let gpx = Self.gpx
+        let exp = Self.exp
+        let result = exp.makeTrackTags(gpx.tracks)
         let expected = """
             <trk>
             <trkseg>
@@ -70,12 +71,12 @@ final class GPXExporterTests: XCTestCase {
             </trk>
             
             """
-        XCTAssertEqual(result, expected)
+        #expect(result == expected)
     }
     
-    func testMetadata() throws {
-        let exp = Self.exp!
-        let result = exp.metadata()
+    @Test func testMetadata() throws {
+        let exp = Self.exp
+        let result = exp.makeMetadataTag()
         let expected = """
             <metadata>
             <name>name1</name>
@@ -83,12 +84,12 @@ final class GPXExporterTests: XCTestCase {
             </metadata>
             
             """
-        XCTAssertEqual(result, expected)
+        #expect(result == expected)
     }
     
-    func testGpx() throws {
-        let exp = Self.exp!
-        let result = exp.gpx(content: "<trk></trk>")
+    @Test func testGPX() throws {
+        let exp = Self.exp
+        let result = exp.makeGPXTag(content: "<trk></trk>")
         let expected = """
             <?xml version="1.0" encoding="UTF-8"?>
             <gpx xmlns="http://www.topografix.com/GPX/1/1"
@@ -98,7 +99,7 @@ final class GPXExporterTests: XCTestCase {
             <trk></trk>
             </gpx>
             """
-        XCTAssertEqual(result, expected)
+        #expect(result == expected)
     }
     
 }

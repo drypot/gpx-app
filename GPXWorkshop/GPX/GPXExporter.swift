@@ -18,14 +18,14 @@ struct GPXExporter {
         self.creator = creator
     }
     
-    func xml() -> String {
+    func makeXMLString() -> String {
         var content = ""
-        content += metadata()
-        content += trks(gpx.tracks)
-        return gpx(content: content)
+        content += makeMetadataTag()
+        content += makeTrackTags(gpx.tracks)
+        return makeGPXTag(content: content)
     }
     
-    func gpx(content: String) -> String {
+    func makeGPXTag(content: String) -> String {
         return """
             <?xml version="1.0" encoding="UTF-8"?>
             <gpx xmlns="http://www.topografix.com/GPX/1/1"
@@ -37,7 +37,7 @@ struct GPXExporter {
             """
     }
     
-    func metadata() -> String {
+    func makeMetadataTag() -> String {
         var result = "<metadata>\n"
         if gpx.metadata.name.isEmpty == false {
             result += "<name>" + gpx.metadata.name + "</name>\n"
@@ -49,17 +49,17 @@ struct GPXExporter {
         return result
     }
     
-    func trks(_ tracks: [GPXTrack]) -> String {
+    func makeTrackTags(_ tracks: [GPXTrack]) -> String {
         var result = ""
         for track in tracks {
             result += "<trk>\n"
-            result += trksegs(track.segments)
+            result += makeSegmentTags(track.segments)
             result += "</trk>\n"
         }
         return result
     }
     
-    func trksegs(_ segments: [GPXSegment]) -> String {
+    func makeSegmentTags(_ segments: [GPXSegment]) -> String {
         var result = ""
         for segment in segments {
             result += "<trkseg>\n"
