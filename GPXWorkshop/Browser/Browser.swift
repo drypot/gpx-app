@@ -18,7 +18,7 @@ class Browser {
     }
     
     func data() throws -> Data {
-        var gpx = GPX()
+        let gpx = GPX()
         gpx.addTracks(from: polylines)
         let xml = GPXExporter(gpx).xml()
         return Data(xml.utf8)

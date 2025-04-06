@@ -70,7 +70,7 @@ final class BrowserController: NSViewController {
     
     func importPolylines(from urls: [URL]) {
         Task { [unowned self] in
-            let polylines = try await MKPolyline.polylines(from: urls)
+            let polylines = try await PolylineFactory().makePolylines(from: urls)
             Task { @MainActor in
                 browser.importPolylines(polylines)
                 mapView.addOverlays(polylines)

@@ -15,10 +15,10 @@ import MapKit
 // 다른 지도 사용할 경우는, 그때 가서 생각;
 
 extension GPX {
-    mutating func addTracks(from polylines: Set<MKPolyline>) {
+    func addTracks(from polylines: Set<MKPolyline>) {
         for polyline in polylines {
-            var track = GPXTrack()
-            var segment = GPXSegment(polyline)
+            let track = GPXTrack()
+            let segment = GPXSegment(polyline)
             track.segments.append(segment)
             self.tracks.append(track)
         }
@@ -26,7 +26,8 @@ extension GPX {
 }
 
 extension GPXSegment {
-    init(_ polyline: MKPolyline) {
+    convenience init(_ polyline: MKPolyline) {
+        self.init()
         let count = polyline.pointCount
         let pointer = polyline.points()
         for i in 0 ..< count {
@@ -37,38 +38,37 @@ extension GPXSegment {
     }
 }
 
-extension MKPolyline {
-    convenience init(_ gpxSegment: GPXSegment) {
+struct PolylineFactory {
+    func makePolyline(from gpxSegment: GPXSegment) -> MKPolyline {
         let points = gpxSegment.points.map {
             CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
         }
-        self.init(coordinates: points, count: points.count)
+        return MKPolyline(coordinates: points, count: points.count)
     }
-    
-    static func polylines(from gpxData: Data) throws -> [MKPolyline] {
+
+    func makePolylines(from gpxData: Data) throws -> [MKPolyline] {
         var polylines: [MKPolyline] = []
         let gpx = try GPX.gpx(from: gpxData)
         for track in gpx.tracks {
             for segment in track.segments {
-                polylines.append(MKPolyline(segment))
+                polylines.append(self.makePolyline(from: segment))
             }
         }
         return polylines
     }
- 
-    static nonisolated func polylines(from urls: [URL]) async throws -> [MKPolyline] {
+
+    func makePolylines(from urls: [URL]) async throws -> [MKPolyline] {
         var polylines: [MKPolyline] = []
         for url in Files(urls: urls) {
             let gpx = try GPX.gpx(from: url)
             for track in gpx.tracks {
                 for segment in track.segments {
-                    polylines.append(MKPolyline(segment))
+                    polylines.append(self.makePolyline(from: segment))
                 }
             }
         }
         return polylines
     }
-    
 }
 
 func distance(from point: MKMapPoint, to polyline: MKPolyline) -> CLLocationDistance {

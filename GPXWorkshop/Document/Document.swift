@@ -39,7 +39,7 @@ class Document: NSDocument {
 
     override func read(from data: Data, ofType typeName: String) throws {
         do {
-            let polylines = try MKPolyline.polylines(from: data)
+            let polylines = try PolylineFactory().makePolylines(from: data)
             workplace.importPolylines(polylines)
         } catch {
             Swift.print(error.localizedDescription)
