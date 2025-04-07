@@ -6,22 +6,13 @@
 //
 
 import Combine
-import XCTest
+import Testing
 
-final class PublisherTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-    }
-    
-    func AssertSuccess<Success, Failure>(result: Result<Success, Failure>, value: Success) {
-        
-    }
-    
-    func testAsResult() throws {
+struct PublisherTests {
+
+    @Test func testAsResult() async throws {
         var result: Result<String, Never>?
-        let expect = self.expectation(description: "expect result")
-        
+
         let cancellable = Just("abc")
             .asResult()
             .sink(
@@ -32,19 +23,16 @@ final class PublisherTests: XCTestCase {
                     case .failure(let error):
                         result = .failure(error)
                     }
-                    expect.fulfill()
                 },
                 receiveValue: { value in
                     result = value
                 }
             )
-        
-        waitForExpectations(timeout: 3)
         cancellable.cancel()
         
         let value = result?.get()
 
-        XCTAssertEqual(value, "abc")
+        #expect(value == "abc")
     }
     
 }

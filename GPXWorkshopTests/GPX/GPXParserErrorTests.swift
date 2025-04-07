@@ -5,29 +5,30 @@
 //  Created by drypot on 2024-04-08.
 //
 
-import XCTest
+import Foundation
+import Testing
 
-final class GPXParserErrorTests: XCTestCase {
-    
-    func testNoContent() throws {
+struct GPXParserErrorTests {
+
+    @Test func testNoContent() throws {
         let data = Data(gpxSampleNoContent.utf8)
-        var error: Error?
-        XCTAssertThrowsError(try GPXParser().parse(data)) { error = $0 }
-        XCTAssertEqual(error as! XMLError, XMLError.parsingError(0))
+        #expect(throws: XMLError.parsingError(0)) {
+            try GPXParser().parse(data)
+        }
     }
     
-    func testBadFormat() throws {
+    @Test func testBadFormat() throws {
         let data = Data(gpxSampleBad.utf8)
-        var error: Error?
-        XCTAssertThrowsError(try GPXParser().parse(data)) { error = $0 }
-        XCTAssertEqual(error as! XMLError, XMLError.parsingError(9))
+        #expect(throws: XMLError.parsingError(9)) {
+            try GPXParser().parse(data)
+        }
     }
     
-    func testNoTrack() throws {
+    @Test func testNoTrack() throws {
         let data = Data(gpxSampleNoTrack.utf8)
         let gpx = try GPXParser().parse(data)
-        XCTAssertEqual(gpx.creator, "texteditor")
-        XCTAssertEqual(gpx.tracks.count, 0)
+        #expect(gpx.creator == "texteditor")
+        #expect(gpx.tracks.count == 0)
     }
     
 }

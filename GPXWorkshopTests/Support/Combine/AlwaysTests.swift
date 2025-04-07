@@ -5,29 +5,29 @@
 //  Created by Kyuhyun Park on 5/17/24.
 //
 
-import XCTest
 import Combine
+import Testing
 
-final class AlwaysTests: XCTestCase {
+struct AlwaysTests {
 
-    func testAlwaysPublisher() throws {
+    @Test func testAlwaysPublisher() throws {
         var count = 0
         let _ = AlwaysPublisher(output: 999).prefix(5).sink { value in
             count += 1
-            XCTAssertEqual(value, 999)
-            XCTAssertTrue(count <= 5)
+            #expect(value == 999)
+            #expect(count <= 5)
         }
-        XCTAssertEqual(count, 5)
+        #expect(count == 5)
     }
 
-    func testAlwaysSequence() throws {
+    @Test func testAlwaysSequence() throws {
         var count = 0
         AlwaysSequence(output: 999).prefix(5).forEach { value in
             count += 1
-            XCTAssertEqual(value, 999)
-            XCTAssertTrue(count <= 5)
+            #expect(value == 999)
+            #expect(count <= 5)
         }
-        XCTAssertEqual(count, 5)
+        #expect(count == 5)
     }
 
 }

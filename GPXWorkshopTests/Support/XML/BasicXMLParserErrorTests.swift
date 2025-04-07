@@ -5,29 +5,30 @@
 //  Created by drypot on 2024-04-07.
 //
 
-import XCTest
+import Foundation
+import Testing
 
-final class XMLParserErrorTests: XCTestCase {
-    
-    func testNoContent() throws {
+struct XMLParserErrorTests {
+
+    @Test func testNoContent() throws {
         let data = Data(gpxSampleNoContent.utf8)
-        var error: Error?
-        XCTAssertThrowsError(try BasicXMLParser().parse(data)) { error = $0 }
-        XCTAssertEqual(error as! XMLError, XMLError.parsingError(0))
+        #expect(throws: XMLError.parsingError(0)) {
+            try BasicXMLParser().parse(data)
+        }
     }
     
-    func testBadFormat() throws {
+    @Test func testBadFormat() throws {
         let data = Data(gpxSampleBad.utf8)
-        var error: Error?
-        XCTAssertThrowsError(try BasicXMLParser().parse(data)) { error = $0 }
-        XCTAssertEqual(error as! XMLError, XMLError.parsingError(9))
+        #expect(throws: XMLError.parsingError(9)) {
+            try BasicXMLParser().parse(data)
+        }
     }
     
-    func testNoTrack() throws {
+    @Test func testNoTrack() throws {
         let data = Data(gpxSampleNoTrack.utf8)
         let root = try BasicXMLParser().parse(data)
-        XCTAssertEqual(root.name, "gpx")
-        XCTAssertEqual(root.children.first?.name, nil)
+        #expect(root.name == "gpx")
+        #expect(root.children.first?.name == nil)
     }
     
 }

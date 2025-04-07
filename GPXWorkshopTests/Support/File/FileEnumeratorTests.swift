@@ -5,12 +5,19 @@
 //  Created by Kyuhyun Park on 5/15/24.
 //
 
-import XCTest
-import Combine
+import Foundation
+import Testing
 
-final class FileEnumeratorTests: XCTestCase {
+struct FileEnumeratorTests {
 
-    func testFilesSequence() throws {
+    func fixtureURL(_ fixture: String) -> URL {
+        return URL(fileURLWithPath: #file)
+            .deletingLastPathComponent()
+            .appendingPathComponent("Fixtures")
+            .appendingPathComponent(fixture)
+    }
+
+    @Test func testFilesSequence() throws {
         let url = fixtureURL("Sub1")
         let fixtures = [
             "Fixtures/Sub1/dummy3.txt",
@@ -20,12 +27,12 @@ final class FileEnumeratorTests: XCTestCase {
         Files(url: url).forEach { url in
             count += 1
             let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
-            XCTAssertEqual(contains, 1)
+            #expect(contains == 1)
         }
-        XCTAssertEqual(count, 2)
+        #expect(count == 2)
     }
 
-    func testFilesSequence2() throws {
+    @Test func testFilesSequence2() throws {
         let urls = [
             fixtureURL("dummy1.txt"),
             fixtureURL("Sub1")
@@ -39,12 +46,12 @@ final class FileEnumeratorTests: XCTestCase {
         Files(urls: urls).forEach { url in
             count += 1
             let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
-            XCTAssertEqual(contains, 1)
+            #expect(contains == 1)
         }
-        XCTAssertEqual(count, 3)
+        #expect(count == 3)
     }
 
-    func testFilesSequence3() throws {
+    @Test func testFilesSequence3() throws {
         let urls = [
             fixtureURL(""),
         ]
@@ -58,12 +65,12 @@ final class FileEnumeratorTests: XCTestCase {
         Files(urls: urls).forEach { url in
             count += 1
             let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
-            XCTAssertEqual(contains, 1)
+            #expect(contains == 1)
         }
-        XCTAssertEqual(count, 4)
+        #expect(count == 4)
     }
 
-    func testEnumerateFiles() throws {
+    @Test func testEnumerateFiles() throws {
         let baseUrl = fixtureURL("")
         var count = 0
         let limit = 5
@@ -79,22 +86,21 @@ final class FileEnumeratorTests: XCTestCase {
         
         switch result {
         case .success:
-            XCTAssertEqual(count, 4)
+            #expect(count == 4)
         case .failure:
-            XCTFail()
+            fatalError()
         }
     }
 
-    func testFilesPublisher() throws {
+    @Test func testFilesPublisher() throws {
         let baseURL = fixtureURL("")
         var count = 0
         
         let _ = FilesPublisher(url: baseURL).sink { url in
             count += 1
-            //print(url)
-            XCTAssertTrue(count <= 5)
+            #expect(count <= 5)
         }
-        XCTAssertEqual(count, 4)
+        #expect(count == 4)
     }
 
 }

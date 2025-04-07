@@ -5,39 +5,44 @@
 //  Created by drypot on 2024-04-02.
 //
 
-import XCTest
+import Foundation
+import Testing
 
-final class XMLParserTests: XCTestCase {
-    
-    func testXMLParserDidStartDocument() throws {
+struct XMLParserTests {
+
+    @Test func testXMLParserDidStartDocument() throws {
         let data = Data(gpxSamplePlotaRouteShort.utf8)
         let parser = XMLParser(data: data)
         
         class Delegate: NSObject, XMLParserDelegate {
-            
+            let logger = SimpleLogger<String>()
+
             func parserDidStartDocument(_ parser: XMLParser) {
-                XCTAssertEqual(1, parser.lineNumber)
+                logger.append("start: \(parser.lineNumber)")
             }
             
             func parserDidEndDocument(_ parser: XMLParser) {
-                XCTAssertEqual(21, parser.lineNumber)
+                logger.append("end: \(parser.lineNumber)")
             }
         }
         
         let delegate = Delegate()
         parser.delegate = delegate
         parser.parse()
+
+        #expect(delegate.logger.result() == [
+            "start: 1",
+            "end: 21"
+        ])
     }
     
-    func testXMLParserHandlingElement() throws {
+    @Test func testXMLParserHandlingElement() throws {
         let data = Data(gpxSamplePlotaRouteShort.utf8)
         let parser = XMLParser(data: data)
         
         class Delegate: NSObject, XMLParserDelegate {
-            var nameCount = 0
-            var trkptCount = 0
-            var allCount = 0
-            
+            let logger = SimpleLogger<String>()
+
             func parser(
                 _ parser: XMLParser,
                 didStartElement elementName: String,
@@ -45,12 +50,7 @@ final class XMLParserTests: XCTestCase {
                 qualifiedName qName: String?,
                 attributes attributeDict: [String : String] = [:]
             ) {
-                switch elementName {
-                case "name" : nameCount += 1
-                case "trkpt" : trkptCount += 1
-                default: break
-                }
-                allCount += 1
+                logger.append(elementName)
             }
         }
         
@@ -58,19 +58,18 @@ final class XMLParserTests: XCTestCase {
         parser.delegate = delegate
         parser.parse()
         
-        XCTAssertEqual(delegate.nameCount, 1)
-        XCTAssertEqual(delegate.trkptCount, 2)
-        XCTAssertEqual(delegate.allCount, 12)
+        #expect(delegate.logger.result() == [
+            "gpx", "metadata", "desc", "trk", "name", "trkseg", "trkpt", "ele", "time", "trkpt", "ele", "time"
+        ])
     }
     
-    func testXMLParserHandlingAttributes() throws {
+    @Test func testXMLParserHandlingAttributes() throws {
         let data = Data(gpxSamplePlotaRouteShort.utf8)
         let parser = XMLParser(data: data)
         
         class Delegate: NSObject, XMLParserDelegate {
-            
-            let lats = ["37.5323012", "37.5338156"]
-            
+            let logger = SimpleLogger<String>()
+
             func parser(
                 _ parser: XMLParser,
                 didStartElement elementName: String,
@@ -79,7 +78,7 @@ final class XMLParserTests: XCTestCase {
                 attributes attributeDict: [String : String] = [:]
             ) {
                 if elementName == "trkpt" {
-                    XCTAssertTrue(lats.contains(attributeDict["lat"]!))
+                    logger.append("\(attributeDict["lat"]!)")
                 }
             }
         }
@@ -87,30 +86,27 @@ final class XMLParserTests: XCTestCase {
         let delegate = Delegate()
         parser.delegate = delegate
         parser.parse()
+
+        #expect(delegate.logger.result() == [
+            "37.5323012",
+            "37.5338156"
+        ])
     }
     
-    func testXMLParserHandlingText() throws {
+    @Test func testXMLParserHandlingText() throws {
         let data = Data(gpxSamplePlotaRouteShort.utf8)
         let parser = XMLParser(data: data)
         
-        let answer = [
-            "Route created on plotaroute.com",
-            "Sample01",
-            "15",
-            "2024-04-01T00:00:00Z",
-            "15",
-            "2024-04-01T00:04:51Z"
-        ]
-        
         class Delegate: NSObject, XMLParserDelegate {
-            var result = [String]()
+            let logger = SimpleLogger<String>()
+
             func parser(
                 _ parser: XMLParser,
                 foundCharacters string: String
             ) {
                 let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
                 if trimmed != "" {
-                    result.append(trimmed)
+                    logger.append(trimmed)
                 }
             }
         }
@@ -119,21 +115,28 @@ final class XMLParserTests: XCTestCase {
         parser.delegate = delegate
         parser.parse()
         
-        XCTAssertTrue(answer.elementsEqual(delegate.result))
+        #expect(delegate.logger.result() == [
+            "Route created on plotaroute.com",
+            "Sample01",
+            "15",
+            "2024-04-01T00:00:00Z",
+            "15",
+            "2024-04-01T00:04:51Z"
+        ])
     }
     
-    func testXMLParserHandlingError() throws {
-        
+    @Test func testXMLParserHandlingError() throws {
         let data = Data(gpxSampleBad.utf8)
         let parser = XMLParser(data: data)
         
         class Delegate: NSObject, XMLParserDelegate {
-            var error: Error?
+            let logger = SimpleLogger<String>()
+
             func parser(
                 _ parser: XMLParser,
                 parseErrorOccurred parseError: Error
             ) {
-                self.error = parseError
+                logger.append("error: \(parser.lineNumber)")
             }
         }
         
@@ -141,6 +144,8 @@ final class XMLParserTests: XCTestCase {
         parser.delegate = delegate
         parser.parse()
         
-        XCTAssertNotNil(delegate.error)
+        #expect(delegate.logger.result() == [
+            "error: 8"
+        ])
     }
 }
