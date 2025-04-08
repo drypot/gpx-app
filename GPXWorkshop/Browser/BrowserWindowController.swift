@@ -9,7 +9,7 @@ import Cocoa
 
 class BrowserWindowController: NSWindowController, NSWindowDelegate {
 
-    convenience init() {
+    init() {
         // window 는 windowController 가 retain 하므로 따로 retain 하지 않아도 된다.
         let window = NSWindow(
             contentRect: .zero,
@@ -18,14 +18,18 @@ class BrowserWindowController: NSWindowController, NSWindowDelegate {
             defer: false
         )
 
-        self.init(window: window)
+        super.init(window: window)
 
         window.title = "GPX Browser"
         window.contentViewController = BrowserController()
         window.delegate = self
         setWindowFrame(window)
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setWindowFrame(_ window: NSWindow) {
         let autosaveName = "BrowserWindowFrame"
         if !window.setFrameUsingName(autosaveName) {
