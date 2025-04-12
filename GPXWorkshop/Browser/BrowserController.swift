@@ -71,7 +71,7 @@ final class BrowserController: NSViewController {
     
     func importPolylines(from urls: [URL]) {
         Task { [unowned self] in
-            let polylines = try await PolylineFactory().makePolylines(from: urls)
+            let polylines = try await MapKitUtils.makePolylines(from: urls)
             Task { @MainActor in
                 browser.importPolylines(polylines)
                 mapView.addOverlays(polylines)
@@ -208,7 +208,7 @@ final class BrowserController: NSViewController {
             if !rect.contains(mapPoint) {
                 continue
             }
-            let distance = distance(from: mapPoint, to: polyline)
+            let distance = MapKitUtils.distance(from: mapPoint, to: polyline)
             if distance < tolerance, distance < minDistance {
                 minDistance = distance
                 closest = polyline
