@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "B2188284-7A1E-4780-AA0C-67932B436519",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:GPXWorkshop.xcodeproj",
+      "identifier" : "00D40E732BBA403200B755CE",
+      "name" : "GPXWorkshop"
+    }
+  },
+  "testTargets" : [
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GPXWorkshop.xcodeproj",
+        "identifier" : "0004B1062DAA5DCD0091C628",
+        "name" : "GPXWorkshopTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GPXWorkshop.xcodeproj",
+        "identifier" : "009F90512DAA51D50060ADA6",
+        "name" : "GPXWorkshopModelTests"
+      }
+    }
+  ],
+  "version" : 1
+}

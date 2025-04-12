@@ -21,34 +21,70 @@
                ReferencedContainer = "container:GPXWorkshop.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0004B1062DAA5DCD0091C628"
+               BuildableName = "GPXWorkshopTests.xctest"
+               BlueprintName = "GPXWorkshopTests"
+               ReferencedContainer = "container:GPXWorkshop.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "009F90492DAA51D40060ADA6"
+               BuildableName = "Model.framework"
+               BlueprintName = "Model"
+               ReferencedContainer = "container:GPXWorkshop.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "009F90512DAA51D50060ADA6"
+               BuildableName = "ModelTests.xctest"
+               BlueprintName = "ModelTests"
+               ReferencedContainer = "container:GPXWorkshop.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:GPXWorkshop.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
-            skipped = "NO"
+            skipped = "YES"
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "001558372C076F7E000691EE"
+               BlueprintIdentifier = "0004B1062DAA5DCD0091C628"
                BuildableName = "GPXWorkshopTests.xctest"
                BlueprintName = "GPXWorkshopTests"
-               ReferencedContainer = "container:GPXWorkshop.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00D40E8E2BBA403500B755CE"
-               BuildableName = "GPXWorkshopUITests.xctest"
-               BlueprintName = "GPXWorkshopUITests"
                ReferencedContainer = "container:GPXWorkshop.xcodeproj">
             </BuildableReference>
          </TestableReference>

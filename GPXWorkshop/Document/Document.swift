@@ -8,6 +8,7 @@
 import Cocoa
 import UniformTypeIdentifiers
 import MapKit
+import Model
 
 class Document: NSDocument {
 
