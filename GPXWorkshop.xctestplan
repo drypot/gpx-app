@@ -17,19 +17,10 @@
   },
   "testTargets" : [
     {
-      "enabled" : false,
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:GPXWorkshop.xcodeproj",
-        "identifier" : "0004B1062DAA5DCD0091C628",
-        "name" : "GPXWorkshopTests"
-      }
-    },
-    {
       "target" : {
         "containerPath" : "container:GPXWorkshop.xcodeproj",
         "identifier" : "009F90512DAA51D50060ADA6",
-        "name" : "GPXWorkshopModelTests"
+        "name" : "ModelTests"
       }
     }
   ],

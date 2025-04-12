@@ -23,20 +23,6 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0004B1062DAA5DCD0091C628"
-               BuildableName = "GPXWorkshopTests.xctest"
-               BlueprintName = "GPXWorkshopTests"
-               ReferencedContainer = "container:GPXWorkshop.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
@@ -76,19 +62,6 @@
             default = "YES">
          </TestPlanReference>
       </TestPlans>
-      <Testables>
-         <TestableReference
-            skipped = "YES"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0004B1062DAA5DCD0091C628"
-               BuildableName = "GPXWorkshopTests.xctest"
-               BlueprintName = "GPXWorkshopTests"
-               ReferencedContainer = "container:GPXWorkshop.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
