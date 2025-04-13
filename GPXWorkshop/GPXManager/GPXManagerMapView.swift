@@ -1,5 +1,5 @@
 //
-//  BrowserMapView.swift
+//  GPXManagerMapView.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/21/24.
@@ -12,7 +12,7 @@ protocol KeyEventDelegate: AnyObject {
     func handleKeyDown(with event: NSEvent, on view: NSView) -> Bool
 }
 
-class BrowserMapView: MKMapView {
+class GPXManagerMapView: MKMapView {
     weak var keyEventDelegate: KeyEventDelegate?
 
     override var acceptsFirstResponder: Bool {

@@ -11,17 +11,21 @@ import MapKit
 // 참고
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
-public class GPX {
-    //let uuid = UUID()
+public final class GPX: PointerHashable {
+
+    //public let id = UUID()
+
     var creator: String = ""
     var version: String = ""
     var metadata: GPXMetadata = .init()
     var waypoints: [GPXWaypoint] = []
     //var routes: [GPXRoute]
     var tracks: [GPXTrack] = []
+
+    public init() { }
 }
 
-public class GPXMetadata {
+public final class GPXMetadata: PointerHashable {
     var name: String = ""
     var description: String = ""
     //var author
@@ -30,9 +34,11 @@ public class GPXMetadata {
     //var time
     //var keywords: String?
     //var bounds:
+
+    public init() { }
 }
 
-public class GPXWaypoint {
+public final class GPXWaypoint: PointerHashable {
     var point: GPXPoint = GPXPoint()
     
     //var time
@@ -54,9 +60,11 @@ public class GPXWaypoint {
     //var pdop
     //var ageofdgpsdata
     //var dgpsid
+
+    public init() { }
 }
 
-public class GPXTrack {
+public final class GPXTrack: PointerHashable {
     var name: String = ""
     var comment: String = ""
     var description: String = ""
@@ -65,10 +73,14 @@ public class GPXTrack {
     //var number: Int?
     //var type: String?
     var segments: [GPXSegment] = []
+
+    public init() { }
 }
 
-public class GPXSegment {
+public final class GPXSegment: PointerHashable {
     var points: [GPXPoint] = []
+
+    public init() { }
 }
 
 public struct GPXPoint {
@@ -76,6 +88,12 @@ public struct GPXPoint {
     var longitude = 0.0
     var elevation = 0.0
 
+    public init(latitude: Double = 0.0, longitude: Double = 0.0, elevation: Double = 0.0) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.elevation = elevation
+    }
+    
     func almostEqual(_ target: Self) -> Bool {
         (self.latitude - target.latitude).magnitude < 0.000001 &&
         (self.longitude - target.longitude).magnitude < 0.000001 &&

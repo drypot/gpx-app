@@ -1,5 +1,5 @@
 //
-//  Browser.swift
+//  GPXManager.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -7,9 +7,10 @@
 
 import Foundation
 import MapKit
+//import Model
 
-public class Browser {
-    
+public class PolylineManager {
+
     public var polylines: Set<MKPolyline> = []
     public var selectedPolylines: Set<MKPolyline> = []
 

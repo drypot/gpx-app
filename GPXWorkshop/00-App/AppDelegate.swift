@@ -10,7 +10,7 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var windowController = BrowserWindowController()
+    var windowController = GPXManagerWindowController()
 
     func applicationWillFinishLaunching(_ notification: Notification) {
     }

@@ -12,7 +12,7 @@ import Model
 
 class Document: NSDocument {
 
-    var workplace = Browser()
+//    var workplace = PolylineManager()
     
     override init() {
         super.init()
@@ -24,27 +24,28 @@ class Document: NSDocument {
     }
 
     override func makeWindowControllers() {
-        guard !isRunningTests else {
-            Swift.print("makeWindowControllers skipped")
-            return
-        }
-        Swift.print("makeWindowControllers")
-        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Browser Window Controller")) as! NSWindowController
-        self.addWindowController(windowController)
+//        guard !isRunningTests else {
+//            Swift.print("makeWindowControllers skipped")
+//            return
+//        }
+//        Swift.print("makeWindowControllers")
+//        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+//        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Browser Window Controller")) as! NSWindowController
+//        self.addWindowController(windowController)
     }
     
     override func data(ofType typeName: String) throws -> Data {
-        return try workplace.data()
+//        return try workplace.data()
+        return Data()
     }
 
     override func read(from data: Data, ofType typeName: String) throws {
-        do {
-            let polylines = try GPX.makePolylines(from: data)
-            workplace.importPolylines(polylines)
-        } catch {
-            Swift.print(error.localizedDescription)
-        }
+//        do {
+//            let polylines = try GPX.makePolylines(from: data)
+//            workplace.importPolylines(polylines)
+//        } catch {
+//            Swift.print(error.localizedDescription)
+//        }
 
 //        if UTType(typeName) == .gpx {
 //            let newURL = fileURL?.deletingPathExtension().appendingPathExtension(".gpxws")

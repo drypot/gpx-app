@@ -1,5 +1,5 @@
 //
-//  WorkplaceController.swift
+//  GPXManagerController.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -9,10 +9,10 @@ import Foundation
 import MapKit
 import Model
 
-final class BrowserController: NSViewController {
+final class GPXManagerController: NSViewController {
 
-    private var browser = Browser()
-    private var mapView = BrowserMapView()
+    private var browser = PolylineManager()
+    private var mapView = GPXManagerMapView()
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
@@ -287,7 +287,7 @@ final class BrowserController: NSViewController {
     
 }
 
-extension BrowserController: KeyEventDelegate {
+extension GPXManagerController: KeyEventDelegate {
     func handleKeyDown(with event: NSEvent, on view: NSView) -> Bool {
         let characters = event.charactersIgnoringModifiers ?? ""
         for character in characters {
@@ -302,7 +302,7 @@ extension BrowserController: KeyEventDelegate {
     }
 }
 
-extension BrowserController: MKMapViewDelegate {
+extension GPXManagerController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
