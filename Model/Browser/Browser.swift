@@ -22,7 +22,7 @@ public class Browser {
     
     public func data() throws -> Data {
         let gpx = GPX()
-        let tracks = MapKitUtils.makeGPXTracks(from: polylines)
+        let tracks = GPX.makeGPXTracks(from: polylines)
         gpx.tracks.append(contentsOf: tracks)
         let xml = GPXExporter(gpx).makeXMLString()
         return Data(xml.utf8)

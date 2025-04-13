@@ -1,5 +1,5 @@
 //
-//  MapKitUtils.swift
+//  GPXUtils.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-public enum MapKitUtils {
+extension GPX {
 
     public static func makeGPXSegment(from polyline: MKPolyline) -> GPXSegment {
         let segment = GPXSegment()
@@ -64,47 +64,48 @@ public enum MapKitUtils {
         return polylines
     }
 
-    public static func distance(from point: MKMapPoint, to polyline: MKPolyline) -> CLLocationDistance {
+    public static func calcDistance(from point: MKMapPoint, to polyline: MKPolyline) -> CLLocationDistance {
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
 
         let points = polyline.points()
         let pointCount = polyline.pointCount
 
         for i in 0 ..< pointCount - 1 {
-            let pointA = points[i]
-            let pointB = points[i + 1]
-            let distance = distance(from: point, toSegmentBetween: pointA, and: pointB)
+            let line = MKMapLine(start: points[i], end: points[i + 1])
+            let distance = calcDistance(from: point, to: line)
             minDistance = min(minDistance, distance)
         }
 
         return minDistance
     }
 
-    public static func distance(from point: MKMapPoint, toSegmentBetween pointA: MKMapPoint, and pointB: MKMapPoint) -> CLLocationDistance {
+    public static func calcDistance(from point: MKMapPoint, to line: MKMapLine) -> CLLocationDistance {
         let x0 = point.x
         let y0 = point.y
-        let x1 = pointA.x
-        let y1 = pointA.y
-        let x2 = pointB.x
-        let y2 = pointB.y
+        let start = line.start
+        let end = line.end
+        let x1 = start.x
+        let y1 = start.y
+        let x2 = end.x
+        let y2 = end.y
 
         let dx = x2 - x1
         let dy = y2 - y1
 
         if dx == 0 && dy == 0 {
-            // Points A and B are the same
-            return pointA.distance(to: point)
+            // start and end are the same
+            return start.distance(to: point)
         }
 
         // Project point onto the line segment
         let t = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)
 
         if t < 0 {
-            // Closest to point A
-            return pointA.distance(to: point)
+            // Closest to start
+            return start.distance(to: point)
         } else if t > 1 {
-            // Closest to point B
-            return pointB.distance(to: point)
+            // Closest to end
+            return end.distance(to: point)
         } else {
             // Closest to the line segment
             let projection = MKMapPoint(x: x1 + t * dx, y: y1 + t * dy)
@@ -112,4 +113,9 @@ public enum MapKitUtils {
         }
     }
 
+}
+
+public struct MKMapLine {
+    var start: MKMapPoint
+    var end: MKMapPoint
 }
