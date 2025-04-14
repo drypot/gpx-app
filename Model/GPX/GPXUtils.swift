@@ -8,7 +8,21 @@
 import Foundation
 import MapKit
 
-extension GPX {
+public enum GPXUtils {
+
+    static func makeGPXFile(from url: URL) throws -> GPXFile {
+        let data = try Data(contentsOf: url)
+        return try makeGPXFile(from: data)
+    }
+
+    static func makeGPXFile(from data: Data) throws -> GPXFile {
+        return try GPXParser().parse(data)
+    }
+
+    static func makeData(from gpxFile: GPXFile) throws -> Data {
+        let xmlString = GPXExporter(gpxFile).makeXMLString()
+        return Data(xmlString.utf8)
+    }
 
     public static func makeGPXSegment(from polyline: MKPolyline) -> GPXSegment {
         let segment = GPXSegment()
@@ -42,7 +56,7 @@ extension GPX {
 
     public static func makePolylines(from gpxData: Data) throws -> [MKPolyline] {
         var polylines: [MKPolyline] = []
-        let gpx = try GPX.gpx(from: gpxData)
+        let gpx = try GPXUtils.makeGPXFile(from: gpxData)
         for track in gpx.tracks {
             for segment in track.segments {
                 polylines.append(self.makePolyline(from: segment))
@@ -54,7 +68,7 @@ extension GPX {
     public static func makePolylines(from urls: [URL]) async throws -> [MKPolyline] {
         var polylines: [MKPolyline] = []
         for url in Files(urls: urls) {
-            let gpx = try GPX.gpx(from: url)
+            let gpx = try GPXUtils.makeGPXFile(from: url)
             for track in gpx.tracks {
                 for segment in track.segments {
                     polylines.append(self.makePolyline(from: segment))

@@ -41,7 +41,7 @@ class Document: NSDocument {
 
     override func read(from data: Data, ofType typeName: String) throws {
 //        do {
-//            let polylines = try GPX.makePolylines(from: data)
+//            let polylines = try GPXFile.makePolylines(from: data)
 //            workplace.importPolylines(polylines)
 //        } catch {
 //            Swift.print(error.localizedDescription)

@@ -8,44 +8,66 @@
 import Foundation
 import MapKit
 
-protocol GPXManagerDelegate: AnyObject {
+public protocol GPXManagerDelegate: AnyObject {
+    func managerDidAddFiles(_ files: [GPXFile])
 
+    func managerDidSelectFile(_ file: GPXFile)
+    func managerDidUnselectFiles()
+
+    func managerDidDeleteSelectedFiles()
+    func managerDidUndeleteSelectedFiles(_ undoFiles: Set<GPXFile>)
 }
 
-public class GPXManager2 {
+public class GPXManager {
 
-    weak var delegate: GPXManagerDelegate?
+    public weak var delegate: GPXManagerDelegate?
 
-    var gpxSet: Set<GPX> = []
-    
+    private var files: Set<GPXFile> = []
+    private var selectedFiles: Set<GPXFile> = []
+
     public init() {
     }
 
-//    public static func makeGPX(from data: Data) throws -> GPX {
-////        let gpx = try GPX.gpx(from: data)
-//    }
+    public func addFiles(from urls: [URL]) async throws {
+        var newFiles = [GPXFile]()
 
-//    public func data() throws -> Data {
-//        let gpx = GPX()
-//        let tracks = GPX.makeGPXTracks(from: polylines)
-//        gpx.tracks.append(contentsOf: tracks)
-//        let xml = GPXExporter(gpx).makeXMLString()
-//        return Data(xml.utf8)
-//    }
-    
-//    public func deleteSelected() {
-//        polylines.subtract(selectedPolylines)
-//        selectedPolylines.removeAll()
-//    }
-//    
-//    public func undeleteSelected(_ polylines: Set<MKPolyline>) {
-//        self.polylines = self.polylines.union(polylines)
-//        selectedPolylines = polylines
-//    }
-//    
-//    public func dumpCount() {
-//        print("---")
-//        print("polylines: \(polylines.count)")
-//    }
+        // TODO: 중복 파일 임포트 방지. 먼 훗날에.
+        for url in Files(urls: urls) {
+            let gpx = try GPXUtils.makeGPXFile(from: url)
+            newFiles.append(gpx)
+        }
+        files.formUnion(newFiles)
+        delegate?.managerDidAddFiles(newFiles)
+    }
+
+    public func selectedFile(_ file: GPXFile) {
+        guard files.contains(file) else {
+            fatalError()
+        }
+        selectedFiles.insert(file)
+        delegate?.managerDidSelectFile(file)
+    }
+
+    public func unselectFiles() {
+        selectedFiles.removeAll()
+        delegate?.managerDidUnselectFiles()
+    }
+
+    public func deleteSelectedFiles() {
+        files.subtract(selectedFiles)
+        selectedFiles.removeAll()
+        delegate?.managerDidDeleteSelectedFiles()
+    }
+
+    public func undeleteSelectedFiles(_ undoFiles: Set<GPXFile>) {
+        files.formUnion(undoFiles)
+        selectedFiles = undoFiles
+        delegate?.managerDidUndeleteSelectedFiles(undoFiles)
+    }
+
+    public func dumpCount() {
+        print("---")
+        print("gpxFiles: \(files.count)")
+    }
 
 }

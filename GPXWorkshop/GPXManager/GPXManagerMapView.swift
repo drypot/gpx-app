@@ -24,4 +24,15 @@ class GPXManagerMapView: MKMapView {
             super.keyDown(with: event)
         }
     }
+
+    func zoomToFitAllOverlays() {
+        var zoomRect = MKMapRect.null
+        overlays.forEach { overlay in
+            zoomRect = zoomRect.union(overlay.boundingMapRect)
+        }
+        if !zoomRect.isNull {
+            let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
+            setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
+        }
+    }
 }
