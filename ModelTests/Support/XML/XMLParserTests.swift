@@ -19,11 +19,11 @@ struct XMLParserTests {
             let logger = SimpleLogger<String>()
 
             func parserDidStartDocument(_ parser: XMLParser) {
-                logger.append("start: \(parser.lineNumber)")
+                logger.log("start: \(parser.lineNumber)")
             }
             
             func parserDidEndDocument(_ parser: XMLParser) {
-                logger.append("end: \(parser.lineNumber)")
+                logger.log("end: \(parser.lineNumber)")
             }
         }
         
@@ -51,7 +51,7 @@ struct XMLParserTests {
                 qualifiedName qName: String?,
                 attributes attributeDict: [String : String] = [:]
             ) {
-                logger.append(elementName)
+                logger.log(elementName)
             }
         }
         
@@ -79,7 +79,7 @@ struct XMLParserTests {
                 attributes attributeDict: [String : String] = [:]
             ) {
                 if elementName == "trkpt" {
-                    logger.append("\(attributeDict["lat"]!)")
+                    logger.log("\(attributeDict["lat"]!)")
                 }
             }
         }
@@ -107,7 +107,7 @@ struct XMLParserTests {
             ) {
                 let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
                 if trimmed != "" {
-                    logger.append(trimmed)
+                    logger.log(trimmed)
                 }
             }
         }
@@ -137,7 +137,7 @@ struct XMLParserTests {
                 _ parser: XMLParser,
                 parseErrorOccurred parseError: Error
             ) {
-                logger.append("error: \(parser.lineNumber)")
+                logger.log("error: \(parser.lineNumber)")
             }
         }
         
