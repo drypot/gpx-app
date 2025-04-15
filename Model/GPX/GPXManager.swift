@@ -10,6 +10,7 @@ import MapKit
 
 public protocol GPXManagerDelegate: AnyObject {
     func managerDidAddFiles(_ files: [GPXFile])
+    func managerDidRemoveFiles(_ files: [GPXFile])
 
     func managerDidSelectFile(_ file: GPXFile)
     func managerDidUnselectFiles()
@@ -28,16 +29,14 @@ public class GPXManager {
     public init() {
     }
 
-    public func addFiles(from urls: [URL]) async throws {
-        var newFiles = [GPXFile]()
+    public func addFiles(_ filesToAdd: [GPXFile]) {
+        files.formUnion(filesToAdd)
+        delegate?.managerDidAddFiles(filesToAdd)
+    }
 
-        // TODO: 중복 파일 임포트 방지. 먼 훗날에.
-        for url in Files(urls: urls) {
-            let gpx = try GPXUtils.makeGPXFile(from: url)
-            newFiles.append(gpx)
-        }
-        files.formUnion(newFiles)
-        delegate?.managerDidAddFiles(newFiles)
+    public func removeFiles(_ filesToRemove: [GPXFile]) {
+        files.subtract(filesToRemove)
+        delegate?.managerDidRemoveFiles(filesToRemove)
     }
 
     public func selectedFile(_ file: GPXFile) {

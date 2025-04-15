@@ -13,21 +13,20 @@ final class GPXManagerController: NSViewController {
 
     private let gpxManager = GPXManager()
     private var mapView = GPXManagerMapView()
-    private var polylineManager: PolylineManager
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
     init() {
-        polylineManager = PolylineManager(gpxManager: gpxManager, mapView: mapView)
         super.init(nibName: nil, bundle: nil)
+        gpxManager.delegate = mapView
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func loadView() {
         view = NSView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +34,7 @@ final class GPXManagerController: NSViewController {
         mapView.translatesAutoresizingMaskIntoConstraints = false
         
 //        mapView.keyEventDelegate = self
+//        mapView.window?.makeFirstResponder(mapView)
         view.addSubview(mapView)
 
         NSLayoutConstraint.activate([
@@ -51,6 +51,28 @@ final class GPXManagerController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         // ViewController.undoManager 는 이때쯤부터 사용 가능하다.
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window?.makeFirstResponder(self) // 키 입력에 필요
+    }
+
+    // 키 입력에 필요
+    override var acceptsFirstResponder: Bool { true }
+
+    // 키 입력에 필요
+    override func keyDown(with event: NSEvent) {
+        let characters = event.charactersIgnoringModifiers ?? ""
+        for character in characters {
+            switch character {
+            case "\u{7F}": // delete
+                break
+//                delete(nil)
+            default:
+                break
+            }
+        }
     }
 
     @IBAction func importFiles(_ sender: Any) {
@@ -74,12 +96,42 @@ final class GPXManagerController: NSViewController {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                try await gpxManager.addFiles(from: urls)
+                var newFiles = [GPXFile]()
+
+                // TODO: 중복 파일 임포트 방지. 먼 훗날에.
+                for url in Files(urls: urls) {
+                    let gpx = try GPXUtils.makeGPXFile(from: url)
+                    newFiles.append(gpx)
+                }
+
+                await MainActor.run {
+                    addFiles(newFiles as NSArray)
+                }
             } catch {
                 ErrorLogger.log(error)
             }
         }
     }
+
+    @objc func addFiles(_ files: NSArray) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
+        gpxManager.addFiles(files as! [GPXFile])
+    }
+
+    @objc func removeFiles(_ files: NSArray) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
+        gpxManager.removeFiles(files as! [GPXFile])
+    }
+
+//    @objc func selectPolyline(_ polyline: MKPolyline) {
+//        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectPolyline), object: polyline)
+//        gpxManager.selectedPolylinesInsert(polyline)
+//    }
+//
+//    @objc func deselectPolyline(_ polyline: MKPolyline) {
+//        undoManager?.registerUndo(withTarget: self, selector: #selector(selectPolyline), object: polyline)
+//        gpxManager.selectedPolylinesRemove(polyline)
+//    }
 
     @IBAction func exportFile(_ sender: Any) {
         fatalError("Test!")
@@ -106,26 +158,26 @@ final class GPXManagerController: NSViewController {
     }
 */
 
-    override func mouseDown(with event: NSEvent) {
-        initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
-        isDragging = false
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-        guard let initialClickLocation = initialClickLocation else { return }
-        
-        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
-        
-        let dx = currentLocationInView.x - initialClickLocation.x
-        let dy = currentLocationInView.y - initialClickLocation.y
-        let distance = sqrt(dx * dx + dy * dy)
-        
-        if distance > tolerance {
-            isDragging = true
-            //handleDrag(to: currentLocationInView)
-        }
-    }
-    
+//    override func mouseDown(with event: NSEvent) {
+//        initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
+//        isDragging = false
+//    }
+//    
+//    override func mouseDragged(with event: NSEvent) {
+//        guard let initialClickLocation = initialClickLocation else { return }
+//        
+//        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
+//        
+//        let dx = currentLocationInView.x - initialClickLocation.x
+//        let dy = currentLocationInView.y - initialClickLocation.y
+//        let distance = sqrt(dx * dx + dy * dy)
+//        
+//        if distance > tolerance {
+//            isDragging = true
+//            handleDrag(to: currentLocationInView)
+//        }
+//    }
+//    
 //    override func mouseUp(with event: NSEvent) {
 //        if !isDragging, let initialClickLocation = initialClickLocation {
 //            if event.modifierFlags.contains(.shift) {
@@ -137,7 +189,7 @@ final class GPXManagerController: NSViewController {
 //        initialClickLocation = nil
 //        isDragging = false
 //    }
-    
+//    
 //    func handleClick(at point: NSPoint) {
 //        select(at: point)
 //    }
@@ -161,23 +213,7 @@ final class GPXManagerController: NSViewController {
 //    @IBAction override func selectAll(_ sender: Any?) {
 //        selectAll()
 //    }
-    
-    // Draw
-    
-    
-
-    func redrawPolyline(_ polyline: MKPolyline) {
-        mapView.removeOverlay(polyline)
-        mapView.addOverlay(polyline)
-    }
-
-    func redrawPolylines(_ polylines: Set<MKPolyline>) {
-        for polyline in polylines {
-            mapView.removeOverlay(polyline)
-            mapView.addOverlay(polyline)
-        }
-    }
-    
+//
 //    // Select
 //    
 //    func select(at point: NSPoint) {
@@ -188,55 +224,27 @@ final class GPXManagerController: NSViewController {
 //    }
 //    
 //    func toggleSelection(at point: NSPoint) {
-//        if let closest = closestPolyline(from: point) {
+//        if let closest = polylineManager.closestPolyline(from: point) {
 //            toggleSelection(closest)
 //        }
 //    }
 //    
 //    func toggleSelection(_ polyline: MKPolyline) {
-//        if browser.selectedPolylines.contains(polyline) {
+//        if polylineManager.selectedPolylinesContains(polyline) {
 //            deselectPolyline(polyline)
 //        } else {
 //            selectPolyline(polyline)
 //        }
 //    }
-//    
-//    func closestPolyline(from point: NSPoint) -> MKPolyline? {
-//        let (mapPoint, tolerance) = mapPoint(at: point)
-//        var closest: MKPolyline?
-//        var minDistance: CLLocationDistance = .greatestFiniteMagnitude
-//        for polyline in browser.polylines {
-//            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
-//            if !rect.contains(mapPoint) {
-//                continue
-//            }
-//            let distance = GPXUtils.calcDistance(from: mapPoint, to: polyline)
-//            if distance < tolerance, distance < minDistance {
-//                minDistance = distance
-//                closest = polyline
-//            }
-//        }
-//        return closest
-//    }
-//    
-//    func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {
-//        let limit = 10.0
-//        let p1 = MKMapPoint(mapView.convert(point, toCoordinateFrom: mapView))
-//        let p2 = MKMapPoint(mapView.convert(CGPoint(x: point.x + limit, y: point.y), toCoordinateFrom: mapView))
-//        let tolerance = p1.distance(to: p2)
-//        return (p1,tolerance)
-//    }
-//    
+//
 //    @objc func selectPolyline(_ polyline: MKPolyline) {
 //        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectPolyline), object: polyline)
-//        browser.selectedPolylines.insert(polyline)
-//        redrawPolyline(polyline)
+//        polylineManager.selectedPolylinesInsert(polyline)
 //    }
 //    
 //    @objc func deselectPolyline(_ polyline: MKPolyline) {
 //        undoManager?.registerUndo(withTarget: self, selector: #selector(selectPolyline), object: polyline)
-//        browser.selectedPolylines.remove(polyline)
-//        redrawPolyline(polyline)
+//        polylineManager.selectedPolylinesRemove(polyline)
 //    }
 //
 //    @objc func selectAll() {
@@ -260,21 +268,21 @@ final class GPXManagerController: NSViewController {
 //        redrawPolylines(polylinesToRedraw)
 //    }
 //    
-//    // Copy & Paste
-//    
-//    @objc func copyPolylines() {
+    // Copy & Paste
+    
+    @objc func copyPolylines() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        //pasteboard.writeObjects(Array(selectedPolylines))
+    }
+    
+    @objc func pastePolylines() {
 //        let pasteboard = NSPasteboard.general
-//        pasteboard.clearContents()
-//        //pasteboard.writeObjects(Array(selectedPolylines))
-//    }
-//    
-//    @objc func pastePolylines() {
-////        let pasteboard = NSPasteboard.general
-////        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
-//    }
-//    
-//    // Delete
-//    
+//        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
+    }
+    
+    // Delete
+    
 //    @objc func deleteSelected() {
 //        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: browser.selectedPolylines)
 //        mapView.removeOverlays(Array(browser.selectedPolylines))
@@ -303,4 +311,4 @@ final class GPXManagerController: NSViewController {
 //        return true
 //    }
 //}
-
+//
