@@ -17,6 +17,8 @@ class GPXManagerMapView: MKMapView {
 
     private var polylines: Set<MKPolyline> = []
     private var selectedPolylines: Set<MKPolyline> = []
+    private var gpxPolylinesMap: [GPXFile: [MKPolyline]] = [:]
+    private var polylinesGPXMap: [MKPolyline: GPXFile] = [:]
 
     init() {
         super.init(frame: .zero)
@@ -46,14 +48,26 @@ class GPXManagerMapView: MKMapView {
         addOverlay(polyline)
     }
 
-    func redrawPolylines(_ polylines: Set<MKPolyline>) {
+    func redrawPolylines(_ polylines: [MKPolyline]) {
         for polyline in polylines {
             removeOverlay(polyline)
             addOverlay(polyline)
         }
     }
 
-    func closestPolyline(from point: NSPoint) -> MKPolyline? {
+//    func redrawPolylines(_ polylines: Set<MKPolyline>) {
+//        for polyline in polylines {
+//            removeOverlay(polyline)
+//            addOverlay(polyline)
+//        }
+//    }
+
+    func closestGPXFile(from point: NSPoint) -> GPXFile? {
+        let closestPolyline = self.closestPolyline(from: point)
+        return closestPolyline.flatMap { polylinesGPXMap[$0] }
+    }
+
+    private func closestPolyline(from point: NSPoint) -> MKPolyline? {
         let (mapPoint, tolerance) = mapPoint(at: point)
         var closest: MKPolyline?
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
@@ -79,19 +93,10 @@ class GPXManagerMapView: MKMapView {
         return (p1,tolerance)
     }
 
-    func selectedPolylinesContains(_ polyline: MKPolyline) -> Bool {
-        return selectedPolylines.contains(polyline)
-    }
+//    func selectedPolylinesContains(_ polyline: MKPolyline) -> Bool {
+//        return selectedPolylines.contains(polyline)
+//    }
 
-    func selectedPolylinesInsert(_ polyline: MKPolyline) {
-        selectedPolylines.insert(polyline)
-        redrawPolyline(polyline)
-    }
-
-    func selectedPolylinesRemove(_ polyline: MKPolyline) {
-        selectedPolylines.remove(polyline)
-        redrawPolyline(polyline)
-    }
 
     func deleteSelected() {
         polylines.subtract(selectedPolylines)
@@ -105,8 +110,9 @@ class GPXManagerMapView: MKMapView {
 
     func dumpCount() {
         print("---")
-        print("polylines: \(polylines.count)")
+        print("dump counts: \(polylines.count) \(selectedPolylines.count) \(gpxPolylinesMap.count) \(polylinesGPXMap.count)")
     }
+
     func zoomToFitAllOverlays() {
         var zoomRect = MKMapRect.null
         overlays.forEach { overlay in
@@ -120,6 +126,7 @@ class GPXManagerMapView: MKMapView {
 }
 
 extension GPXManagerMapView: MKMapViewDelegate {
+
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: polyline)
@@ -133,6 +140,7 @@ extension GPXManagerMapView: MKMapViewDelegate {
         }
         return MKOverlayRenderer(overlay: overlay)
     }
+
 }
 
 extension GPXManagerMapView: GPXManagerDelegate {
@@ -140,17 +148,21 @@ extension GPXManagerMapView: GPXManagerDelegate {
     public func managerDidAddFiles(_ files: [GPXFile]) {
         var newPolylines: [MKPolyline] = []
         for file in files {
+            var filePolylines = [MKPolyline]()
             for track in file.tracks {
                 for segment in track.segments {
-                    newPolylines.append(GPXUtils.makePolyline(from: segment))
+                    let polyline = GPXUtils.makePolyline(from: segment)
+                    filePolylines.append(polyline)
+                    polylinesGPXMap[polyline] = file
                 }
             }
+            newPolylines.append(contentsOf: filePolylines)
+            gpxPolylinesMap[file] = filePolylines
         }
         polylines.formUnion(newPolylines)
-        Task { @MainActor in
-            addOverlays(newPolylines)
-            zoomToFitAllOverlays()
-        }
+        addOverlays(newPolylines)
+        zoomToFitAllOverlays()
+        dumpCount()
     }
 
     func managerDidRemoveFiles(_ files: [Model.GPXFile]) {
@@ -158,10 +170,18 @@ extension GPXManagerMapView: GPXManagerDelegate {
     }
 
     public func managerDidSelectFile(_ file: Model.GPXFile) {
-
+        let polylines = gpxPolylinesMap[file] ?? []
+        selectedPolylines.formUnion(polylines)
+        redrawPolylines(polylines)
     }
 
-    public func managerDidUnselectFiles() {
+    func managerDidDeselectFile(_ file: Model.GPXFile) {
+        let polylines = gpxPolylinesMap[file] ?? []
+        selectedPolylines.subtract(polylines)
+        redrawPolylines(polylines)
+    }
+
+    public func managerDidDeselectFiles() {
 
     }
 

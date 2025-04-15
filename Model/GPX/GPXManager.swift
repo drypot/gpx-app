@@ -13,7 +13,8 @@ public protocol GPXManagerDelegate: AnyObject {
     func managerDidRemoveFiles(_ files: [GPXFile])
 
     func managerDidSelectFile(_ file: GPXFile)
-    func managerDidUnselectFiles()
+    func managerDidDeselectFile(_ file: GPXFile)
+    func managerDidDeselectFiles()
 
     func managerDidDeleteSelectedFiles()
     func managerDidUndeleteSelectedFiles(_ undoFiles: Set<GPXFile>)
@@ -39,7 +40,11 @@ public class GPXManager {
         delegate?.managerDidRemoveFiles(filesToRemove)
     }
 
-    public func selectedFile(_ file: GPXFile) {
+    public func selectedFilesContains(_ file: GPXFile) -> Bool {
+        return selectedFiles.contains(file)
+    }
+    
+    public func selectFile(_ file: GPXFile) {
         guard files.contains(file) else {
             fatalError()
         }
@@ -47,9 +52,17 @@ public class GPXManager {
         delegate?.managerDidSelectFile(file)
     }
 
-    public func unselectFiles() {
+    public func deselectFile(_ file: GPXFile) {
+        guard files.contains(file) else {
+            fatalError()
+        }
+        selectedFiles.remove(file)
+        delegate?.managerDidDeselectFile(file)
+    }
+
+    public func deselectFiles() {
         selectedFiles.removeAll()
-        delegate?.managerDidUnselectFiles()
+        delegate?.managerDidDeselectFiles()
     }
 
     public func deleteSelectedFiles() {

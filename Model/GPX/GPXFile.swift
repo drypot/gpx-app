@@ -11,7 +11,7 @@ import MapKit
 // 참고
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
-public final class GPXFile: PointerHashable {
+public final class GPXFile: NSObject, PointerHashable {
 
     //public let id = UUID()
 
@@ -22,7 +22,7 @@ public final class GPXFile: PointerHashable {
     //public var routes: [GPXRoute]
     public var tracks: [GPXTrack] = []
 
-    public init() { }
+    public override init() { }
 }
 
 public final class GPXMetadata: PointerHashable {
