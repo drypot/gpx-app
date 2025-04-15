@@ -58,10 +58,10 @@ final class GPXManagerController: NSViewController {
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
     }
 
-    // 키 입력에 필요
+    // Key
+
     override var acceptsFirstResponder: Bool { true }
 
-    // 키 입력에 필요
     override func keyDown(with event: NSEvent) {
         let characters = event.charactersIgnoringModifiers ?? ""
         for character in characters {
@@ -74,6 +74,50 @@ final class GPXManagerController: NSViewController {
             }
         }
     }
+
+    // Mouse
+
+    override func mouseDown(with event: NSEvent) {
+        initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
+        isDragging = false
+    }
+
+    override func mouseDragged(with event: NSEvent) {
+        guard let initialClickLocation = initialClickLocation else { return }
+
+        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
+
+        let dx = currentLocationInView.x - initialClickLocation.x
+        let dy = currentLocationInView.y - initialClickLocation.y
+        let distance = sqrt(dx * dx + dy * dy)
+
+        if distance > tolerance {
+            isDragging = true
+            //            handleDrag(to: currentLocationInView)
+        }
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        if !isDragging, let initialClickLocation = initialClickLocation {
+            if event.modifierFlags.contains(.shift) {
+                handleShiftClick(at: initialClickLocation)
+            } else {
+                handleClick(at: initialClickLocation)
+            }
+        }
+        initialClickLocation = nil
+        isDragging = false
+    }
+
+    func handleClick(at point: NSPoint) {
+        deselectAllAndSelect(at: point)
+    }
+
+    func handleShiftClick(at point: NSPoint) {
+        toggleSelection(at: point)
+    }
+
+    // Files
 
     @IBAction func importFiles(_ sender: Any) {
         let panel = NSOpenPanel()
@@ -123,7 +167,6 @@ final class GPXManagerController: NSViewController {
         gpxManager.removeFiles(files as! [GPXFile])
     }
 
-
     @IBAction func exportFile(_ sender: Any) {
         fatalError("Test!")
 //        let panel = NSSavePanel()
@@ -149,66 +192,24 @@ final class GPXManagerController: NSViewController {
     }
 */
 
-    override func mouseDown(with event: NSEvent) {
-        initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
-        isDragging = false
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-        guard let initialClickLocation = initialClickLocation else { return }
-        
-        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
-        
-        let dx = currentLocationInView.x - initialClickLocation.x
-        let dy = currentLocationInView.y - initialClickLocation.y
-        let distance = sqrt(dx * dx + dy * dy)
-        
-        if distance > tolerance {
-            isDragging = true
-//            handleDrag(to: currentLocationInView)
-        }
-    }
-    
-    override func mouseUp(with event: NSEvent) {
-        if !isDragging, let initialClickLocation = initialClickLocation {
-            if event.modifierFlags.contains(.shift) {
-                handleShiftClick(at: initialClickLocation)
-            } else {
-                handleClick(at: initialClickLocation)
-            }
-        }
-        initialClickLocation = nil
-        isDragging = false
-    }
-    
     // Select
 
-    func handleClick(at point: NSPoint) {
-        select(at: point)
-    }
-
-    func handleShiftClick(at point: NSPoint) {
-        toggleSelection(at: point)
-    }
-
-    func select(at point: NSPoint) {
+    func deselectAllAndSelect(at point: NSPoint) {
         undoManager?.beginUndoGrouping()
-        deselectAll()
-        toggleSelection(at: point)
+        deselectGPXFiles(gpxManager.selectedFiles)
+        if let gpxFile = mapView.closestGPXFile(from: point) {
+            selectGPXFile(gpxFile)
+        }
         undoManager?.endUndoGrouping()
     }
     
     func toggleSelection(at point: NSPoint) {
-        if let closest = mapView.closestGPXFile(from: point) {
-            toggleSelection(closest)
-        }
-    }
-    
-    func toggleSelection(_ gpxFile: GPXFile) {
-        if gpxManager.selectedFilesContains(gpxFile) {
-            deselectGPXFile(gpxFile)
-        } else {
-            selectGPXFile(gpxFile)
+        if let gpxFile = mapView.closestGPXFile(from: point) {
+            if gpxManager.selectedFiles.contains(gpxFile) {
+                deselectGPXFile(gpxFile)
+            } else {
+                selectGPXFile(gpxFile)
+            }
         }
     }
 
@@ -222,33 +223,20 @@ final class GPXManagerController: NSViewController {
         gpxManager.deselectFile(gpxFile)
     }
 
-    //
-    //    @IBAction override func selectAll(_ sender: Any?) {
-    //        selectAll()
-    //    }
-    //
-
-//    @objc func selectAll() {
-//        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: browser.selectedPolylines)
-//        let polylinesToRedraw = browser.polylines.subtracting(browser.selectedPolylines)
-//        browser.selectedPolylines = browser.polylines
-//        redrawPolylines(polylinesToRedraw)
-//    }
-//    
-    @objc func deselectAll() {
-//        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: browser.selectedPolylines)
-//        let polylinesToRedraw = browser.selectedPolylines
-//        browser.selectedPolylines.removeAll()
-//        redrawPolylines(polylinesToRedraw)
+    @IBAction override func selectAll(_ sender: Any?) {
+        selectGPXFiles(gpxManager.unselectedFiles)
     }
-//
-//    @objc func resetSelectedPolylines(_ polylines: Set<MKPolyline>) {
-//        undoManager?.registerUndo(withTarget: self, selector: #selector(resetSelectedPolylines), object: browser.selectedPolylines)
-//        let polylinesToRedraw = browser.selectedPolylines.union(polylines)
-//        browser.selectedPolylines = polylines
-//        redrawPolylines(polylinesToRedraw)
-//    }
+
+    @objc func selectGPXFiles(_ files: Set<GPXFile>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectGPXFiles), object: files)
+        gpxManager.selectFiles(files)
+    }
     
+    @objc func deselectGPXFiles(_ files: Set<GPXFile>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(selectGPXFiles), object: files)
+        gpxManager.deselectFiles(files)
+    }
+
     // Copy & Paste
 
     //

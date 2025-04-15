@@ -181,12 +181,26 @@ extension GPXManagerMapView: GPXManagerDelegate {
         redrawPolylines(polylines)
     }
 
-    public func managerDidDeselectFiles() {
-
+    func managerDidSelectFiles(_ files: Set<Model.GPXFile>) {
+        var polylines: [MKPolyline] = []
+        for file in files {
+            polylines.append(contentsOf: gpxPolylinesMap[file] ?? [])
+        }
+        selectedPolylines.formUnion(polylines)
+        redrawPolylines(polylines)
     }
 
-    public func managerDidDeleteSelectedFiles() {
+    func managerDidDeselectFiles(_ files: Set<Model.GPXFile>) {
+        var polylines: [MKPolyline] = []
+        for file in files {
+            polylines.append(contentsOf: gpxPolylinesMap[file] ?? [])
+        }
+        selectedPolylines.subtract(polylines)
+        redrawPolylines(polylines)
+    }
 
+    func managerDidDeleteSelectedFiles() {
+        
     }
 
     public func managerDidUndeleteSelectedFiles(_ undoFiles: Set<Model.GPXFile>) {

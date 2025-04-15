@@ -14,7 +14,8 @@ public protocol GPXManagerDelegate: AnyObject {
 
     func managerDidSelectFile(_ file: GPXFile)
     func managerDidDeselectFile(_ file: GPXFile)
-    func managerDidDeselectFiles()
+    func managerDidSelectFiles(_ files: Set<GPXFile>)
+    func managerDidDeselectFiles(_ files: Set<GPXFile>)
 
     func managerDidDeleteSelectedFiles()
     func managerDidUndeleteSelectedFiles(_ undoFiles: Set<GPXFile>)
@@ -24,8 +25,12 @@ public class GPXManager {
 
     public weak var delegate: GPXManagerDelegate?
 
-    private var files: Set<GPXFile> = []
-    private var selectedFiles: Set<GPXFile> = []
+    public private(set) var files: Set<GPXFile> = []
+    public private(set) var selectedFiles: Set<GPXFile> = []
+
+    public var unselectedFiles: Set<GPXFile> {
+        return files.subtracting(selectedFiles)
+    }
 
     public init() {
     }
@@ -40,29 +45,24 @@ public class GPXManager {
         delegate?.managerDidRemoveFiles(filesToRemove)
     }
 
-    public func selectedFilesContains(_ file: GPXFile) -> Bool {
-        return selectedFiles.contains(file)
-    }
-    
     public func selectFile(_ file: GPXFile) {
-        guard files.contains(file) else {
-            fatalError()
-        }
         selectedFiles.insert(file)
         delegate?.managerDidSelectFile(file)
     }
 
     public func deselectFile(_ file: GPXFile) {
-        guard files.contains(file) else {
-            fatalError()
-        }
         selectedFiles.remove(file)
         delegate?.managerDidDeselectFile(file)
     }
 
-    public func deselectFiles() {
-        selectedFiles.removeAll()
-        delegate?.managerDidDeselectFiles()
+    public func selectFiles(_ files: Set<GPXFile>) {
+        selectedFiles.formUnion(files)
+        delegate?.managerDidSelectFiles(files)
+    }
+
+    public func deselectFiles(_ files: Set<GPXFile>) {
+        selectedFiles.subtract(files)
+        delegate?.managerDidDeselectFiles(files)
     }
 
     public func deleteSelectedFiles() {

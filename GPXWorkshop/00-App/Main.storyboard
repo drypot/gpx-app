@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -172,7 +173,7 @@
                                         </menuItem>
                                         <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
                                             <connections>
-                                                <action selector="selectPolylines:" target="Ady-hI-5gd" id="VNm-Mi-diN"/>
+                                                <action selector="selectAll:" target="Ady-hI-5gd" id="y5z-mC-Ufh"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="uyl-h8-XO2"/>
