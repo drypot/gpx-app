@@ -9,50 +9,51 @@ import Foundation
 import MapKit
 
 public protocol GPXManagerDelegate: AnyObject {
-    func managerDidAddFiles(_ files: [GPXFile])
-    func managerDidRemoveFiles(_ files: [GPXFile])
+    func managerDidAddFiles<S: Sequence>(_ files: S) where S.Element == GPXFile
+    func managerDidRemoveFiles<S: Sequence>(_ files: S) where S.Element == GPXFile
 
-    func managerDidSelectFile(_ file: GPXFile)
-    func managerDidDeselectFile(_ file: GPXFile)
+    func managerDidSelect(_ file: GPXFile)
+    func managerDidDeselect(_ file: GPXFile)
+
     func managerDidSelectFiles(_ files: Set<GPXFile>)
     func managerDidDeselectFiles(_ files: Set<GPXFile>)
 
-    func managerDidDeleteSelectedFiles()
-    func managerDidUndeleteSelectedFiles(_ undoFiles: Set<GPXFile>)
+    func managerDidDeleteSelectedFiles<S: Sequence>(_ files: S) where S.Element == GPXFile
+    func managerDidUndeleteSelectedFiles<S: Sequence>(_ files: S) where S.Element == GPXFile
 }
 
 public class GPXManager {
 
     public weak var delegate: GPXManagerDelegate?
 
-    public private(set) var files: Set<GPXFile> = []
+    public private(set) var allFiles: Set<GPXFile> = []
     public private(set) var selectedFiles: Set<GPXFile> = []
 
     public var unselectedFiles: Set<GPXFile> {
-        return files.subtracting(selectedFiles)
+        return allFiles.subtracting(selectedFiles)
     }
 
     public init() {
     }
 
-    public func addFiles(_ filesToAdd: [GPXFile]) {
-        files.formUnion(filesToAdd)
-        delegate?.managerDidAddFiles(filesToAdd)
+    public func addFiles(_ files: [GPXFile]) {
+        allFiles.formUnion(files)
+        delegate?.managerDidAddFiles(files)
     }
 
-    public func removeFiles(_ filesToRemove: [GPXFile]) {
-        files.subtract(filesToRemove)
-        delegate?.managerDidRemoveFiles(filesToRemove)
+    public func removeFiles(_ files: [GPXFile]) {
+        allFiles.subtract(files)
+        delegate?.managerDidRemoveFiles(files)
     }
 
-    public func selectFile(_ file: GPXFile) {
+    public func select(_ file: GPXFile) {
         selectedFiles.insert(file)
-        delegate?.managerDidSelectFile(file)
+        delegate?.managerDidSelect(file)
     }
 
-    public func deselectFile(_ file: GPXFile) {
+    public func deselect(_ file: GPXFile) {
         selectedFiles.remove(file)
-        delegate?.managerDidDeselectFile(file)
+        delegate?.managerDidDeselect(file)
     }
 
     public func selectFiles(_ files: Set<GPXFile>) {
@@ -66,20 +67,21 @@ public class GPXManager {
     }
 
     public func deleteSelectedFiles() {
-        files.subtract(selectedFiles)
+        let files = selectedFiles
+        allFiles.subtract(files)
         selectedFiles.removeAll()
-        delegate?.managerDidDeleteSelectedFiles()
+        delegate?.managerDidDeleteSelectedFiles(files)
     }
 
-    public func undeleteSelectedFiles(_ undoFiles: Set<GPXFile>) {
-        files.formUnion(undoFiles)
-        selectedFiles = undoFiles
-        delegate?.managerDidUndeleteSelectedFiles(undoFiles)
+    public func undeleteSelectedFiles(_ files: Set<GPXFile>) {
+        allFiles.formUnion(files)
+        selectedFiles = files
+        delegate?.managerDidUndeleteSelectedFiles(files)
     }
 
     public func dumpCount() {
         print("---")
-        print("gpxFiles: \(files.count)")
+        print("gpxFiles: \(allFiles.count)")
     }
 
 }

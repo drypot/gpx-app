@@ -11,16 +11,17 @@ import Model
 
 final class GPXManagerController: NSViewController {
 
-    private let gpxManager = GPXManager()
-    private var mapView = GPXManagerMapView()
+    private let gpxManager: GPXManager
+    private var mapView: GPXManagerMapView
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
     init() {
+        gpxManager = GPXManager()
+        mapView = GPXManagerMapView(manager: gpxManager)
         super.init(nibName: nil, bundle: nil)
-        gpxManager.delegate = mapView
     }
     
     required init?(coder: NSCoder) {
@@ -67,8 +68,7 @@ final class GPXManagerController: NSViewController {
         for character in characters {
             switch character {
             case "\u{7F}": // delete
-                break
-//                delete(nil)
+                delete(nil)
             default:
                 break
             }
@@ -149,7 +149,8 @@ final class GPXManagerController: NSViewController {
                 }
 
                 await MainActor.run {
-                    addFiles(newFiles as NSArray)
+                    addFiles(newFiles)
+                    mapView.zoomToFitAllOverlays()
                 }
             } catch {
                 ErrorLogger.log(error)
@@ -157,14 +158,14 @@ final class GPXManagerController: NSViewController {
         }
     }
 
-    @objc func addFiles(_ files: NSArray) {
+    @objc func addFiles(_ files: [GPXFile]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
-        gpxManager.addFiles(files as! [GPXFile])
+        gpxManager.addFiles(files)
     }
 
-    @objc func removeFiles(_ files: NSArray) {
+    @objc func removeFiles(_ files: [GPXFile]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
-        gpxManager.removeFiles(files as! [GPXFile])
+        gpxManager.removeFiles(files)
     }
 
     @IBAction func exportFile(_ sender: Any) {
@@ -196,46 +197,63 @@ final class GPXManagerController: NSViewController {
 
     func deselectAllAndSelect(at point: NSPoint) {
         undoManager?.beginUndoGrouping()
-        deselectGPXFiles(gpxManager.selectedFiles)
-        if let gpxFile = mapView.closestGPXFile(from: point) {
-            selectGPXFile(gpxFile)
+        deselectFiles(gpxManager.selectedFiles)
+        if let file = mapView.closestGPXFile(at: point) {
+            selectFile(file)
         }
         undoManager?.endUndoGrouping()
     }
     
     func toggleSelection(at point: NSPoint) {
-        if let gpxFile = mapView.closestGPXFile(from: point) {
-            if gpxManager.selectedFiles.contains(gpxFile) {
-                deselectGPXFile(gpxFile)
+        if let file = mapView.closestGPXFile(at: point) {
+            if gpxManager.selectedFiles.contains(file) {
+                deselectFile(file)
             } else {
-                selectGPXFile(gpxFile)
+                selectFile(file)
             }
         }
     }
 
-    @objc func selectGPXFile(_ gpxFile: GPXFile) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectGPXFile), object: gpxFile)
-        gpxManager.selectFile(gpxFile)
+    @objc func selectFile(_ file: GPXFile) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFile), object: file)
+        gpxManager.select(file)
     }
     
-    @objc func deselectGPXFile(_ gpxFile: GPXFile) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(selectGPXFile), object: gpxFile)
-        gpxManager.deselectFile(gpxFile)
+    @objc func deselectFile(_ file: GPXFile) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(selectFile), object: file)
+        gpxManager.deselect(file)
     }
 
     @IBAction override func selectAll(_ sender: Any?) {
-        selectGPXFiles(gpxManager.unselectedFiles)
+        selectFiles(gpxManager.unselectedFiles)
     }
 
-    @objc func selectGPXFiles(_ files: Set<GPXFile>) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectGPXFiles), object: files)
+    @objc func selectFiles(_ files: Set<GPXFile>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFiles), object: files)
         gpxManager.selectFiles(files)
     }
     
-    @objc func deselectGPXFiles(_ files: Set<GPXFile>) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(selectGPXFiles), object: files)
+    @objc func deselectFiles(_ files: Set<GPXFile>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(selectFiles), object: files)
         gpxManager.deselectFiles(files)
     }
+
+    // Delete
+
+    @IBAction func delete(_ sender: Any?) {
+        deleteSelected()
+    }
+
+    @objc func deleteSelected() {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: gpxManager.selectedFiles)
+        gpxManager.deleteSelectedFiles()
+    }
+
+    @objc func undeleteSelected(_ files: Set<GPXFile>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
+        gpxManager.undeleteSelectedFiles(files)
+    }
+
 
     // Copy & Paste
 
@@ -248,10 +266,6 @@ final class GPXManagerController: NSViewController {
     //        pastePolylines()
     //    }
     //
-    @IBAction func delete(_ sender: Any?) {
-        //        deleteSelected()
-    }
-
 
     @objc func copyPolylines() {
         let pasteboard = NSPasteboard.general
@@ -263,21 +277,7 @@ final class GPXManagerController: NSViewController {
 //        let pasteboard = NSPasteboard.general
 //        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
     }
-    
-    // Delete
-    
-//    @objc func deleteSelected() {
-//        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: browser.selectedPolylines)
-//        mapView.removeOverlays(Array(browser.selectedPolylines))
-//        browser.deleteSelected()
-//    }
-//    
-//    @objc func undeleteSelected(_ polylines: Set<MKPolyline>) {
-//        undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
-//        mapView.addOverlays(Array(polylines))
-//        browser.undeleteSelected(polylines)
-//    }
-    
+
 }
 
 //extension GPXManagerController: KeyEventDelegate {

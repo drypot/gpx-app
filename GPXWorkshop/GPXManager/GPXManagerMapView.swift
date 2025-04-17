@@ -9,69 +9,60 @@ import Foundation
 import MapKit
 import Model
 
-//protocol KeyEventDelegate: AnyObject {
-//    func handleKeyDown(with event: NSEvent, on view: NSView) -> Bool
-//}
-
 class GPXManagerMapView: MKMapView {
 
-    private var polylines: Set<MKPolyline> = []
-    private var selectedPolylines: Set<MKPolyline> = []
-    private var gpxPolylinesMap: [GPXFile: [MKPolyline]] = [:]
-    private var polylinesGPXMap: [MKPolyline: GPXFile] = [:]
+    private unowned let manager: GPXManager
+    private var allPolylines: Set<MKPolyline> = []
+    private var gpxPolylineMap: [GPXFile: [MKPolyline]] = [:]
+    private var polylineGPXMap: [MKPolyline: GPXFile] = [:]
 
-    init() {
+    init(manager: GPXManager) {
+        self.manager = manager
         super.init(frame: .zero)
         self.delegate = self
+        self.manager.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    //    weak var keyEventDelegate: KeyEventDelegate?
-
-//    // 키를 입력 받기 위해 꼭 필요
-//    override var acceptsFirstResponder: Bool {
-//        return true
-//    }
-//
-//    // 키를 입력 받기 위해 꼭 필요
-//    override func keyDown(with event: NSEvent) {
-//        if keyEventDelegate?.handleKeyDown(with: event, on: self) != true {
-//            super.keyDown(with: event)
-//        }
-//    }
+    // Drawing
 
     func redrawPolyline(_ polyline: MKPolyline) {
         removeOverlay(polyline)
         addOverlay(polyline)
     }
 
-    func redrawPolylines(_ polylines: [MKPolyline]) {
+    func redrawPolylines<S: Sequence>(_ polylines: S) where S.Element == MKPolyline {
         for polyline in polylines {
-            removeOverlay(polyline)
-            addOverlay(polyline)
+            redrawPolyline(polyline)
         }
     }
 
-//    func redrawPolylines(_ polylines: Set<MKPolyline>) {
-//        for polyline in polylines {
-//            removeOverlay(polyline)
-//            addOverlay(polyline)
-//        }
-//    }
-
-    func closestGPXFile(from point: NSPoint) -> GPXFile? {
-        let closestPolyline = self.closestPolyline(from: point)
-        return closestPolyline.flatMap { polylinesGPXMap[$0] }
+    func zoomToFitAllOverlays() {
+        var zoomRect = MKMapRect.null
+        overlays.forEach { overlay in
+            zoomRect = zoomRect.union(overlay.boundingMapRect)
+        }
+        if !zoomRect.isNull {
+            let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
+            setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
+        }
     }
 
-    private func closestPolyline(from point: NSPoint) -> MKPolyline? {
+    // Find nearest
+
+    func closestGPXFile(at point: NSPoint) -> GPXFile? {
+        let polyline = self.nearestPolyline(to: point)
+        return polyline.flatMap { polylineGPXMap[$0] }
+    }
+
+    private func nearestPolyline(to point: NSPoint) -> MKPolyline? {
         let (mapPoint, tolerance) = mapPoint(at: point)
         var closest: MKPolyline?
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
-        for polyline in polylines {
+        for polyline in allPolylines {
             let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
             if !rect.contains(mapPoint) {
                 continue
@@ -93,50 +84,27 @@ class GPXManagerMapView: MKMapView {
         return (p1,tolerance)
     }
 
-//    func selectedPolylinesContains(_ polyline: MKPolyline) -> Bool {
-//        return selectedPolylines.contains(polyline)
-//    }
-
-
-    func deleteSelected() {
-        polylines.subtract(selectedPolylines)
-        selectedPolylines.removeAll()
-    }
-
-    func undeleteSelected(_ polylines: Set<MKPolyline>) {
-        self.polylines = self.polylines.union(polylines)
-        selectedPolylines = polylines
-    }
-
     func dumpCount() {
         print("---")
-        print("dump counts: \(polylines.count) \(selectedPolylines.count) \(gpxPolylinesMap.count) \(polylinesGPXMap.count)")
+        print("dump counts: \(allPolylines.count) \(gpxPolylineMap.count) \(polylineGPXMap.count)")
     }
 
-    func zoomToFitAllOverlays() {
-        var zoomRect = MKMapRect.null
-        overlays.forEach { overlay in
-            zoomRect = zoomRect.union(overlay.boundingMapRect)
-        }
-        if !zoomRect.isNull {
-            let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
-            setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
-        }
-    }
 }
 
 extension GPXManagerMapView: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-            let renderer = MKPolylineRenderer(polyline: polyline)
-            if selectedPolylines.contains(polyline) {
-                renderer.strokeColor = .red
-            } else {
-                renderer.strokeColor = .blue
+            if let gpx = polylineGPXMap[polyline] {
+                let renderer = MKPolylineRenderer(polyline: polyline)
+                if manager.selectedFiles.contains(gpx) {
+                    renderer.strokeColor = .red
+                } else {
+                    renderer.strokeColor = .blue
+                }
+                renderer.lineWidth = 3.0
+                return renderer
             }
-            renderer.lineWidth = 3.0
-            return renderer
         }
         return MKOverlayRenderer(overlay: overlay)
     }
@@ -145,66 +113,79 @@ extension GPXManagerMapView: MKMapViewDelegate {
 
 extension GPXManagerMapView: GPXManagerDelegate {
 
-    public func managerDidAddFiles(_ files: [GPXFile]) {
-        var newPolylines: [MKPolyline] = []
+    public func managerDidAddFiles<S: Sequence>(_ files: S) where S.Element == GPXFile {
         for file in files {
-            var filePolylines = [MKPolyline]()
-            for track in file.tracks {
-                for segment in track.segments {
-                    let polyline = GPXUtils.makePolyline(from: segment)
-                    filePolylines.append(polyline)
-                    polylinesGPXMap[polyline] = file
-                }
-            }
-            newPolylines.append(contentsOf: filePolylines)
-            gpxPolylinesMap[file] = filePolylines
+            add(file)
         }
-        polylines.formUnion(newPolylines)
-        addOverlays(newPolylines)
-        zoomToFitAllOverlays()
         dumpCount()
     }
 
-    func managerDidRemoveFiles(_ files: [Model.GPXFile]) {
-
+    private func add(_ file: GPXFile) {
+        var polylines = [MKPolyline]()
+        for track in file.tracks {
+            for segment in track.segments {
+                let polyline = GPXUtils.makePolyline(from: segment)
+                polylines.append(polyline)
+                polylineGPXMap[polyline] = file
+            }
+        }
+        allPolylines.formUnion(polylines)
+        gpxPolylineMap[file] = polylines
+        addOverlays(polylines)
     }
 
-    public func managerDidSelectFile(_ file: Model.GPXFile) {
-        let polylines = gpxPolylinesMap[file] ?? []
-        selectedPolylines.formUnion(polylines)
+    func managerDidRemoveFiles<S: Sequence>(_ files: S) where S.Element == GPXFile {
+        for file in files {
+            remove(file)
+        }
+    }
+
+    private func remove(_ file: GPXFile) {
+        let polylines = gpxPolylineMap[file] ?? []
+        allPolylines.subtract(polylines)
+        gpxPolylineMap.removeValue(forKey: file)
+        for polyline in polylines {
+            polylineGPXMap.removeValue(forKey: polyline)
+        }
+        removeOverlays(polylines)
+    }
+
+    public func managerDidSelect(_ file: Model.GPXFile) {
+        let polylines = gpxPolylineMap[file] ?? []
         redrawPolylines(polylines)
     }
 
-    func managerDidDeselectFile(_ file: Model.GPXFile) {
-        let polylines = gpxPolylinesMap[file] ?? []
-        selectedPolylines.subtract(polylines)
+    func managerDidDeselect(_ file: Model.GPXFile) {
+        let polylines = gpxPolylineMap[file] ?? []
         redrawPolylines(polylines)
     }
 
-    func managerDidSelectFiles(_ files: Set<Model.GPXFile>) {
+    func managerDidSelectFiles<S: Sequence>(_ files: S) where S.Element == GPXFile {
         var polylines: [MKPolyline] = []
         for file in files {
-            polylines.append(contentsOf: gpxPolylinesMap[file] ?? [])
+            polylines.append(contentsOf: gpxPolylineMap[file] ?? [])
         }
-        selectedPolylines.formUnion(polylines)
         redrawPolylines(polylines)
     }
 
-    func managerDidDeselectFiles(_ files: Set<Model.GPXFile>) {
+    func managerDidDeselectFiles<S: Sequence>(_ files: S) where S.Element == GPXFile {
         var polylines: [MKPolyline] = []
         for file in files {
-            polylines.append(contentsOf: gpxPolylinesMap[file] ?? [])
+            polylines.append(contentsOf: gpxPolylineMap[file] ?? [])
         }
-        selectedPolylines.subtract(polylines)
         redrawPolylines(polylines)
     }
 
-    func managerDidDeleteSelectedFiles() {
-        
+    func managerDidDeleteSelectedFiles<S: Sequence>(_ files: S) where S.Element == GPXFile {
+        for file in files {
+            remove(file)
+        }
     }
 
-    public func managerDidUndeleteSelectedFiles(_ undoFiles: Set<Model.GPXFile>) {
-
+    func managerDidUndeleteSelectedFiles<S: Sequence>(_ files: S) where S.Element == GPXFile {
+        for file in files {
+            add(file)
+        }
     }
 
 }
