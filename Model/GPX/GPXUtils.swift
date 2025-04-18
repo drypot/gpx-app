@@ -10,16 +10,16 @@ import MapKit
 
 public enum GPXUtils {
 
-    public static func makeGPXFile(from url: URL) throws -> GPX {
+    public static func makeGPXFile(from url: URL) throws -> GPXFile {
         let data = try Data(contentsOf: url)
         return try makeGPXFile(from: data)
     }
 
-    public static func makeGPXFile(from data: Data) throws -> GPX {
+    public static func makeGPXFile(from data: Data) throws -> GPXFile {
         return try GPXParser().parse(data)
     }
 
-    public static func makeData(from gpxFile: GPX) throws -> Data {
+    public static func makeData(from gpxFile: GPXFile) throws -> Data {
         let xmlString = GPXExporter(gpxFile).makeXMLString()
         return Data(xmlString.utf8)
     }

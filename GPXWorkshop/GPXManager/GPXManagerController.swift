@@ -140,12 +140,12 @@ final class GPXManagerController: NSViewController {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                var newFiles = [GPXBox]()
+                var newFiles = [GPXFileBox]()
 
                 // TODO: 중복 파일 임포트 방지. 먼 훗날에.
                 for url in Files(urls: urls) {
                     let gpx = try GPXUtils.makeGPXFile(from: url)
-                    newFiles.append(GPXBox(gpx))
+                    newFiles.append(GPXFileBox(gpx))
                 }
 
                 await MainActor.run {
@@ -158,12 +158,12 @@ final class GPXManagerController: NSViewController {
         }
     }
 
-    @objc func addFiles(_ files: [GPXBox]) {
+    @objc func addFiles(_ files: [GPXFileBox]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
         gpxManager.addFiles(files)
     }
 
-    @objc func removeFiles(_ files: [GPXBox]) {
+    @objc func removeFiles(_ files: [GPXFileBox]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
         gpxManager.removeFiles(files)
     }
@@ -198,14 +198,14 @@ final class GPXManagerController: NSViewController {
     func deselectAllAndSelect(at point: NSPoint) {
         undoManager?.beginUndoGrouping()
         deselectFiles(gpxManager.selectedFiles)
-        if let file = mapView.closestGPXFile(at: point) {
+        if let file = mapView.nearestGPXFile(to: point) {
             selectFile(file)
         }
         undoManager?.endUndoGrouping()
     }
     
     func toggleSelection(at point: NSPoint) {
-        if let file = mapView.closestGPXFile(at: point) {
+        if let file = mapView.nearestGPXFile(to: point) {
             if gpxManager.selectedFiles.contains(file) {
                 deselectFile(file)
             } else {
@@ -214,12 +214,12 @@ final class GPXManagerController: NSViewController {
         }
     }
 
-    @objc func selectFile(_ file: GPXBox) {
+    @objc func selectFile(_ file: GPXFileBox) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFile), object: file)
         gpxManager.select(file)
     }
     
-    @objc func deselectFile(_ file: GPXBox) {
+    @objc func deselectFile(_ file: GPXFileBox) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFile), object: file)
         gpxManager.deselect(file)
     }
@@ -228,12 +228,12 @@ final class GPXManagerController: NSViewController {
         selectFiles(gpxManager.unselectedFiles)
     }
 
-    @objc func selectFiles(_ files: Set<GPXBox>) {
+    @objc func selectFiles(_ files: Set<GPXFileBox>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFiles), object: files)
         gpxManager.selectFiles(files)
     }
     
-    @objc func deselectFiles(_ files: Set<GPXBox>) {
+    @objc func deselectFiles(_ files: Set<GPXFileBox>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFiles), object: files)
         gpxManager.deselectFiles(files)
     }
@@ -249,7 +249,7 @@ final class GPXManagerController: NSViewController {
         gpxManager.deleteSelectedFiles()
     }
 
-    @objc func undeleteSelected(_ files: Set<GPXBox>) {
+    @objc func undeleteSelected(_ files: Set<GPXFileBox>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
         gpxManager.undeleteSelectedFiles(files)
     }
@@ -257,41 +257,29 @@ final class GPXManagerController: NSViewController {
 
     // Copy & Paste
 
-    //
-    //    @IBAction func copy(_ sender: Any) {
-    //        copyPolylines()
-    //    }
-    //
-    //    @IBAction func paste(_ sender: Any) {
-    //        pastePolylines()
-    //    }
-    //
-
-    @objc func copyPolylines() {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        //pasteboard.writeObjects(Array(selectedPolylines))
-    }
-    
-    @objc func pastePolylines() {
+//  Copy & Paset 는 XML 저장 기능 만들고 구현 가능할 것 같다.
+//
+//    @IBAction func copy(_ sender: Any) {
+//        copyPolylines()
+//    }
+//
+//    @IBAction func paste(_ sender: Any) {
+//        pastePolylines()
+//    }
+//
+//    @objc func copyPolylines() {
+//        let pasteboard = NSPasteboard.general
+//        pasteboard.clearContents()
+//        var array = [GPXBox]()
+//        for box in gpxManager.selectedFiles {
+//            array.append(GPXBox(box.value))
+//        }
+//        pasteboard.writeObjects(array)
+//    }
+//    
+//    @objc func pastePolylines() {
 //        let pasteboard = NSPasteboard.general
 //        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
-    }
+//    }
 
 }
-
-//extension GPXManagerController: KeyEventDelegate {
-//    func handleKeyDown(with event: NSEvent, on view: NSView) -> Bool {
-//        let characters = event.charactersIgnoringModifiers ?? ""
-//        for character in characters {
-//            switch character {
-//            case "\u{7F}": // delete
-//                delete(nil)
-//            default:
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//}
-//

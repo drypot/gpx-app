@@ -11,7 +11,7 @@ import Model
 
 struct BoxTests {
 
-    @Test func testInt() throws {
+    @Test func testBoxInt() throws {
         let box = Box(10)
         let box2 = box
 
@@ -27,7 +27,7 @@ struct BoxTests {
         #expect(box === box2)
     }
 
-    @Test func testArray() throws {
+    @Test func testBoxArray() throws {
         let box = Box([1, 2, 3])
         let box2 = box
 

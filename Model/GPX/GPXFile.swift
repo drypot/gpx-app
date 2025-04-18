@@ -11,13 +11,11 @@ import MapKit
 // 참고
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
-//public typealias GPXBox = NSBox<GPX>
+public final class GPXFileBox: NSObject {
 
-public final class GPXBox: NSObject {
+    public var value: GPXFile
 
-    public var value: GPX
-
-    public init(_ value: GPX) {
+    public init(_ value: GPXFile) {
         self.value = value
     }
 
@@ -35,7 +33,7 @@ public final class GPXBox: NSObject {
     }
 }
 
-public struct GPX {
+public struct GPXFile {
 
     //public let id = UUID()
 
