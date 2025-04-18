@@ -140,12 +140,12 @@ final class GPXManagerController: NSViewController {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                var newFiles = [GPXFile]()
+                var newFiles = [GPXBox]()
 
                 // TODO: 중복 파일 임포트 방지. 먼 훗날에.
                 for url in Files(urls: urls) {
                     let gpx = try GPXUtils.makeGPXFile(from: url)
-                    newFiles.append(gpx)
+                    newFiles.append(GPXBox(gpx))
                 }
 
                 await MainActor.run {
@@ -158,12 +158,12 @@ final class GPXManagerController: NSViewController {
         }
     }
 
-    @objc func addFiles(_ files: [GPXFile]) {
+    @objc func addFiles(_ files: [GPXBox]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
         gpxManager.addFiles(files)
     }
 
-    @objc func removeFiles(_ files: [GPXFile]) {
+    @objc func removeFiles(_ files: [GPXBox]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
         gpxManager.removeFiles(files)
     }
@@ -214,12 +214,12 @@ final class GPXManagerController: NSViewController {
         }
     }
 
-    @objc func selectFile(_ file: GPXFile) {
+    @objc func selectFile(_ file: GPXBox) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFile), object: file)
         gpxManager.select(file)
     }
     
-    @objc func deselectFile(_ file: GPXFile) {
+    @objc func deselectFile(_ file: GPXBox) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFile), object: file)
         gpxManager.deselect(file)
     }
@@ -228,12 +228,12 @@ final class GPXManagerController: NSViewController {
         selectFiles(gpxManager.unselectedFiles)
     }
 
-    @objc func selectFiles(_ files: Set<GPXFile>) {
+    @objc func selectFiles(_ files: Set<GPXBox>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFiles), object: files)
         gpxManager.selectFiles(files)
     }
     
-    @objc func deselectFiles(_ files: Set<GPXFile>) {
+    @objc func deselectFiles(_ files: Set<GPXBox>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFiles), object: files)
         gpxManager.deselectFiles(files)
     }
@@ -249,7 +249,7 @@ final class GPXManagerController: NSViewController {
         gpxManager.deleteSelectedFiles()
     }
 
-    @objc func undeleteSelected(_ files: Set<GPXFile>) {
+    @objc func undeleteSelected(_ files: Set<GPXBox>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
         gpxManager.undeleteSelectedFiles(files)
     }

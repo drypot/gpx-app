@@ -10,22 +10,22 @@ import MapKit
 
 public enum GPXUtils {
 
-    public static func makeGPXFile(from url: URL) throws -> GPXFile {
+    public static func makeGPXFile(from url: URL) throws -> GPX {
         let data = try Data(contentsOf: url)
         return try makeGPXFile(from: data)
     }
 
-    public static func makeGPXFile(from data: Data) throws -> GPXFile {
+    public static func makeGPXFile(from data: Data) throws -> GPX {
         return try GPXParser().parse(data)
     }
 
-    public static func makeData(from gpxFile: GPXFile) throws -> Data {
+    public static func makeData(from gpxFile: GPX) throws -> Data {
         let xmlString = GPXExporter(gpxFile).makeXMLString()
         return Data(xmlString.utf8)
     }
 
     public static func makeGPXSegment(from polyline: MKPolyline) -> GPXSegment {
-        let segment = GPXSegment()
+        var segment = GPXSegment()
         let count = polyline.pointCount
         let pointer = polyline.points()
         for i in 0..<count {
@@ -39,7 +39,7 @@ public enum GPXUtils {
     public static func makeGPXTracks(from polylines: Set<MKPolyline>) -> [GPXTrack] {
         var tracks = [GPXTrack]()
         for polyline in polylines {
-            let track = GPXTrack()
+            var track = GPXTrack()
             let segment = Self.makeGPXSegment(from: polyline)
             track.segments.append(segment)
             tracks.append(track)

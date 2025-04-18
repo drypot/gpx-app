@@ -1,5 +1,5 @@
 //
-//  GPXFile.swift
+//  GPX.swift
 //  GPXWorkshop
 //
 //  Created by drypot on 2023-12-28.
@@ -11,7 +11,31 @@ import MapKit
 // 참고
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
-public final class GPXFile: NSObject, PointerHashable {
+//public typealias GPXBox = NSBox<GPX>
+
+public final class GPXBox: NSObject {
+
+    public var value: GPX
+
+    public init(_ value: GPX) {
+        self.value = value
+    }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? Self else { return false }
+        return self === other
+    }
+
+    public override var hash: Int {
+        return ObjectIdentifier(self).hashValue
+    }
+
+    public override var description: String {
+        String(describing: value)
+    }
+}
+
+public struct GPX {
 
     //public let id = UUID()
 
@@ -21,11 +45,9 @@ public final class GPXFile: NSObject, PointerHashable {
     public var waypoints: [GPXWaypoint] = []
     //public var routes: [GPXRoute]
     public var tracks: [GPXTrack] = []
-
-    public override init() { }
 }
 
-public final class GPXMetadata: PointerHashable {
+public struct GPXMetadata {
     public var name: String = ""
     public var description: String = ""
     //public var author
@@ -34,11 +56,9 @@ public final class GPXMetadata: PointerHashable {
     //public var time
     //public var keywords: String?
     //public var bounds:
-
-    public init() { }
 }
 
-public final class GPXWaypoint: PointerHashable {
+public struct GPXWaypoint {
     public var point: GPXPoint = GPXPoint()
 
     //public var time
@@ -60,11 +80,9 @@ public final class GPXWaypoint: PointerHashable {
     //public var pdop
     //public var ageofdgpsdata
     //public var dgpsid
-
-    public init() { }
 }
 
-public final class GPXTrack: PointerHashable {
+public struct GPXTrack {
     public var name: String = ""
     public var comment: String = ""
     public var description: String = ""
@@ -73,14 +91,10 @@ public final class GPXTrack: PointerHashable {
     //public var number: Int?
     //public var type: String?
     public var segments: [GPXSegment] = []
-
-    public init() { }
 }
 
-public final class GPXSegment: PointerHashable {
+public struct GPXSegment {
     public var points: [GPXPoint] = []
-
-    public init() { }
 }
 
 public struct GPXPoint {
