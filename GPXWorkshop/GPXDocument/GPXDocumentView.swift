@@ -1,5 +1,5 @@
 //
-//  GPXManagerMapView.swift
+//  GPXDocumentView.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/21/24.
@@ -9,18 +9,17 @@ import Foundation
 import MapKit
 import Model
 
-class GPXManagerMapView: MKMapView {
+class GPXDocumentView: MKMapView {
 
-    private unowned let manager: GPXManager
     private var allPolylines: Set<MKPolyline> = []
     private var gpxToPolylineMap: [GPXFileBox: [MKPolyline]] = [:]
     private var polylineToGPXMap: [MKPolyline: GPXFileBox] = [:]
 
-    init(manager: GPXManager) {
-        self.manager = manager
+    weak var manager: GPXManager!
+
+    init() {
         super.init(frame: .zero)
         self.delegate = self
-        self.manager.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -91,7 +90,7 @@ class GPXManagerMapView: MKMapView {
 
 }
 
-extension GPXManagerMapView: MKMapViewDelegate {
+extension GPXDocumentView: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
@@ -111,7 +110,7 @@ extension GPXManagerMapView: MKMapViewDelegate {
 
 }
 
-extension GPXManagerMapView: GPXManagerDelegate {
+extension GPXDocumentView: GPXManagerDelegate {
 
     public func managerDidAddGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
         for file in files {

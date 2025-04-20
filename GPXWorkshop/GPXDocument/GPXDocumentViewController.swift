@@ -1,5 +1,5 @@
 //
-//  GPXManagerController.swift
+//  GPXDocumentViewController.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -9,23 +9,36 @@ import Foundation
 import MapKit
 import Model
 
-final class GPXManagerController: NSViewController {
+final class GPXDocumentViewController: NSViewController {
 
-    private let gpxManager: GPXManager
-    private var mapView: GPXManagerMapView
+    private var mapView: GPXDocumentView
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
     init() {
-        gpxManager = GPXManager()
-        mapView = GPXManagerMapView(manager: gpxManager)
+        mapView = GPXDocumentView()
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    weak var document: GPXDocument!
+    weak var gpxManager: GPXManager!
+
+    override var representedObject: Any? {
+        didSet {
+//            for child in children {
+//                child.representedObject = representedObject
+//            }
+            document = representedObject as? GPXDocument
+            gpxManager = document.gpxManager
+            gpxManager.delegate = mapView
+            mapView.manager = document.gpxManager
+        }
     }
 
     override func loadView() {

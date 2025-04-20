@@ -10,13 +10,13 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var windowController = GPXManagerWindowController()
+//    var windowController = GPXManagerWindowController()
 
     func applicationWillFinishLaunching(_ notification: Notification) {
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        windowController.showWindow(nil)
+//        windowController.showWindow(nil)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -27,8 +27,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-        return false
+        return true
     }
+
+//    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+//        return .terminateNow
+//    }
 
 }
 
