@@ -1,5 +1,5 @@
 //
-//  GPXDocumentWindowController.swift
+//  GPXWindowController.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/21/24.
@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class GPXDocumentWindowController: NSWindowController, NSWindowDelegate {
+class GPXWindowController: NSWindowController, NSWindowDelegate {
 
     init() {
         // window 는 windowController 가 retain 하므로 따로 retain 하지 않아도 된다.
@@ -21,7 +21,7 @@ class GPXDocumentWindowController: NSWindowController, NSWindowDelegate {
         super.init(window: window)
 
 //        window.title = "GPX Manager"
-        window.contentViewController = GPXDocumentViewController()
+        window.contentViewController = GPXViewController()
         window.delegate = self
         setWindowFrame(window)
     }

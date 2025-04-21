@@ -13,7 +13,7 @@ import Model
 class GPXDocument: NSDocument {
 
     let gpxManager: GPXManager
-    var viewController: GPXDocumentViewController!
+    var viewController: GPXViewController!
 
     override init() {
         gpxManager = GPXManager()
@@ -25,10 +25,10 @@ class GPXDocument: NSDocument {
 //    }
 
     override func makeWindowControllers() {
-        let windowController = GPXDocumentWindowController()
+        let windowController = GPXWindowController()
         self.addWindowController(windowController)
 
-        viewController = windowController.contentViewController as? GPXDocumentViewController
+        viewController = windowController.contentViewController as? GPXViewController
         viewController.representedObject = self
     }
 

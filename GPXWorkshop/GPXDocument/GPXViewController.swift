@@ -1,5 +1,5 @@
 //
-//  GPXDocumentViewController.swift
+//  GPXViewController.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -9,16 +9,16 @@ import Foundation
 import MapKit
 import Model
 
-final class GPXDocumentViewController: NSViewController {
+final class GPXViewController: NSViewController {
 
-    private var mapView: GPXDocumentView
+    private var mapView: GPXView
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
     init() {
-        mapView = GPXDocumentView()
+        mapView = GPXView()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -140,7 +140,7 @@ final class GPXDocumentViewController: NSViewController {
         panel.allowedContentTypes = [.gpx]
         panel.begin { [unowned self] result in
             guard result == .OK else { return }
-            print(panel.urls)
+//            print(panel.urls)
             importFiles(from: panel.urls)
         }
     }
@@ -153,12 +153,12 @@ final class GPXDocumentViewController: NSViewController {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                var newFiles = [GPXFileBox]()
+                var newFiles = [GPXCache]()
 
                 // TODO: 중복 파일 임포트 방지. 먼 훗날에.
                 for url in Files(urls: urls) {
                     let gpx = try GPXUtils.makeGPXFile(from: url)
-                    newFiles.append(GPXFileBox(gpx))
+                    newFiles.append(GPXCache(gpx))
                 }
 
                 await MainActor.run {
@@ -171,12 +171,12 @@ final class GPXDocumentViewController: NSViewController {
         }
     }
 
-    @objc func addFiles(_ files: [GPXFileBox]) {
+    @objc func addFiles(_ files: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
         gpxManager.addFiles(files)
     }
 
-    @objc func removeFiles(_ files: [GPXFileBox]) {
+    @objc func removeFiles(_ files: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
         gpxManager.removeFiles(files)
     }
@@ -227,12 +227,12 @@ final class GPXDocumentViewController: NSViewController {
         }
     }
 
-    @objc func selectFile(_ file: GPXFileBox) {
+    @objc func selectFile(_ file: GPXCache) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFile), object: file)
         gpxManager.select(file)
     }
     
-    @objc func deselectFile(_ file: GPXFileBox) {
+    @objc func deselectFile(_ file: GPXCache) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFile), object: file)
         gpxManager.deselect(file)
     }
@@ -241,12 +241,12 @@ final class GPXDocumentViewController: NSViewController {
         selectFiles(gpxManager.unselectedFiles)
     }
 
-    @objc func selectFiles(_ files: Set<GPXFileBox>) {
+    @objc func selectFiles(_ files: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFiles), object: files)
         gpxManager.selectFiles(files)
     }
     
-    @objc func deselectFiles(_ files: Set<GPXFileBox>) {
+    @objc func deselectFiles(_ files: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFiles), object: files)
         gpxManager.deselectFiles(files)
     }
@@ -262,7 +262,7 @@ final class GPXDocumentViewController: NSViewController {
         gpxManager.deleteSelectedFiles()
     }
 
-    @objc func undeleteSelected(_ files: Set<GPXFileBox>) {
+    @objc func undeleteSelected(_ files: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
         gpxManager.undeleteSelectedFiles(files)
     }
@@ -285,7 +285,7 @@ final class GPXDocumentViewController: NSViewController {
 //        pasteboard.clearContents()
 //        var array = [GPXBox]()
 //        for box in gpxManager.selectedFiles {
-//            array.append(GPXBox(box.value))
+//            array.append(GPXBox(box.file))
 //        }
 //        pasteboard.writeObjects(array)
 //    }

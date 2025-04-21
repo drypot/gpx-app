@@ -11,28 +11,6 @@ import MapKit
 // 참고
 // https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/Coordinate.swift
 
-public final class GPXFileBox: NSObject {
-
-    public var value: GPXFile
-
-    public init(_ value: GPXFile) {
-        self.value = value
-    }
-
-    public override func isEqual(_ object: Any?) -> Bool {
-        guard let other = object as? Self else { return false }
-        return self === other
-    }
-
-    public override var hash: Int {
-        return ObjectIdentifier(self).hashValue
-    }
-
-    public override var description: String {
-        String(describing: value)
-    }
-}
-
 public struct GPXFile {
 
     //public let id = UUID()

@@ -1,5 +1,5 @@
 //
-//  GPXDocumentView.swift
+//  GPXView.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/21/24.
@@ -9,11 +9,11 @@ import Foundation
 import MapKit
 import Model
 
-class GPXDocumentView: MKMapView {
+class GPXView: MKMapView {
 
     private var allPolylines: Set<MKPolyline> = []
-    private var gpxToPolylineMap: [GPXFileBox: [MKPolyline]] = [:]
-    private var polylineToGPXMap: [MKPolyline: GPXFileBox] = [:]
+    private var gpxToPolylineMap: [GPXCache: [MKPolyline]] = [:]
+    private var polylineToGPXMap: [MKPolyline: GPXCache] = [:]
 
     weak var manager: GPXManager!
 
@@ -52,7 +52,7 @@ class GPXDocumentView: MKMapView {
 
     // Find nearest
 
-    func nearestGPXFile(to point: NSPoint) -> GPXFileBox? {
+    func nearestGPXFile(to point: NSPoint) -> GPXCache? {
         let polyline = self.nearestPolyline(to: point)
         return polyline.flatMap { polylineToGPXMap[$0] }
     }
@@ -90,7 +90,7 @@ class GPXDocumentView: MKMapView {
 
 }
 
-extension GPXDocumentView: MKMapViewDelegate {
+extension GPXView: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
@@ -110,18 +110,18 @@ extension GPXDocumentView: MKMapViewDelegate {
 
 }
 
-extension GPXDocumentView: GPXManagerDelegate {
+extension GPXView: GPXManagerDelegate {
 
-    public func managerDidAddGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
+    public func managerDidAddGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         for file in files {
             add(file)
         }
         dumpCount()
     }
 
-    private func add(_ file: GPXFileBox) {
+    private func add(_ file: GPXCache) {
         var polylines = [MKPolyline]()
-        for track in file.value.tracks {
+        for track in file.file.tracks {
             for segment in track.segments {
                 let polyline = GPXUtils.makePolyline(from: segment)
                 polylines.append(polyline)
@@ -133,13 +133,13 @@ extension GPXDocumentView: GPXManagerDelegate {
         addOverlays(polylines)
     }
 
-    func managerDidRemoveGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
+    func managerDidRemoveGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         for file in files {
             remove(file)
         }
     }
 
-    private func remove(_ file: GPXFileBox) {
+    private func remove(_ file: GPXCache) {
         let polylines = gpxToPolylineMap[file] ?? []
         allPolylines.subtract(polylines)
         gpxToPolylineMap.removeValue(forKey: file)
@@ -149,17 +149,17 @@ extension GPXDocumentView: GPXManagerDelegate {
         removeOverlays(polylines)
     }
 
-    public func managerDidSelectGPXFile(_ file: GPXFileBox) {
+    public func managerDidSelectGPXFile(_ file: GPXCache) {
         let polylines = gpxToPolylineMap[file] ?? []
         redrawPolylines(polylines)
     }
 
-    func managerDidDeselectGPXFile(_ file: GPXFileBox) {
+    func managerDidDeselectGPXFile(_ file: GPXCache) {
         let polylines = gpxToPolylineMap[file] ?? []
         redrawPolylines(polylines)
     }
 
-    func managerDidSelectGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
+    func managerDidSelectGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         var polylines: [MKPolyline] = []
         for file in files {
             polylines.append(contentsOf: gpxToPolylineMap[file] ?? [])
@@ -167,7 +167,7 @@ extension GPXDocumentView: GPXManagerDelegate {
         redrawPolylines(polylines)
     }
 
-    func managerDidDeselectGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
+    func managerDidDeselectGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         var polylines: [MKPolyline] = []
         for file in files {
             polylines.append(contentsOf: gpxToPolylineMap[file] ?? [])
@@ -175,13 +175,13 @@ extension GPXDocumentView: GPXManagerDelegate {
         redrawPolylines(polylines)
     }
 
-    func managerDidDeleteSelectedGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
+    func managerDidDeleteSelectedGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         for file in files {
             remove(file)
         }
     }
 
-    func managerDidUndeleteSelectedGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXFileBox {
+    func managerDidUndeleteSelectedGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         for file in files {
             add(file)
         }
