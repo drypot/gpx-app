@@ -71,10 +71,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"00-App/SwiftUI/App.swift",
-				GPXDocument/SwiftUI/GPXEditMapView.swift,
-				GPXDocument/SwiftUI/GPXEditMKMapViewRepresentable.swift,
-				GPXDocument/SwiftUI/GPXEditView.swift,
-				GPXDocument/SwiftUI/WorkplaceDocument.swift,
+				GPXDocument/_SwiftUI/GPXEditMapView.swift,
+				GPXDocument/_SwiftUI/GPXEditMKMapViewRepresentable.swift,
+				GPXDocument/_SwiftUI/GPXEditView.swift,
+				GPXDocument/_SwiftUI/WorkplaceDocument.swift,
 				Info.plist,
 			);
 			target = 00D40E732BBA403200B755CE /* GPXWorkshop */;
