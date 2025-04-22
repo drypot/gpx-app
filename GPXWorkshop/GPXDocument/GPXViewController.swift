@@ -27,7 +27,7 @@ final class GPXViewController: NSViewController {
     }
 
     weak var document: GPXDocument!
-    weak var gpxManager: GPXManager!
+    weak var gpxManager: GPXViewModel!
 
     override var representedObject: Any? {
         didSet {
@@ -35,9 +35,9 @@ final class GPXViewController: NSViewController {
 //                child.representedObject = representedObject
 //            }
             document = representedObject as? GPXDocument
-            gpxManager = document.gpxManager
+            gpxManager = document.viewModel
             gpxManager.delegate = mapView
-            mapView.manager = document.gpxManager
+            mapView.manager = document.viewModel
         }
     }
 

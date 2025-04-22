@@ -12,11 +12,11 @@ import Model
 
 class GPXDocument: NSDocument {
 
-    let gpxManager: GPXManager
+    let viewModel: GPXViewModel
     var viewController: GPXViewController!
 
     override init() {
-        gpxManager = GPXManager()
+        viewModel = GPXViewModel()
         super.init()
     }
 

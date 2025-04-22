@@ -12,10 +12,9 @@ import Model
 class GPXView: MKMapView {
 
     private var allPolylines: Set<MKPolyline> = []
-    private var gpxToPolylineMap: [GPXCache: [MKPolyline]] = [:]
     private var polylineToGPXMap: [MKPolyline: GPXCache] = [:]
 
-    weak var manager: GPXManager!
+    weak var manager: GPXViewModel!
 
     init() {
         super.init(frame: .zero)
@@ -85,7 +84,7 @@ class GPXView: MKMapView {
 
     func dumpCount() {
         print("---")
-        print("dump counts: \(allPolylines.count) \(gpxToPolylineMap.count) \(polylineToGPXMap.count)")
+        print("dump counts: \(allPolylines.count)")
     }
 
 }
@@ -110,7 +109,7 @@ extension GPXView: MKMapViewDelegate {
 
 }
 
-extension GPXView: GPXManagerDelegate {
+extension GPXView: GPXViewModelDelegate {
 
     public func managerDidAddGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         for file in files {
@@ -120,16 +119,11 @@ extension GPXView: GPXManagerDelegate {
     }
 
     private func add(_ file: GPXCache) {
-        var polylines = [MKPolyline]()
-        for track in file.file.tracks {
-            for segment in track.segments {
-                let polyline = GPXUtils.makePolyline(from: segment)
-                polylines.append(polyline)
-                polylineToGPXMap[polyline] = file
-            }
+        let polylines = file.polylines
+        for polyline in polylines {
+            polylineToGPXMap[polyline] = file
         }
         allPolylines.formUnion(polylines)
-        gpxToPolylineMap[file] = polylines
         addOverlays(polylines)
     }
 
@@ -140,9 +134,8 @@ extension GPXView: GPXManagerDelegate {
     }
 
     private func remove(_ file: GPXCache) {
-        let polylines = gpxToPolylineMap[file] ?? []
+        let polylines = file.polylines
         allPolylines.subtract(polylines)
-        gpxToPolylineMap.removeValue(forKey: file)
         for polyline in polylines {
             polylineToGPXMap.removeValue(forKey: polyline)
         }
@@ -150,19 +143,17 @@ extension GPXView: GPXManagerDelegate {
     }
 
     public func managerDidSelectGPXFile(_ file: GPXCache) {
-        let polylines = gpxToPolylineMap[file] ?? []
-        redrawPolylines(polylines)
+        redrawPolylines(file.polylines)
     }
 
     func managerDidDeselectGPXFile(_ file: GPXCache) {
-        let polylines = gpxToPolylineMap[file] ?? []
-        redrawPolylines(polylines)
+        redrawPolylines(file.polylines)
     }
 
     func managerDidSelectGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         var polylines: [MKPolyline] = []
         for file in files {
-            polylines.append(contentsOf: gpxToPolylineMap[file] ?? [])
+            polylines.append(contentsOf: file.polylines)
         }
         redrawPolylines(polylines)
     }
@@ -170,7 +161,7 @@ extension GPXView: GPXManagerDelegate {
     func managerDidDeselectGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache {
         var polylines: [MKPolyline] = []
         for file in files {
-            polylines.append(contentsOf: gpxToPolylineMap[file] ?? [])
+            polylines.append(contentsOf: file.polylines)
         }
         redrawPolylines(polylines)
     }

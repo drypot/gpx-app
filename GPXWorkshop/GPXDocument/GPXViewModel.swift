@@ -1,5 +1,5 @@
 //
-//  GPXManager.swift
+//  GPXViewModel.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import Model
 
-public protocol GPXManagerDelegate: AnyObject {
+public protocol GPXViewModelDelegate: AnyObject {
     func managerDidAddGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache
     func managerDidRemoveGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache
 
@@ -23,9 +23,9 @@ public protocol GPXManagerDelegate: AnyObject {
     func managerDidUndeleteSelectedGPXFiles<S: Sequence>(_ files: S) where S.Element == GPXCache
 }
 
-public class GPXManager {
+public class GPXViewModel {
 
-    public weak var delegate: GPXManagerDelegate?
+    public weak var delegate: GPXViewModelDelegate?
 
     public private(set) var allFiles: Set<GPXCache> = []
     public private(set) var selectedFiles: Set<GPXCache> = []
