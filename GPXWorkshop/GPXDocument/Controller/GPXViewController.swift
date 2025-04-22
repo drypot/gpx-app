@@ -11,14 +11,14 @@ import Model
 
 final class GPXViewController: NSViewController {
 
-    private var mapView: GPXView
+    public private(set) var gpxView: GPXView
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
     init() {
-        mapView = GPXView()
+        gpxView = GPXView()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,7 +27,7 @@ final class GPXViewController: NSViewController {
     }
 
     weak var document: GPXDocument!
-    weak var gpxManager: GPXViewModel!
+    weak var gpxViewModel: GPXViewModel!
 
     override var representedObject: Any? {
         didSet {
@@ -35,9 +35,8 @@ final class GPXViewController: NSViewController {
 //                child.representedObject = representedObject
 //            }
             document = representedObject as? GPXDocument
-            gpxManager = document.viewModel
-            gpxManager.delegate = mapView
-            mapView.manager = document.viewModel
+            gpxViewModel = document.viewModel
+            gpxView.gpxViewModel = document.viewModel
         }
     }
 
@@ -45,20 +44,20 @@ final class GPXViewController: NSViewController {
         view = NSView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        mapView.translatesAutoresizingMaskIntoConstraints = false
+        gpxView.translatesAutoresizingMaskIntoConstraints = false
         
 //        mapView.keyEventDelegate = self
 //        mapView.window?.makeFirstResponder(mapView)
-        view.addSubview(mapView)
+        view.addSubview(gpxView)
 
         NSLayoutConstraint.activate([
             view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600),
             view.heightAnchor.constraint(greaterThanOrEqualToConstant: 400),
 
-            mapView.topAnchor.constraint(equalTo: view.topAnchor),
-            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gpxView.topAnchor.constraint(equalTo: view.topAnchor),
+            gpxView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gpxView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            gpxView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
@@ -91,14 +90,14 @@ final class GPXViewController: NSViewController {
     // Mouse
 
     override func mouseDown(with event: NSEvent) {
-        initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
+        initialClickLocation = gpxView.convert(event.locationInWindow, from: nil)
         isDragging = false
     }
 
     override func mouseDragged(with event: NSEvent) {
         guard let initialClickLocation = initialClickLocation else { return }
 
-        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
+        let currentLocationInView = gpxView.convert(event.locationInWindow, from: nil)
 
         let dx = currentLocationInView.x - initialClickLocation.x
         let dy = currentLocationInView.y - initialClickLocation.y
@@ -153,17 +152,17 @@ final class GPXViewController: NSViewController {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                var newFiles = [GPXCache]()
+                var newFiles = [GPXFileCache]()
 
                 // TODO: 중복 파일 임포트 방지. 먼 훗날에.
                 for url in Files(urls: urls) {
                     let gpx = try GPXUtils.makeGPXFile(from: url)
-                    newFiles.append(GPXCache(gpx))
+                    newFiles.append(GPXFileCache(gpx))
                 }
 
                 await MainActor.run {
                     addFiles(newFiles)
-                    mapView.zoomToFitAllOverlays()
+                    gpxView.zoomToFitAllOverlays()
                 }
             } catch {
                 ErrorLogger.log(error)
@@ -171,14 +170,14 @@ final class GPXViewController: NSViewController {
         }
     }
 
-    @objc func addFiles(_ files: [GPXCache]) {
+    @objc func addFiles(_ files: [GPXFileCache]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
-        gpxManager.addFiles(files)
+        gpxViewModel.addFiles(files)
     }
 
-    @objc func removeFiles(_ files: [GPXCache]) {
+    @objc func removeFiles(_ files: [GPXFileCache]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
-        gpxManager.removeFiles(files)
+        gpxViewModel.removeFiles(files)
     }
 
     @IBAction func exportFile(_ sender: Any) {
@@ -210,16 +209,16 @@ final class GPXViewController: NSViewController {
 
     func deselectAllAndSelect(at point: NSPoint) {
         undoManager?.beginUndoGrouping()
-        deselectFiles(gpxManager.selectedFiles)
-        if let file = mapView.nearestGPXFile(to: point) {
+        deselectFiles(gpxViewModel.selectedFiles)
+        if let file = gpxViewModel.nearestFile(to: point) {
             selectFile(file)
         }
         undoManager?.endUndoGrouping()
     }
     
     func toggleSelection(at point: NSPoint) {
-        if let file = mapView.nearestGPXFile(to: point) {
-            if gpxManager.selectedFiles.contains(file) {
+        if let file = gpxViewModel.nearestFile(to: point) {
+            if gpxViewModel.selectedFiles.contains(file) {
                 deselectFile(file)
             } else {
                 selectFile(file)
@@ -227,28 +226,28 @@ final class GPXViewController: NSViewController {
         }
     }
 
-    @objc func selectFile(_ file: GPXCache) {
+    @objc func selectFile(_ file: GPXFileCache) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFile), object: file)
-        gpxManager.select(file)
+        gpxViewModel.selectFile(file)
     }
     
-    @objc func deselectFile(_ file: GPXCache) {
+    @objc func deselectFile(_ file: GPXFileCache) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFile), object: file)
-        gpxManager.deselect(file)
+        gpxViewModel.deselectFile(file)
     }
 
     @IBAction override func selectAll(_ sender: Any?) {
-        selectFiles(gpxManager.unselectedFiles)
+        selectFiles(gpxViewModel.unselectedFiles)
     }
 
-    @objc func selectFiles(_ files: Set<GPXCache>) {
+    @objc func selectFiles(_ files: Set<GPXFileCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFiles), object: files)
-        gpxManager.selectFiles(files)
+        gpxViewModel.selectFiles(files)
     }
     
-    @objc func deselectFiles(_ files: Set<GPXCache>) {
+    @objc func deselectFiles(_ files: Set<GPXFileCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(selectFiles), object: files)
-        gpxManager.deselectFiles(files)
+        gpxViewModel.deselectFiles(files)
     }
 
     // Delete
@@ -258,13 +257,13 @@ final class GPXViewController: NSViewController {
     }
 
     @objc func deleteSelected() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: gpxManager.selectedFiles)
-        gpxManager.deleteSelectedFiles()
+        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: gpxViewModel.selectedFiles)
+        gpxViewModel.deleteSelectedFiles()
     }
 
-    @objc func undeleteSelected(_ files: Set<GPXCache>) {
+    @objc func undeleteSelected(_ files: Set<GPXFileCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
-        gpxManager.undeleteSelectedFiles(files)
+        gpxViewModel.undeleteSelectedFiles(files)
     }
 
 

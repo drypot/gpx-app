@@ -1,5 +1,5 @@
 //
-//  GPXCache.swift
+//  GPXFileCache.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/21/25.
@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import Model
 
-public final class GPXCache: NSObject {
+public final class GPXFileCache: NSObject {
 
     public private(set) var gpxFile: GPXFile
     public private(set) var polylines: [MKPolyline] = []
