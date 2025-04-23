@@ -11,16 +11,16 @@ import Model
 
 public class GPXViewModel {
 
-    public private(set) var allFiles: Set<GPXFileCache> = []
-    public private(set) var selectedFiles: Set<GPXFileCache> = []
+    public private(set) var allFileCaches: Set<GPXFileCache> = []
+    public private(set) var selectedFileCaches: Set<GPXFileCache> = []
 
     public private(set) var allPolylines: Set<MKPolyline> = []
-    public private(set) var polylineToGPXMap: [MKPolyline: GPXFileCache] = [:]
+    public private(set) var polylineToFileCacheMap: [MKPolyline: GPXFileCache] = [:]
 
-    public weak var gpxView: GPXView!
+    public weak var view: GPXView!
 
-    public var unselectedFiles: Set<GPXFileCache> {
-        return allFiles.subtracting(selectedFiles)
+    public var unselectedFileCaches: Set<GPXFileCache> {
+        return allFileCaches.subtracting(selectedFileCaches)
     }
 
     public init() {
@@ -28,9 +28,9 @@ public class GPXViewModel {
 
     // MARK: - Find nearest
 
-    func nearestFile(to point: NSPoint) -> GPXFileCache? {
+    func nearestFileCache(to point: NSPoint) -> GPXFileCache? {
         let polyline = self.nearestPolyline(to: point)
-        return polyline.flatMap { polylineToGPXMap[$0] }
+        return polyline.flatMap { polylineToFileCacheMap[$0] }
     }
 
     func nearestPolyline(to point: NSPoint) -> MKPolyline? {
@@ -53,83 +53,83 @@ public class GPXViewModel {
 
     func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {
         let limit = 10.0
-        let p1 = MKMapPoint(gpxView.convert(point, toCoordinateFrom: gpxView))
-        let p2 = MKMapPoint(gpxView.convert(CGPoint(x: point.x + limit, y: point.y), toCoordinateFrom: gpxView))
+        let p1 = MKMapPoint(view.convert(point, toCoordinateFrom: view))
+        let p2 = MKMapPoint(view.convert(CGPoint(x: point.x + limit, y: point.y), toCoordinateFrom: view))
         let tolerance = p1.distance(to: p2)
         return (p1, tolerance)
     }
 
-    // MARK: - Add/Remove files
+    // MARK: - Add/Remove caches
 
-    public func addFiles<S: Sequence>(_ files: S) where S.Element == GPXFileCache {
-        for file in files {
-            addFile(file)
+    public func addFileCaches<S: Sequence>(_ caches: S) where S.Element == GPXFileCache {
+        for cache in caches {
+            addFileCache(cache)
         }
     }
 
-    public func addFile(_ file: GPXFileCache) {
-        allFiles.insert(file)
+    public func addFileCache(_ cache: GPXFileCache) {
+        allFileCaches.insert(cache)
 
-        let polylines = file.polylines
+        let polylines = cache.polylines
         for polyline in polylines {
-            polylineToGPXMap[polyline] = file
+            polylineToFileCacheMap[polyline] = cache
         }
         allPolylines.formUnion(polylines)
-        gpxView.addOverlays(polylines)
+        view.addOverlays(polylines)
     }
 
-    public func removeFiles<S: Sequence>(_ files: S) where S.Element == GPXFileCache {
-        for file in files {
-            removeFile(file)
+    public func removeFileCaches<S: Sequence>(_ caches: S) where S.Element == GPXFileCache {
+        for cache in caches {
+            removeFileCache(cache)
         }
     }
 
-    public func removeFile(_ file: GPXFileCache) {
-        allFiles.remove(file)
+    public func removeFileCache(_ cache: GPXFileCache) {
+        allFileCaches.remove(cache)
 
-        let polylines = file.polylines
+        let polylines = cache.polylines
         for polyline in polylines {
-            polylineToGPXMap.removeValue(forKey: polyline)
+            polylineToFileCacheMap.removeValue(forKey: polyline)
         }
         allPolylines.subtract(polylines)
-        gpxView.removeOverlays(polylines)
+        view.removeOverlays(polylines)
     }
 
     // MARK: - Selection
 
-    public func selectFiles(_ files: Set<GPXFileCache>) {
-        for file in files {
-            selectFile(file)
+    public func selectFileCaches(_ caches: Set<GPXFileCache>) {
+        for cache in caches {
+            selectFileCache(cache)
         }
     }
 
-    public func selectFile(_ file: GPXFileCache) {
-        selectedFiles.insert(file)
-        gpxView.redrawPolylines(file.polylines)
+    public func selectFileCache(_ cache: GPXFileCache) {
+        selectedFileCaches.insert(cache)
+        view.redrawPolylines(cache.polylines)
     }
 
-    public func deselectFiles(_ files: Set<GPXFileCache>) {
-        for file in files {
-            deselectFile(file)
+    public func deselectFileCaches(_ caches: Set<GPXFileCache>) {
+        for cache in caches {
+            deselectFileCache(cache)
         }
     }
 
-    public func deselectFile(_ file: GPXFileCache) {
-        selectedFiles.remove(file)
-        gpxView.redrawPolylines(file.polylines)
+    public func deselectFileCache(_ cache: GPXFileCache) {
+        selectedFileCaches.remove(cache)
+        view.redrawPolylines(cache.polylines)
     }
 
     // MARK: - Delete selected
 
-    public func deleteSelectedFiles() {
-        let files = selectedFiles
-        selectedFiles.removeAll()
-        removeFiles(files)
+    public func deleteSelectedFileCaches() {
+        let caches = selectedFileCaches
+        selectedFileCaches.removeAll()
+        removeFileCaches(caches)
     }
 
-    public func undeleteSelectedFiles(_ files: Set<GPXFileCache>) {
-        selectedFiles = files
-        addFiles(files)
+    public func undeleteSelectedFileCaches(_ caches: Set<GPXFileCache>) {
+        selectedFileCaches = caches
+        addFileCaches(caches)
     }
 
 }

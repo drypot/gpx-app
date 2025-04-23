@@ -17,6 +17,9 @@ final class GPXViewController: NSViewController {
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
+    weak var document: GPXDocument!
+    weak var viewModel: GPXViewModel!
+
     init() {
         gpxView = GPXView()
         super.init(nibName: nil, bundle: nil)
@@ -26,16 +29,13 @@ final class GPXViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    weak var document: GPXDocument!
-    weak var gpxViewModel: GPXViewModel!
-
     override var representedObject: Any? {
         didSet {
-//            for child in children {
-//                child.representedObject = representedObject
-//            }
             document = representedObject as? GPXDocument
-            gpxViewModel = document.viewModel
+
+            viewModel = document.viewModel
+            viewModel.view = gpxView
+
             gpxView.gpxViewModel = document.viewModel
         }
     }
@@ -80,7 +80,7 @@ final class GPXViewController: NSViewController {
         for character in characters {
             switch character {
             case "\u{7F}": // delete
-                delete(nil)
+                deleteSelectedFileCaches()
             default:
                 break
             }
@@ -122,11 +122,11 @@ final class GPXViewController: NSViewController {
     }
 
     func handleClick(at point: NSPoint) {
-        deselectAllAndSelect(at: point)
+        beginFileCacheSelection(at: point)
     }
 
     func handleShiftClick(at point: NSPoint) {
-        toggleSelection(at: point)
+        toggleFileCacheSelection(at: point)
     }
 
     // Files
@@ -152,16 +152,16 @@ final class GPXViewController: NSViewController {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                var newFiles = [GPXFileCache]()
+                var caches = [GPXFileCache]()
 
                 // TODO: 중복 파일 임포트 방지. 먼 훗날에.
                 for url in Files(urls: urls) {
-                    let gpx = try GPXUtils.makeGPXFile(from: url)
-                    newFiles.append(GPXFileCache(gpx))
+                    let file = try GPXUtils.makeGPXFile(from: url)
+                    caches.append(GPXFileCache(file))
                 }
 
                 await MainActor.run {
-                    addFiles(newFiles)
+                    addFileCaches(caches)
                     gpxView.zoomToFitAllOverlays()
                 }
             } catch {
@@ -170,14 +170,14 @@ final class GPXViewController: NSViewController {
         }
     }
 
-    @objc func addFiles(_ files: [GPXFileCache]) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(removeFiles(_:)), object: files)
-        gpxViewModel.addFiles(files)
+    @objc func addFileCaches(_ caches: [GPXFileCache]) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(removeFileCaches(_:)), object: caches)
+        viewModel.addFileCaches(caches)
     }
 
-    @objc func removeFiles(_ files: [GPXFileCache]) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(addFiles(_:)), object: files)
-        gpxViewModel.removeFiles(files)
+    @objc func removeFileCaches(_ caches: [GPXFileCache]) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(addFileCaches(_:)), object: caches)
+        viewModel.removeFileCaches(caches)
     }
 
     @IBAction func exportFile(_ sender: Any) {
@@ -207,63 +207,63 @@ final class GPXViewController: NSViewController {
 
     // Select
 
-    func deselectAllAndSelect(at point: NSPoint) {
+    @IBAction override func selectAll(_ sender: Any?) {
+        selectFileCaches(viewModel.unselectedFileCaches)
+    }
+
+    func beginFileCacheSelection(at point: NSPoint) {
         undoManager?.beginUndoGrouping()
-        deselectFiles(gpxViewModel.selectedFiles)
-        if let file = gpxViewModel.nearestFile(to: point) {
-            selectFile(file)
+        deselectFileCaches(viewModel.selectedFileCaches)
+        if let cache = viewModel.nearestFileCache(to: point) {
+            selectFileCache(cache)
         }
         undoManager?.endUndoGrouping()
     }
     
-    func toggleSelection(at point: NSPoint) {
-        if let file = gpxViewModel.nearestFile(to: point) {
-            if gpxViewModel.selectedFiles.contains(file) {
-                deselectFile(file)
+    func toggleFileCacheSelection(at point: NSPoint) {
+        if let cache = viewModel.nearestFileCache(to: point) {
+            if viewModel.selectedFileCaches.contains(cache) {
+                deselectFileCache(cache)
             } else {
-                selectFile(file)
+                selectFileCache(cache)
             }
         }
     }
 
-    @objc func selectFile(_ file: GPXFileCache) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFile), object: file)
-        gpxViewModel.selectFile(file)
+    @objc func selectFileCache(_ cache: GPXFileCache) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFileCache), object: cache)
+        viewModel.selectFileCache(cache)
     }
     
-    @objc func deselectFile(_ file: GPXFileCache) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(selectFile), object: file)
-        gpxViewModel.deselectFile(file)
+    @objc func deselectFileCache(_ cache: GPXFileCache) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(selectFileCache), object: cache)
+        viewModel.deselectFileCache(cache)
     }
 
-    @IBAction override func selectAll(_ sender: Any?) {
-        selectFiles(gpxViewModel.unselectedFiles)
-    }
-
-    @objc func selectFiles(_ files: Set<GPXFileCache>) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFiles), object: files)
-        gpxViewModel.selectFiles(files)
+    @objc func selectFileCaches(_ caches: Set<GPXFileCache>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deselectFileCaches), object: caches)
+        viewModel.selectFileCaches(caches)
     }
     
-    @objc func deselectFiles(_ files: Set<GPXFileCache>) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(selectFiles), object: files)
-        gpxViewModel.deselectFiles(files)
+    @objc func deselectFileCaches(_ caches: Set<GPXFileCache>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(selectFileCaches), object: caches)
+        viewModel.deselectFileCaches(caches)
     }
 
     // Delete
 
     @IBAction func delete(_ sender: Any?) {
-        deleteSelected()
+        deleteSelectedFileCaches()
     }
 
-    @objc func deleteSelected() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelected), object: gpxViewModel.selectedFiles)
-        gpxViewModel.deleteSelectedFiles()
+    @objc func deleteSelectedFileCaches() {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelectedFileCaches), object: viewModel.selectedFileCaches)
+        viewModel.deleteSelectedFileCaches()
     }
 
-    @objc func undeleteSelected(_ files: Set<GPXFileCache>) {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelected), object: nil)
-        gpxViewModel.undeleteSelectedFiles(files)
+    @objc func undeleteSelectedFileCaches(_ caches: Set<GPXFileCache>) {
+        undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelectedFileCaches), object: nil)
+        viewModel.undeleteSelectedFileCaches(caches)
     }
 
 
@@ -284,7 +284,7 @@ final class GPXViewController: NSViewController {
 //        pasteboard.clearContents()
 //        var array = [GPXBox]()
 //        for box in gpxManager.selectedFiles {
-//            array.append(GPXBox(box.file))
+//            array.append(GPXBox(box.cache))
 //        }
 //        pasteboard.writeObjects(array)
 //    }

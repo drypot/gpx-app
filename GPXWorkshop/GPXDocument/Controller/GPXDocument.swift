@@ -13,7 +13,8 @@ import Model
 class GPXDocument: NSDocument {
 
     let viewModel: GPXViewModel
-    var viewController: GPXViewController!
+
+    weak var viewController: GPXViewController!
 
     override init() {
         viewModel = GPXViewModel()
@@ -30,8 +31,6 @@ class GPXDocument: NSDocument {
 
         viewController = windowController.contentViewController as? GPXViewController
         viewController.representedObject = self
-
-        viewModel.gpxView = viewController.gpxView
     }
 
     override func data(ofType typeName: String) throws -> Data {
