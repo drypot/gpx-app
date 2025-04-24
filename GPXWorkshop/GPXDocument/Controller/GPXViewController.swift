@@ -257,15 +257,14 @@ final class GPXViewController: NSViewController {
     }
 
     @objc func deleteSelectedFileCaches() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(undeleteSelectedFileCaches), object: viewModel.selectedFileCaches)
+        undoManager?.registerUndo(withTarget: self, selector: #selector(restoreSelectedFileCaches), object: viewModel.selectedFileCaches)
         viewModel.deleteSelectedFileCaches()
     }
 
-    @objc func undeleteSelectedFileCaches(_ caches: Set<GPXFileCache>) {
+    @objc func restoreSelectedFileCaches(_ caches: Set<GPXFileCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelectedFileCaches), object: nil)
-        viewModel.undeleteSelectedFileCaches(caches)
+        viewModel.restoreSelectedFileCaches(caches)
     }
-
 
     // Copy & Paste
 

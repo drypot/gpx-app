@@ -127,7 +127,7 @@ public class GPXViewModel {
         removeFileCaches(caches)
     }
 
-    public func undeleteSelectedFileCaches(_ caches: Set<GPXFileCache>) {
+    public func restoreSelectedFileCaches(_ caches: Set<GPXFileCache>) {
         selectedFileCaches = caches
         addFileCaches(caches)
     }
