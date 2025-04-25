@@ -64,6 +64,10 @@
 				Support/File/Fixtures/dummy2.txt,
 				Support/File/Fixtures/Sub1/dummy3.txt,
 				Support/File/Fixtures/Sub1/dummy4.txt,
+				Support/File/Fixtures/Sub1/Sub2/dummy5.txt,
+				Support/File/Fixtures/Sub1/Sub2/dummy6.txt,
+				Support/File/Fixtures/Sub1/Sub3/dummy7.txt,
+				Support/File/Fixtures/Sub1/Sub3/dummy8.txt,
 			);
 			target = 009F90512DAA51D50060ADA6 /* ModelTests */;
 		};

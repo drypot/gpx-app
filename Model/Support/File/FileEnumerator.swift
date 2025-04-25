@@ -44,40 +44,48 @@ public struct Files: Sequence  {
         init(urls: [URL]) {
             self.urls = urls
         }
-        
+
         public mutating func next() -> URL? {
+            // FileManager enumerator 가 기본적으로 deep 하기 때문에
+            // 1차원 urls에 대해서만 루프를 돌리면 된다.
+            // 내가 직접 트리를 타고 내려갈 필요는 없다.
             do {
-                if enumerator == nil {
+                if let enumerator {
+                    if let url = enumerator.nextObject() as? URL {
+                        let resourceValues = try url.resourceValues(forKeys: defaultResourceKeysSet)
+                        if resourceValues.isRegularFile == true {
+                            return url
+                        }
+                        return next()
+                    } else {
+                        self.enumerator = nil
+                        return next()
+                    }
+                } else {
                     if urls.isEmpty {
                         return nil
+                    } else {
+                        let url = urls.removeFirst()
+                        let resourceValues = try url.resourceValues(forKeys: defaultResourceKeysSet)
+                        if resourceValues.isRegularFile == true {
+                            return url
+                        }
+                        if resourceValues.isDirectory == true {
+                            enumerator = FileManager.default.enumerator(
+                                at: url,
+                                includingPropertiesForKeys: defaultResourceKeys,
+                                options: defaultOptions
+                            )
+                            return next()
+                        }
+                        return nil
                     }
-                    let url = urls.removeFirst()
-                    let resourceValues = try url.resourceValues(forKeys: defaultResourceKeysSet)
-                    if resourceValues.isRegularFile! {
-                        return url
-                    }
-                    if resourceValues.isDirectory! {
-                        enumerator = FileManager.default.enumerator(
-                            at: url,
-                            includingPropertiesForKeys: defaultResourceKeys,
-                            options: defaultOptions
-                        )
-                    }
-                    return next()
                 }
-                guard let url = enumerator!.nextObject() as? URL else {
-                    self.enumerator = nil
-                    return next()
-                }
-                let resourceValues = try url.resourceValues(forKeys: defaultResourceKeysSet)
-                if resourceValues.isRegularFile! {
-                    return url
-                }
-                return next()
             } catch {
                 return nil
             }
         }
+
     }
     
 }
