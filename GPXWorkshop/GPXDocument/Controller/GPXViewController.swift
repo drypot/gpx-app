@@ -139,7 +139,6 @@ final class GPXViewController: NSViewController {
         panel.allowedContentTypes = [.gpx]
         panel.begin { [unowned self] result in
             guard result == .OK else { return }
-//            print(panel.urls)
             importFiles(from: panel.urls)
         }
     }
@@ -149,7 +148,7 @@ final class GPXViewController: NSViewController {
         importFiles(from: urls)
     }
     
-    func importFiles(from urls: [URL]) {
+    public func importFiles(from urls: [URL]) {
         Task {
             do {
                 var caches = [GPXFileCache]()

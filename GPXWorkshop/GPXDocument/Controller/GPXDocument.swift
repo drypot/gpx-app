@@ -55,6 +55,28 @@ class GPXDocument: NSDocument {
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
 
+    public func importFilesAndShowWindow(_ urls: [URL]) {
+        Task {
+            do {
+                var caches = [GPXFileCache]()
+
+                // TODO: 중복 파일 임포트 방지. 먼 훗날에.
+                for url in Files(urls: urls) {
+                    let file = try GPXUtils.makeGPXFile(from: url)
+                    caches.append(GPXFileCache(file))
+                }
+
+                await MainActor.run {
+                    viewModel.addFileCaches(caches)
+                    viewController.gpxView.zoomToFitAllOverlays()
+                    showWindows()
+                }
+            } catch {
+                ErrorLogger.log(error)
+            }
+        }
+    }
+
     // 프로그램 종료시 저장할지 묻지 않는다.
     override var isDocumentEdited: Bool {
         return false
