@@ -20,17 +20,13 @@ struct FileEnumeratorTests {
 
     @Test func testFilesSequence() throws {
         let url = fixtureURL("Sub1")
-        let fixtures = [
-            "Fixtures/Sub1/dummy3.txt",
-            "Fixtures/Sub1/dummy4.txt"
-        ]
-        var count = 0
-        Files(url: url).forEach { url in
-            count += 1
-            let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
-            #expect(contains == 1)
-        }
-        #expect(count == 2)
+
+        let files = Files(url: url).sorted(by: { $0.path < $1.path })
+
+        #expect(files.count == 2)
+
+        #expect(files[0].absoluteString.hasSuffix("Fixtures/Sub1/dummy3.txt"))
+        #expect(files[1].absoluteString.hasSuffix("Fixtures/Sub1/dummy4.txt"))
     }
 
     @Test func testFilesSequence2() throws {
@@ -38,37 +34,29 @@ struct FileEnumeratorTests {
             fixtureURL("dummy1.txt"),
             fixtureURL("Sub1")
         ]
-        let fixtures = [
-            "Fixtures/dummy1.txt",
-            "Fixtures/Sub1/dummy3.txt",
-            "Fixtures/Sub1/dummy4.txt"
-        ]
-        var count = 0
-        Files(urls: urls).forEach { url in
-            count += 1
-            let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
-            #expect(contains == 1)
-        }
-        #expect(count == 3)
+
+        let files = Files(urls: urls).sorted(by: { $0.path < $1.path })
+
+        #expect(files.count == 3)
+
+        #expect(files[0].absoluteString.hasSuffix("Fixtures/Sub1/dummy3.txt"))
+        #expect(files[1].absoluteString.hasSuffix("Fixtures/Sub1/dummy4.txt"))
+        #expect(files[2].absoluteString.hasSuffix("Fixtures/dummy1.txt"))
     }
 
     @Test func testFilesSequence3() throws {
         let urls = [
             fixtureURL(""),
         ]
-        let fixtures = [
-            "Fixtures/dummy1.txt",
-            "Fixtures/dummy2.txt",
-            "Fixtures/Sub1/dummy3.txt",
-            "Fixtures/Sub1/dummy4.txt"
-        ]
-        var count = 0
-        Files(urls: urls).forEach { url in
-            count += 1
-            let contains = fixtures.reduce(0) { $0 + (url.absoluteString.contains($1) ? 1 : 0) }
-            #expect(contains == 1)
-        }
-        #expect(count == 4)
+
+        let files = Files(urls: urls).sorted(by: { $0.path < $1.path })
+
+        #expect(files.count == 4)
+
+        #expect(files[0].absoluteString.hasSuffix("Fixtures/Sub1/dummy3.txt"))
+        #expect(files[1].absoluteString.hasSuffix("Fixtures/Sub1/dummy4.txt"))
+        #expect(files[2].absoluteString.hasSuffix("Fixtures/dummy1.txt"))
+        #expect(files[3].absoluteString.hasSuffix("Fixtures/dummy2.txt"))
     }
 
     @Test func testEnumerateFiles() throws {
@@ -84,7 +72,7 @@ struct FileEnumeratorTests {
                 return .success(false)
             }
         }
-        
+
         switch result {
         case .success:
             #expect(count == 4)
