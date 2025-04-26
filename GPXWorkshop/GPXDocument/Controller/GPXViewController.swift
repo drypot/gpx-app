@@ -11,14 +11,14 @@ import Model
 
 final class GPXViewController: NSViewController {
 
-    public private(set) var gpxView: GPXView
+    private let gpxView: GPXView
 
     private var initialClickLocation: NSPoint?
     private var isDragging = false
     private var tolerance: CGFloat = 5.0
 
-    weak var document: GPXDocument!
-    weak var viewModel: GPXViewModel!
+    private weak var document: GPXDocument!
+    private weak var viewModel: GPXViewModel!
 
     init() {
         gpxView = GPXView()
@@ -71,6 +71,9 @@ final class GPXViewController: NSViewController {
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
     }
 
+    func zoomToFitAllOverlays() {
+        gpxView.zoomToFitAllOverlays()
+    }
     // Key
 
     override var acceptsFirstResponder: Bool { true }

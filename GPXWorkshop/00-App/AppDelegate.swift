@@ -57,10 +57,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // import GPX files
 
             do {
-                let document = try NSDocumentController.shared.makeUntitledDocument(ofType: UTType.gpxWorkshop.identifier) as! GPXDocument
-                NSDocumentController.shared.addDocument(document)
-                document.makeWindowControllers()
-                document.importFilesAndShowWindow(gpxURLs)
+                let documentController = NSDocumentController.shared
+                let document = try documentController.makeUntitledDocument(ofType: UTType.gpxWorkshop.identifier) as! GPXDocument
+                documentController.addDocument(document)
+                document.loadGPXFiles(gpxURLs)
             } catch {
                 print(error)
                 NSApp.presentError(error)

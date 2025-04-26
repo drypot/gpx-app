@@ -55,7 +55,7 @@ class GPXDocument: NSDocument {
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
 
-    public func importFilesAndShowWindow(_ urls: [URL]) {
+    public func loadGPXFiles(_ urls: [URL]) {
         Task {
             do {
                 var caches = [GPXFileCache]()
@@ -67,8 +67,9 @@ class GPXDocument: NSDocument {
                 }
 
                 await MainActor.run {
+                    makeWindowControllers()
                     viewModel.addFileCaches(caches)
-                    viewController.gpxView.zoomToFitAllOverlays()
+                    viewController.zoomToFitAllOverlays()
                     showWindows()
                 }
             } catch {
