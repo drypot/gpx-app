@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0004B1CB2DAA631F0091C628 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F904A2DAA51D40060ADA6 /* Model.framework */; };
-		009F905D2DAA51D50060ADA6 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F904A2DAA51D40060ADA6 /* Model.framework */; };
-		009F905E2DAA51D50060ADA6 /* Model.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 009F904A2DAA51D40060ADA6 /* Model.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0004B1CB2DAA631F0091C628 /* GPXWorkshopSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F904A2DAA51D40060ADA6 /* GPXWorkshopSupport.framework */; };
+		009F905D2DAA51D50060ADA6 /* GPXWorkshopSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 009F904A2DAA51D40060ADA6 /* GPXWorkshopSupport.framework */; };
+		009F905E2DAA51D50060ADA6 /* GPXWorkshopSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 009F904A2DAA51D40060ADA6 /* GPXWorkshopSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				009F905E2DAA51D50060ADA6 /* Model.framework in Embed Frameworks */,
+				009F905E2DAA51D50060ADA6 /* GPXWorkshopSupport.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,8 +45,8 @@
 
 /* Begin PBXFileReference section */
 		0004B1C72DAA62970091C628 /* GPXWorkshop.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = GPXWorkshop.xctestplan; sourceTree = "<group>"; };
-		009F904A2DAA51D40060ADA6 /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		009F90522DAA51D50060ADA6 /* ModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		009F904A2DAA51D40060ADA6 /* GPXWorkshopSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GPXWorkshopSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		009F90522DAA51D50060ADA6 /* GPXWorkshopSupportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPXWorkshopSupportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00D40E742BBA403200B755CE /* GPXWorkshop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPXWorkshop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00D40EAF2BBA4A9700B755CE /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		00D40EB02BBA4A9700B755CE /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -69,7 +69,7 @@
 				Support/File/Fixtures/Sub1/Sub3/dummy7.txt,
 				Support/File/Fixtures/Sub1/Sub3/dummy8.txt,
 			);
-			target = 009F90512DAA51D50060ADA6 /* ModelTests */;
+			target = 009F90512DAA51D50060ADA6 /* GPXWorkshopSupportTests */;
 		};
 		00E2E4602CBE4028006ADC0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -86,8 +86,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		009F904B2DAA51D40060ADA6 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
-		009F90582DAA51D50060ADA6 /* ModelTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (009F906C2DAA520F0060ADA6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ModelTests; sourceTree = "<group>"; };
+		009F904B2DAA51D40060ADA6 /* GPXWorkshopSupport */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GPXWorkshopSupport; sourceTree = "<group>"; };
+		009F90582DAA51D50060ADA6 /* GPXWorkshopSupportTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (009F906C2DAA520F0060ADA6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = GPXWorkshopSupportTests; sourceTree = "<group>"; };
 		00E2E35E2CBE3F3D006ADC0D /* Doc */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Doc; sourceTree = "<group>"; };
 		00E2E4382CBE4028006ADC0D /* GPXWorkshop */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (00E2E4602CBE4028006ADC0D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = GPXWorkshop; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0004B1CB2DAA631F0091C628 /* Model.framework in Frameworks */,
+				0004B1CB2DAA631F0091C628 /* GPXWorkshopSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				009F905D2DAA51D50060ADA6 /* Model.framework in Frameworks */,
+				009F905D2DAA51D50060ADA6 /* GPXWorkshopSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,8 +134,8 @@
 				00D40EB02BBA4A9700B755CE /* README.md */,
 				00E2E35E2CBE3F3D006ADC0D /* Doc */,
 				00E2E4382CBE4028006ADC0D /* GPXWorkshop */,
-				009F904B2DAA51D40060ADA6 /* Model */,
-				009F90582DAA51D50060ADA6 /* ModelTests */,
+				009F904B2DAA51D40060ADA6 /* GPXWorkshopSupport */,
+				009F90582DAA51D50060ADA6 /* GPXWorkshopSupportTests */,
 				0004B1CA2DAA631F0091C628 /* Frameworks */,
 				00D40E752BBA403200B755CE /* Products */,
 			);
@@ -145,8 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				00D40E742BBA403200B755CE /* GPXWorkshop.app */,
-				009F904A2DAA51D40060ADA6 /* Model.framework */,
-				009F90522DAA51D50060ADA6 /* ModelTests.xctest */,
+				009F904A2DAA51D40060ADA6 /* GPXWorkshopSupport.framework */,
+				009F90522DAA51D50060ADA6 /* GPXWorkshopSupportTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,9 +164,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		009F90492DAA51D40060ADA6 /* Model */ = {
+		009F90492DAA51D40060ADA6 /* GPXWorkshopSupport */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 009F90642DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "Model" */;
+			buildConfigurationList = 009F90642DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "GPXWorkshopSupport" */;
 			buildPhases = (
 				009F90452DAA51D40060ADA6 /* Headers */,
 				009F90462DAA51D40060ADA6 /* Sources */,
@@ -178,18 +178,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				009F904B2DAA51D40060ADA6 /* Model */,
+				009F904B2DAA51D40060ADA6 /* GPXWorkshopSupport */,
 			);
-			name = Model;
+			name = GPXWorkshopSupport;
 			packageProductDependencies = (
 			);
 			productName = GPXWorkshopModel;
-			productReference = 009F904A2DAA51D40060ADA6 /* Model.framework */;
+			productReference = 009F904A2DAA51D40060ADA6 /* GPXWorkshopSupport.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		009F90512DAA51D50060ADA6 /* ModelTests */ = {
+		009F90512DAA51D50060ADA6 /* GPXWorkshopSupportTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 009F90652DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "ModelTests" */;
+			buildConfigurationList = 009F90652DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "GPXWorkshopSupportTests" */;
 			buildPhases = (
 				009F904E2DAA51D50060ADA6 /* Sources */,
 				009F904F2DAA51D50060ADA6 /* Frameworks */,
@@ -201,13 +201,13 @@
 				009F90552DAA51D50060ADA6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				009F90582DAA51D50060ADA6 /* ModelTests */,
+				009F90582DAA51D50060ADA6 /* GPXWorkshopSupportTests */,
 			);
-			name = ModelTests;
+			name = GPXWorkshopSupportTests;
 			packageProductDependencies = (
 			);
 			productName = GPXWorkshopModelTests;
-			productReference = 009F90522DAA51D50060ADA6 /* ModelTests.xctest */;
+			productReference = 009F90522DAA51D50060ADA6 /* GPXWorkshopSupportTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		00D40E732BBA403200B755CE /* GPXWorkshop */ = {
@@ -268,8 +268,8 @@
 			projectRoot = "";
 			targets = (
 				00D40E732BBA403200B755CE /* GPXWorkshop */,
-				009F90492DAA51D40060ADA6 /* Model */,
-				009F90512DAA51D50060ADA6 /* ModelTests */,
+				009F90492DAA51D40060ADA6 /* GPXWorkshopSupport */,
+				009F90512DAA51D50060ADA6 /* GPXWorkshopSupportTests */,
 			);
 		};
 /* End PBXProject section */
@@ -325,12 +325,12 @@
 /* Begin PBXTargetDependency section */
 		0004B1C92DAA62FF0091C628 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 009F90492DAA51D40060ADA6 /* Model */;
+			target = 009F90492DAA51D40060ADA6 /* GPXWorkshopSupport */;
 			targetProxy = 0004B1C82DAA62FF0091C628 /* PBXContainerItemProxy */;
 		};
 		009F90552DAA51D50060ADA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 009F90492DAA51D40060ADA6 /* Model */;
+			target = 009F90492DAA51D40060ADA6 /* GPXWorkshopSupport */;
 			targetProxy = 009F90542DAA51D50060ADA6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -360,7 +360,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopModel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -396,7 +396,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopModel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -418,7 +418,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopModelTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopSupportTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -436,7 +436,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopModelTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshopSupportTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -632,7 +632,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		009F90642DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "Model" */ = {
+		009F90642DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "GPXWorkshopSupport" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				009F90602DAA51D50060ADA6 /* Debug */,
@@ -641,7 +641,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		009F90652DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "ModelTests" */ = {
+		009F90652DAA51D50060ADA6 /* Build configuration list for PBXNativeTarget "GPXWorkshopSupportTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				009F90622DAA51D50060ADA6 /* Debug */,

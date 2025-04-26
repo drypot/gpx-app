@@ -7,7 +7,7 @@
 
 import Combine
 import Testing
-@testable import Model
+@testable import GPXWorkshopSupport
 
 struct PublisherTests {
 

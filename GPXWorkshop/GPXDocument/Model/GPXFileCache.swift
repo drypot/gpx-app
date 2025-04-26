@@ -7,7 +7,7 @@
 
 import Foundation
 import MapKit
-import Model
+import GPXWorkshopSupport
 
 public final class GPXFileCache: NSObject {
 

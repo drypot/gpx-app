@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "009F90492DAA51D40060ADA6"
-               BuildableName = "Model.framework"
-               BlueprintName = "Model"
+               BuildableName = "GPXWorkshopSupport.framework"
+               BlueprintName = "GPXWorkshopSupport"
                ReferencedContainer = "container:GPXWorkshop.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -51,8 +51,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "009F90492DAA51D40060ADA6"
-            BuildableName = "Model.framework"
-            BlueprintName = "Model"
+            BuildableName = "GPXWorkshopSupport.framework"
+            BlueprintName = "GPXWorkshopSupport"
             ReferencedContainer = "container:GPXWorkshop.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -7,7 +7,7 @@
 
 import Foundation
 import Testing
-import Model
+import GPXWorkshopSupport
 
 struct BoxTests {
 

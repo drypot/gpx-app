@@ -7,7 +7,7 @@
 
 import Foundation
 import Testing
-@testable import Model
+@testable import GPXWorkshopSupport
 
 struct PointerHashableTests {
 

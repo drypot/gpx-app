@@ -8,7 +8,7 @@
 import Cocoa
 import UniformTypeIdentifiers
 import MapKit
-import Model
+import GPXWorkshopSupport
 
 class GPXDocument: NSDocument {
 

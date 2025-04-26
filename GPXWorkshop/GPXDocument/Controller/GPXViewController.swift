@@ -7,7 +7,7 @@
 
 import Foundation
 import MapKit
-import Model
+import GPXWorkshopSupport
 
 final class GPXViewController: NSViewController {
 
