@@ -12,14 +12,14 @@ import GPXWorkshopSupport
 extension GPXViewController {
 
     override func mouseDown(with event: NSEvent) {
-        initialClickLocation = gpxView.convert(event.locationInWindow, from: nil)
+        initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
         isDragging = false
     }
 
     override func mouseDragged(with event: NSEvent) {
         guard let initialClickLocation = initialClickLocation else { return }
 
-        let currentLocationInView = gpxView.convert(event.locationInWindow, from: nil)
+        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
 
         let dx = currentLocationInView.x - initialClickLocation.x
         let dy = currentLocationInView.y - initialClickLocation.y

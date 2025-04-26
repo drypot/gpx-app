@@ -68,7 +68,7 @@ class GPXDocument: NSDocument {
 
                 await MainActor.run {
                     makeWindowControllers()
-                    viewModel.addFileCaches(caches)
+                    viewController.addFileCachesCore(caches)
                     viewController.zoomToFitAllOverlays()
                     showWindows()
                 }

@@ -29,7 +29,7 @@ extension GPXViewController {
         importFiles(from: urls)
     }
 
-    public func importFiles(from urls: [URL]) {
+    func importFiles(from urls: [URL]) {
         Task {
             do {
                 var caches = [GPXFileCache]()
@@ -42,7 +42,7 @@ extension GPXViewController {
 
                 await MainActor.run {
                     addFileCaches(caches)
-                    gpxView.zoomToFitAllOverlays()
+                    zoomToFitAllOverlays()
                 }
             } catch {
                 ErrorLogger.log(error)
@@ -52,12 +52,46 @@ extension GPXViewController {
 
     @objc func addFileCaches(_ caches: [GPXFileCache]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(removeFileCaches(_:)), object: caches)
-        viewModel.addFileCaches(caches)
+        addFileCachesCore(caches)
+    }
+
+    func addFileCachesCore<S: Sequence>(_ caches: S) where S.Element == GPXFileCache {
+        for cache in caches {
+            addFileCache(cache)
+        }
+    }
+
+    func addFileCache(_ cache: GPXFileCache) {
+        documentModel.allFileCaches.insert(cache)
+
+        let polylines = cache.polylines
+        for polyline in polylines {
+            polylineToFileCacheMap[polyline] = cache
+        }
+        allPolylines.formUnion(polylines)
+        mapView.addOverlays(polylines)
     }
 
     @objc func removeFileCaches(_ caches: [GPXFileCache]) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(addFileCaches(_:)), object: caches)
-        viewModel.removeFileCaches(caches)
+        removeFileCachesCore(caches)
+    }
+
+    func removeFileCachesCore<S: Sequence>(_ caches: S) where S.Element == GPXFileCache {
+        for cache in caches {
+            removeFileCache(cache)
+        }
+    }
+
+    func removeFileCache(_ cache: GPXFileCache) {
+        documentModel.allFileCaches.remove(cache)
+
+        let polylines = cache.polylines
+        for polyline in polylines {
+            polylineToFileCacheMap.removeValue(forKey: polyline)
+        }
+        allPolylines.subtract(polylines)
+        mapView.removeOverlays(polylines)
     }
 
     @IBAction func exportFile(_ sender: Any) {

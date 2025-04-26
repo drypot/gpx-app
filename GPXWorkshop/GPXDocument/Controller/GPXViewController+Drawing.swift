@@ -1,28 +1,16 @@
 //
-//  GPXView.swift
+//  File.swift
 //  GPXWorkshop
 //
-//  Created by Kyuhyun Park on 8/21/24.
+//  Created by Kyuhyun Park on 4/26/25.
 //
+
 
 import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-public class GPXView: MKMapView {
-
-    public weak var gpxViewModel: GPXModel!
-
-    init() {
-        super.init(frame: .zero)
-        self.delegate = self
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    // Drawing
+extension GPXViewController {
 
     func redrawPolylines<S: Sequence>(_ polylines: S) where S.Element == MKPolyline {
         for polyline in polylines {
@@ -31,30 +19,30 @@ public class GPXView: MKMapView {
     }
 
     func redrawPolyline(_ polyline: MKPolyline) {
-        removeOverlay(polyline)
-        addOverlay(polyline)
+        mapView.removeOverlay(polyline)
+        mapView.addOverlay(polyline)
     }
 
     func zoomToFitAllOverlays() {
         var zoomRect = MKMapRect.null
-        overlays.forEach { overlay in
+        mapView.overlays.forEach { overlay in
             zoomRect = zoomRect.union(overlay.boundingMapRect)
         }
         if !zoomRect.isNull {
             let edgePadding = NSEdgeInsets(top: 50, left: 50, bottom: 50, right: 50)
-            setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
+            mapView.setVisibleMapRect(zoomRect, edgePadding: edgePadding, animated: false)
         }
     }
-
+    
 }
 
-extension GPXView: MKMapViewDelegate {
+extension GPXViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-            if let gpx = gpxViewModel.polylineToFileCacheMap[polyline] {
+            if let gpx = polylineToFileCacheMap[polyline] {
                 let renderer = MKPolylineRenderer(polyline: polyline)
-                if gpxViewModel.selectedFileCaches.contains(gpx) {
+                if selectedFileCaches.contains(gpx) {
                     renderer.strokeColor = .red
                 } else {
                     renderer.strokeColor = .blue

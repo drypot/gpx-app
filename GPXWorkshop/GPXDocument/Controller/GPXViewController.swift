@@ -11,32 +11,39 @@ import GPXWorkshopSupport
 
 final class GPXViewController: NSViewController {
 
-    let gpxView: GPXView
+    weak var document: GPXDocument!
+    weak var documentModel: GPXModel!
+
+    var selectedFileCaches: Set<GPXFileCache> = []
+
+    var allPolylines: Set<MKPolyline> = []
+    var polylineToFileCacheMap: [MKPolyline: GPXFileCache] = [:]
+
+    let mapView: MKMapView
 
     var initialClickLocation: NSPoint?
     var isDragging = false
     var tolerance: CGFloat = 5.0
 
-    weak var document: GPXDocument!
-    weak var viewModel: GPXModel!
-
     init() {
-        gpxView = GPXView()
+        mapView = MKMapView()
         super.init(nibName: nil, bundle: nil)
+
+        mapView.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    public var unselectedFileCaches: Set<GPXFileCache> {
+        return documentModel.allFileCaches.subtracting(selectedFileCaches)
+    }
+
     override var representedObject: Any? {
         didSet {
             document = representedObject as? GPXDocument
-
-            viewModel = document.viewModel
-            viewModel.view = gpxView
-
-            gpxView.gpxViewModel = document.viewModel
+            documentModel = document.viewModel
         }
     }
 
@@ -44,20 +51,18 @@ final class GPXViewController: NSViewController {
         view = NSView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        gpxView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         
-//        mapView.keyEventDelegate = self
-//        mapView.window?.makeFirstResponder(mapView)
-        view.addSubview(gpxView)
+        view.addSubview(mapView)
 
         NSLayoutConstraint.activate([
             view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600),
             view.heightAnchor.constraint(greaterThanOrEqualToConstant: 400),
 
-            gpxView.topAnchor.constraint(equalTo: view.topAnchor),
-            gpxView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            gpxView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            gpxView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
@@ -69,10 +74,6 @@ final class GPXViewController: NSViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
-    }
-
-    func zoomToFitAllOverlays() {
-        gpxView.zoomToFitAllOverlays()
     }
 
 }

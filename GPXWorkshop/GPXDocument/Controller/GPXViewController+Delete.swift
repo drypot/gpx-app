@@ -12,20 +12,21 @@ import GPXWorkshopSupport
 
 extension GPXViewController {
 
-    // Delete
-
     @IBAction func delete(_ sender: Any?) {
         deleteSelectedFileCaches()
     }
 
     @objc func deleteSelectedFileCaches() {
-        undoManager?.registerUndo(withTarget: self, selector: #selector(restoreSelectedFileCaches), object: viewModel.selectedFileCaches)
-        viewModel.deleteSelectedFileCaches()
+        undoManager?.registerUndo(withTarget: self, selector: #selector(restoreSelectedFileCaches), object: selectedFileCaches)
+        let caches = selectedFileCaches
+        selectedFileCaches.removeAll()
+        removeFileCachesCore(caches)
     }
 
     @objc func restoreSelectedFileCaches(_ caches: Set<GPXFileCache>) {
         undoManager?.registerUndo(withTarget: self, selector: #selector(deleteSelectedFileCaches), object: nil)
-        viewModel.restoreSelectedFileCaches(caches)
+        selectedFileCaches = caches
+        addFileCachesCore(caches)
     }
 
 }
