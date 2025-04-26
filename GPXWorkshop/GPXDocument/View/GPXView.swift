@@ -11,7 +11,7 @@ import GPXWorkshopSupport
 
 public class GPXView: MKMapView {
 
-    public weak var gpxViewModel: GPXViewModel!
+    public weak var gpxViewModel: GPXModel!
 
     init() {
         super.init(frame: .zero)
