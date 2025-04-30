@@ -67,7 +67,7 @@
                                         </menuItem>
                                         <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
                                             <connections>
-                                                <action selector="openDocumentCustomized:" target="Ady-hI-5gd" id="oN9-hd-2ep"/>
+                                                <action selector="openDocument:" target="Ady-hI-5gd" id="rUu-mp-HWA"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Open Recent" id="tXI-mr-wws">

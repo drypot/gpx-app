@@ -12,7 +12,7 @@ import GPXWorkshopSupport
 final class GPXViewController: NSViewController {
 
     weak var document: GPXDocument!
-    weak var documentModel: GPXModel!
+    weak var documentModel: GPXDocumentModel!
 
     var selectedFileCaches: Set<GPXFileCache> = []
 
@@ -43,7 +43,7 @@ final class GPXViewController: NSViewController {
     override var representedObject: Any? {
         didSet {
             document = representedObject as? GPXDocument
-            documentModel = document.viewModel
+            documentModel = document.documentModel
         }
     }
 

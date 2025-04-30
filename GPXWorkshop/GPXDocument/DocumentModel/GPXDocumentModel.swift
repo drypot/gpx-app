@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-class GPXModel {
+class GPXDocumentModel {
 
     var allFileCaches: Set<GPXFileCache> = []
 

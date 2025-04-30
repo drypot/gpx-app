@@ -14,6 +14,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     //    var windowController = GPXManagerWindowController()
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+//        let types = UTType.types(tag: "gpx", tagClass: .filenameExtension, conformingTo: nil)
+//        for type in types {
+//            print(type.identifier)
+//        }
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {

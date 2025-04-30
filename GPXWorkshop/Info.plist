@@ -20,7 +20,7 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>GPS Exchange Format (GPX)</string>
+			<string>GPX Document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -58,16 +58,13 @@
 				</array>
 			</dict>
 		</dict>
-	</array>
-	<key>UTImportedTypeDeclarations</key>
-	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.xml</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>GPX File</string>
+			<string>GPX Document</string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
