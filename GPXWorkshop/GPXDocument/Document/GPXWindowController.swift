@@ -24,21 +24,44 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         window.contentViewController = GPXViewController()
         window.delegate = self
 //        setWindowFrame(window)
+        setFreshWindowFrame(window)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    override func windowDidLoad() {
+        Swift.print("window did load")
+    }
+
     func setWindowFrame(_ window: NSWindow) {
         let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
         if !window.setFrameUsingName(autosaveName) {
-            let screen = NSScreen.main
-            let screenRect = screen?.visibleFrame ?? .zero
-            let windowSize = NSSize(
-                width: screenRect.width * 2 / 3,
-                height: screenRect.height * 3 / 4
+            setFreshWindowFrame(window)
+            window.setFrameAutosaveName(autosaveName)
+        }
+    }
+
+    func setFreshWindowFrame(_ window: NSWindow) {
+        let screen = NSScreen.main
+        let screenRect = screen?.visibleFrame ?? .zero
+        let windowSize = NSSize(
+            width: screenRect.width * 2 / 3,
+            height: screenRect.height * 3 / 4
+        )
+
+        if let baseWindow = NSApp.mainWindow {
+            let offset: CGFloat = 20
+            let baseFrame = baseWindow.frame
+            let windowRect = NSRect(
+                x: baseFrame.origin.x + offset,
+                y: baseFrame.origin.y - offset,
+                width: baseFrame.width,
+                height: baseFrame.height
             )
+            window.setFrame(windowRect, display: true)
+        } else {
             let windowRect = NSRect(
                 x: screenRect.midX - windowSize.width / 2,
                 y: screenRect.midY - windowSize.height / 2,
@@ -46,8 +69,6 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
                 height: windowSize.height
             )
             window.setFrame(windowRect, display: true)
-            //window.center()
         }
-        window.setFrameAutosaveName(autosaveName)
     }
 }
