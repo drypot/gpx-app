@@ -35,14 +35,6 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         Swift.print("window did load")
     }
 
-    func setWindowFrame(_ window: NSWindow) {
-        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
-        if !window.setFrameUsingName(autosaveName) {
-            setFreshWindowFrame(window)
-            window.setFrameAutosaveName(autosaveName)
-        }
-    }
-
     func setFreshWindowFrame(_ window: NSWindow) {
         let screen = NSScreen.main
         let screenRect = screen?.visibleFrame ?? .zero
@@ -71,4 +63,17 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
             window.setFrame(windowRect, display: true)
         }
     }
+
+    // NSDocument window 위치는 OS 가 관리하는 것 같다.
+    // 앱 다시 열면 문서 윈도우 위치가 복구된다.
+    // 아래 수동 처리 안 해도 될 듯.
+
+    func setWindowFrame(_ window: NSWindow) {
+        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
+        if !window.setFrameUsingName(autosaveName) {
+            setFreshWindowFrame(window)
+            window.setFrameAutosaveName(autosaveName)
+        }
+    }
+
 }
