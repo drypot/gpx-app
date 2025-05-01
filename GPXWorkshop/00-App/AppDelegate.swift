@@ -64,7 +64,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let documentController = NSDocumentController.shared
                 let document = try documentController.makeUntitledDocument(ofType: UTType.gpxWorkshop.identifier) as! GPXDocument
                 documentController.addDocument(document)
-                document.loadGPXFiles(gpxURLs)
+                document.undoManager?.disableUndoRegistration()
+                document.importFiles(gpxURLs)
+                document.undoManager?.enableUndoRegistration()
             } catch {
                 print(error)
                 NSApp.presentError(error)

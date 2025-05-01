@@ -1,5 +1,5 @@
 //
-//  File 2.swift
+//  GPXViewController+CopyPaste.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/26/25.

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  GPXViewController+Drawing.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/26/25.
@@ -40,9 +40,9 @@ extension GPXViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-            if let gpx = polylineToFileCacheMap[polyline] {
+            if let gpx = document.polylineToFileCacheMap[polyline] {
                 let renderer = MKPolylineRenderer(polyline: polyline)
-                if selectedFileCaches.contains(gpx) {
+                if document.selectedFileCaches.contains(gpx) {
                     renderer.strokeColor = .red
                 } else {
                     renderer.strokeColor = .blue

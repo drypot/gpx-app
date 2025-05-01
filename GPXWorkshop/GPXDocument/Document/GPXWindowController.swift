@@ -23,7 +23,7 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
 //        window.title = "GPX Manager"
         window.contentViewController = GPXViewController()
         window.delegate = self
-        setWindowFrame(window)
+//        setWindowFrame(window)
     }
     
     required init?(coder: NSCoder) {

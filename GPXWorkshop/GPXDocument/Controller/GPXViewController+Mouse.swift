@@ -44,11 +44,44 @@ extension GPXViewController {
     }
 
     func handleClick(at point: NSPoint) {
-        beginFileCacheSelection(at: point)
+        document.beginFileCacheSelection(at: point)
     }
 
     func handleShiftClick(at point: NSPoint) {
-        toggleFileCacheSelection(at: point)
+        document.toggleFileCacheSelection(at: point)
     }
 
+    // Find nearest
+
+    func nearestFileCache(to point: NSPoint) -> GPXFileCache? {
+        let polyline = self.nearestPolyline(to: point)
+        return polyline.flatMap { document.polylineToFileCacheMap[$0] }
+    }
+
+    func nearestPolyline(to point: NSPoint) -> MKPolyline? {
+        let (mapPoint, tolerance) = mapPoint(at: point)
+        var nearest: MKPolyline?
+        var minDistance: CLLocationDistance = .greatestFiniteMagnitude
+        for polyline in document.allPolylines {
+            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
+            if !rect.contains(mapPoint) {
+                continue
+            }
+            let distance = GPXUtils.calcDistance(from: mapPoint, to: polyline)
+            if distance < tolerance, distance < minDistance {
+                minDistance = distance
+                nearest = polyline
+            }
+        }
+        return nearest
+    }
+
+    func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {
+        let limit = 10.0
+        let p1 = MKMapPoint(mapView.convert(point, toCoordinateFrom: mapView))
+        let p2 = MKMapPoint(mapView.convert(CGPoint(x: point.x + limit, y: point.y), toCoordinateFrom: mapView))
+        let tolerance = p1.distance(to: p2)
+        return (p1, tolerance)
+    }
+    
 }

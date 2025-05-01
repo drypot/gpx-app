@@ -12,12 +12,6 @@ import GPXWorkshopSupport
 final class GPXViewController: NSViewController {
 
     weak var document: GPXDocument!
-    weak var documentModel: GPXDocumentModel!
-
-    var selectedFileCaches: Set<GPXFileCache> = []
-
-    var allPolylines: Set<MKPolyline> = []
-    var polylineToFileCacheMap: [MKPolyline: GPXFileCache] = [:]
 
     let mapView: MKMapView
 
@@ -36,15 +30,14 @@ final class GPXViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public var unselectedFileCaches: Set<GPXFileCache> {
-        return documentModel.allFileCaches.subtracting(selectedFileCaches)
-    }
-
     override var representedObject: Any? {
         didSet {
             document = representedObject as? GPXDocument
-            documentModel = document.documentModel
         }
+    }
+
+    override var undoManager: UndoManager? {
+        return document.undoManager
     }
 
     override func loadView() {
