@@ -15,27 +15,53 @@ extension GPXDocument {
         selectFileCaches(unselectedFileCaches)
     }
 
-    func beginFileCacheSelection(at point: NSPoint) {
-        undoManager?.beginUndoGrouping()
-        if let cache = viewController?.nearestFileCache(to: point) {
+    func beginFileCacheSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
+        if let cache = nearestFileCache(at: mapPoint, with: tolerance) {
             if selectedFileCaches.contains(cache) {
                 deselectFileCaches(selectedFileCaches)
             } else {
+                undoManager?.beginUndoGrouping()
                 deselectFileCaches(selectedFileCaches)
                 selectFileCache(cache)
+                undoManager?.endUndoGrouping()
+            }
+        } else {
+            if !selectedFileCaches.isEmpty {
+                deselectFileCaches(selectedFileCaches)
             }
         }
-        undoManager?.endUndoGrouping()
     }
 
-    func toggleFileCacheSelection(at point: NSPoint) {
-        if let cache = viewController?.nearestFileCache(to: point) {
+    func toggleFileCacheSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
+        if let cache = nearestFileCache(at: mapPoint, with: tolerance) {
             if selectedFileCaches.contains(cache) {
                 deselectFileCache(cache)
             } else {
                 selectFileCache(cache)
             }
         }
+    }
+
+    func nearestFileCache(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) -> GPXFileCache? {
+        let polyline = self.nearestPolyline(at: mapPoint, with: tolerance)
+        return polyline.flatMap { polylineToFileCacheMap[$0] }
+    }
+
+    func nearestPolyline(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) -> MKPolyline? {
+        var nearest: MKPolyline?
+        var minDistance: CLLocationDistance = .greatestFiniteMagnitude
+        for polyline in allPolylines {
+            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
+            if !rect.contains(mapPoint) {
+                continue
+            }
+            let distance = GPXUtils.calcDistance(from: mapPoint, to: polyline)
+            if distance < tolerance, distance < minDistance {
+                minDistance = distance
+                nearest = polyline
+            }
+        }
+        return nearest
     }
 
     @objc func selectFileCaches(_ caches: Set<GPXFileCache>) {

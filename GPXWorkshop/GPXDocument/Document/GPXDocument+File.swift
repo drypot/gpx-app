@@ -11,7 +11,12 @@ import MapKit
 import GPXWorkshopSupport
 
 extension GPXDocument {
-    
+
+    // 프로그램 종료시 저장할지 묻지 않는다.
+    override var isDocumentEdited: Bool {
+        return false
+    }
+
     // KakaoMap 에서 public.gpx 란 아이디로 .gpx 확장자를 등록해 놔서 문제가 지저분해졌다.
     // File open dialog 에 표시되는 gpx 파일들이 com.topografix.gpx 로 인식되는 대신 public.gpx 파일들로 인식된다;
     // com.topografix.gpx 를 읽겠다고 하면 gpx 파일들을 선택할 수가 없다.

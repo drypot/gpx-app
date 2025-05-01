@@ -30,11 +30,6 @@ class GPXDocument: NSDocument {
         super.init()
     }
 
-    // 프로그램 종료시 저장할지 묻지 않는다.
-    override var isDocumentEdited: Bool {
-        return false
-    }
-
     override func makeWindowControllers() {
         let windowController = GPXWindowController()
         self.addWindowController(windowController)
