@@ -49,8 +49,8 @@ final class GPXViewController: NSViewController {
         view.addSubview(mapView)
 
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600),
-            view.heightAnchor.constraint(greaterThanOrEqualToConstant: 400),
+//            view.widthAnchor.constraint(greaterThanOrEqualToConstant: 600),
+//            view.heightAnchor.constraint(greaterThanOrEqualToConstant: 400),
 
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

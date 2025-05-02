@@ -21,8 +21,10 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         super.init(window: window)
 
 //        window.title = "GPX Manager"
+        window.minSize = NSSize(width: 600, height: 400)
         window.contentViewController = GPXViewController()
         window.delegate = self
+
 //        setWindowFrame(window)
         setFreshWindowFrame(window)
     }
