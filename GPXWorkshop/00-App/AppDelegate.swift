@@ -39,6 +39,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     //        return .terminateNow
     //    }
 
+    // 일단 당분간 사용하지 않는 코드
+    // 이상한 짓하지 않고
+    // AppKit 기본 openDocument 를 쓰기로 했다.
+
     @IBAction func openDocumentCustomized(_ sender: Any?) {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [ .gpx, .gpxWorkshop ]

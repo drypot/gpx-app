@@ -83,7 +83,10 @@ extension GPXDocument {
         panel.canChooseFiles = true
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [.gpx]
+        panel.allowedContentTypes = [
+            // .gpx,
+            UTType(filenameExtension: "gpx")!
+        ]
         panel.begin { [unowned self] result in
             guard result == .OK else { return }
             importFiles(from: panel.urls)
@@ -113,6 +116,15 @@ extension GPXDocument {
             } catch {
                 ErrorLogger.log(error)
             }
+        }
+    }
+
+    func importFilesFromFileCachesToLoad() {
+        if let fileCachesToLoad {
+            undoManager?.disableUndoRegistration()
+            addFileCaches(fileCachesToLoad)
+            self.fileCachesToLoad = nil
+            undoManager?.enableUndoRegistration()
         }
     }
 

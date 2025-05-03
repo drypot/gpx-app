@@ -34,15 +34,8 @@ class GPXDocument: NSDocument {
         let windowController = GPXWindowController()
         self.addWindowController(windowController)
 
-        viewController = windowController.contentViewController as? GPXViewController
-        viewController?.representedObject = self
-        if let fileCachesToLoad {
-            undoManager?.disableUndoRegistration()
-            addFileCaches(fileCachesToLoad)
-            self.fileCachesToLoad = nil
-            undoManager?.enableUndoRegistration()
-            viewController?.zoomToFitAllOverlays()
-        }
+//        viewController = windowController.contentViewController as? GPXViewController
+//        viewController?.representedObject = self
     }
 
 }

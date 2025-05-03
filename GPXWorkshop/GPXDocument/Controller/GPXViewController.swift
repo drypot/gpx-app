@@ -30,11 +30,11 @@ final class GPXViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var representedObject: Any? {
-        didSet {
-            document = representedObject as? GPXDocument
-        }
-    }
+//    override var representedObject: Any? {
+//        didSet {
+//            document = representedObject as? GPXDocument
+//        }
+//    }
 
     override var undoManager: UndoManager? {
         return document.undoManager
@@ -61,7 +61,13 @@ final class GPXViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        // ViewController.undoManager 는 이때쯤부터 사용 가능하다.
+
+        guard let document = self.view.window?.windowController?.document as? GPXDocument  else { fatalError() }
+        self.document = document
+
+        document.viewController = self
+        document.importFilesFromFileCachesToLoad()
+        zoomToFitAllOverlays()
     }
 
     override func viewDidAppear() {

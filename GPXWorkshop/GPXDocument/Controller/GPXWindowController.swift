@@ -13,7 +13,11 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         // window 는 windowController 가 retain 하므로 따로 retain 하지 않아도 된다.
         let window = NSWindow(
             contentRect: .zero,
-            styleMask: [.titled, .closable, .resizable],
+
+            // .fullSizeContentView 중요하다.
+            // 이거 빠지면 Sidebar ToolbarItem 이 구식이 된다.
+
+            styleMask: [.titled, .closable, .resizable, .miniaturizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
@@ -22,11 +26,12 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
 
 //        window.title = "GPX Manager"
         window.minSize = NSSize(width: 600, height: 400)
-        window.contentViewController = GPXViewController()
+        window.contentViewController = GPXSplitViewController()
         window.delegate = self
 
 //        setWindowFrame(window)
-        setFreshWindowFrame(window)
+        setWindowFrameFresh(window)
+        setupToolbar()
     }
     
     required init?(coder: NSCoder) {
@@ -37,7 +42,7 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         Swift.print("window did load")
     }
 
-    func setFreshWindowFrame(_ window: NSWindow) {
+    func setWindowFrameFresh(_ window: NSWindow) {
         let screen = NSScreen.main
         let screenRect = screen?.visibleFrame ?? .zero
         let windowSize = NSSize(
@@ -73,9 +78,84 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
     func setWindowFrame(_ window: NSWindow) {
         let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
         if !window.setFrameUsingName(autosaveName) {
-            setFreshWindowFrame(window)
+            setWindowFrameFresh(window)
             window.setFrameAutosaveName(autosaveName)
         }
     }
 
+    func setupToolbar() {
+        guard let window  else { fatalError() }
+
+        let toolbar = NSToolbar(identifier: "DemoToolbar")
+        toolbar.delegate = self
+        toolbar.displayMode = .iconOnly
+
+        window.toolbar = toolbar
+        window.toolbarStyle = .unified
+    }
+
+    @objc func toolbarAction(_ sender: Any) {
+        if  let toolbarItem = sender as? NSToolbarItem {
+            print("Clicked \(toolbarItem.itemIdentifier.rawValue)")
+        }
+    }
+}
+
+extension NSToolbarItem.Identifier {
+    static let toolbarSearchItem = NSToolbarItem.Identifier("ToolbarSearchItem")
+    static let toolbarDemoTitle = NSToolbarItem.Identifier("ToolbarDemo")
+}
+
+extension GPXWindowController: NSToolbarDelegate {
+
+    func toolbar(_ toolbar: NSToolbar,
+                 itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
+                 willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+
+        //        if itemIdentifier == .showFonts {
+        //            let item = NSToolbarItem(itemIdentifier: .showFonts)
+        //            item.label = "Show fonts"
+        //            item.image = NSImage(systemSymbolName: "textformat", accessibilityDescription: "Show fonts")
+        //            return item
+        //        }
+
+        if  itemIdentifier == .toolbarSearchItem {
+            //  `NSSearchToolbarItem` is macOS 11 and higher only
+            let searchItem = NSSearchToolbarItem(itemIdentifier: itemIdentifier)
+            searchItem.resignsFirstResponderWithCancel = true
+            searchItem.searchField.delegate = self
+            searchItem.toolTip = "Search"
+            return searchItem
+        }
+
+        return nil
+    }
+
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [
+            .toggleSidebar,
+            .sidebarTrackingSeparator,
+            .flexibleSpace,
+            .showFonts,
+            .toolbarSearchItem,
+            .inspectorTrackingSeparator,
+            .toggleInspector,
+        ]
+    }
+
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [
+            .toggleSidebar,
+            .sidebarTrackingSeparator,
+            .flexibleSpace,
+            .showFonts,
+            .toolbarSearchItem,
+            .inspectorTrackingSeparator,
+            .toggleInspector,
+        ]
+    }
+
+}
+
+extension GPXWindowController: NSSearchFieldDelegate {
 }

@@ -32,7 +32,7 @@ extension GPXViewController {
     }
 
     override func mouseUp(with event: NSEvent) {
-        if !isDragging, let initialClickLocation = initialClickLocation {
+        if !isDragging, let initialClickLocation {
             if event.modifierFlags.contains(.shift) {
                 handleShiftClick(at: initialClickLocation)
             } else {
