@@ -12,39 +12,39 @@ import GPXWorkshopSupport
 extension GPXDocument {
 
     @IBAction func selectAll(_ sender: Any?) {
-        selectFileCaches(unselectedFileCaches)
+        selectGPXCaches(unselectedGPXCaches)
     }
 
-    func beginFileCacheSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
-        if let cache = nearestFileCache(at: mapPoint, with: tolerance) {
-            if selectedCaches.contains(cache) {
-                deselectFileCaches(selectedCaches)
+    func beginGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
+        if let cache = nearestGPX(at: mapPoint, with: tolerance) {
+            if selectedGPXCaches.contains(cache) {
+                deselectGPXCaches(selectedGPXCaches)
             } else {
                 undoManager?.beginUndoGrouping()
-                deselectFileCaches(selectedCaches)
-                selectFileCache(cache)
+                deselectGPXCaches(selectedGPXCaches)
+                selectGPXCache(cache)
                 undoManager?.endUndoGrouping()
             }
         } else {
-            if !selectedCaches.isEmpty {
-                deselectFileCaches(selectedCaches)
+            if !selectedGPXCaches.isEmpty {
+                deselectGPXCaches(selectedGPXCaches)
             }
         }
     }
 
-    func toggleFileCacheSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
-        if let cache = nearestFileCache(at: mapPoint, with: tolerance) {
-            if selectedCaches.contains(cache) {
-                deselectFileCache(cache)
+    func toggleGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
+        if let cache = nearestGPX(at: mapPoint, with: tolerance) {
+            if selectedGPXCaches.contains(cache) {
+                deselectGPXCache(cache)
             } else {
-                selectFileCache(cache)
+                selectGPXCache(cache)
             }
         }
     }
 
-    func nearestFileCache(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) -> GPXCache? {
+    func nearestGPX(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) -> GPXCache? {
         let polyline = self.nearestPolyline(at: mapPoint, with: tolerance)
-        return polyline.flatMap { polylineToCacheMap[$0] }
+        return polyline.flatMap { polylineToGPXCacheMap[$0] }
     }
 
     func nearestPolyline(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) -> MKPolyline? {
@@ -64,49 +64,49 @@ extension GPXDocument {
         return nearest
     }
 
-    @objc func selectFileCaches(_ caches: Set<GPXCache>) {
+    @objc func selectGPXCaches(_ caches: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.deselectFileCaches(caches)
+            $0.deselectGPXCaches(caches)
         }
         for cache in caches {
-            selectFileCacheCore(cache)
+            selectGPXCacheCommon(cache)
         }
     }
 
-    @objc func selectFileCache(_ cache: GPXCache) {
+    @objc func selectGPXCache(_ cache: GPXCache) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.deselectFileCache(cache)
+            $0.deselectGPXCache(cache)
         }
-        selectFileCacheCore(cache)
+        selectGPXCacheCommon(cache)
     }
 
-    func selectFileCacheCore(_ cache: GPXCache) {
-        selectedCaches.insert(cache)
+    func selectGPXCacheCommon(_ cache: GPXCache) {
+        selectedGPXCaches.insert(cache)
         viewController?.redrawPolylines(cache.polylines)
     }
 
-    @objc func deselectFileCaches() {
-        deselectFileCaches(selectedCaches)
+    @objc func deselectGPXCaches() {
+        deselectGPXCaches(selectedGPXCaches)
     }
 
-    @objc func deselectFileCaches(_ caches: Set<GPXCache>) {
+    @objc func deselectGPXCaches(_ caches: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.selectFileCaches(caches)
+            $0.selectGPXCaches(caches)
         }
         for cache in caches {
-            deselectFileCacheCore(cache)
+            deselectGPXCacheCommon(cache)
         }
     }
 
-    @objc func deselectFileCache(_ cache: GPXCache) {
+    @objc func deselectGPXCache(_ cache: GPXCache) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.selectFileCache(cache)
+            $0.selectGPXCache(cache)
         }
-        deselectFileCacheCore(cache)
+        deselectGPXCacheCommon(cache)
     }
 
-    func deselectFileCacheCore(_ cache: GPXCache) {
-        selectedCaches.remove(cache)
+    func deselectGPXCacheCommon(_ cache: GPXCache) {
+        selectedGPXCaches.remove(cache)
         viewController?.redrawPolylines(cache.polylines)
     }
 

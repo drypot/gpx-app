@@ -45,12 +45,12 @@ extension GPXViewController {
 
     func handleClick(at point: NSPoint) {
         let (mapPoint, tolerance) = mapPoint(at: point)
-        document.beginFileCacheSelection(at: mapPoint, with: tolerance)
+        document.beginGPXSelection(at: mapPoint, with: tolerance)
     }
 
     func handleShiftClick(at point: NSPoint) {
         let (mapPoint, tolerance) = mapPoint(at: point)
-        document.toggleFileCacheSelection(at: mapPoint, with: tolerance)
+        document.toggleGPXSelection(at: mapPoint, with: tolerance)
     }
 
     func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {

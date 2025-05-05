@@ -48,7 +48,7 @@ extension GPXDocument {
         }
         let file = try GPXUtils.makeGPX(from: data)
         let cache = GPXCache(file)
-        cachesToLoad = [cache]
+        gpxCachesToLoad = [cache]
     }
 
     // 이제 사용하지 않는다.
@@ -68,7 +68,7 @@ extension GPXDocument {
 //
 //                await MainActor.run {
 //                    makeWindowControllers()
-//                    viewController.addFileCaches(caches)
+//                    viewController.addGPXCaches(caches)
 //                    viewController.zoomToFitAllOverlays()
 //                    showWindows()
 //                }
@@ -110,7 +110,7 @@ extension GPXDocument {
                 }
 
                 await MainActor.run {
-                    addFileCaches(caches)
+                    addGPXCaches(caches)
                     viewController?.zoomToFitAllOverlays()
                 }
             } catch {
@@ -119,25 +119,25 @@ extension GPXDocument {
         }
     }
 
-    func importFilesFromFileCachesToLoad() {
-        if let cachesToLoad {
+    func importFilesFromGPXCachesToLoad() {
+        if let gpxCachesToLoad {
             undoManager?.disableUndoRegistration()
-            addFileCaches(cachesToLoad)
-            self.cachesToLoad = nil
+            addGPXCaches(gpxCachesToLoad)
+            self.gpxCachesToLoad = nil
             undoManager?.enableUndoRegistration()
         }
     }
 
-    @objc func addFileCaches(_ caches: [GPXCache]) {
+    @objc func addGPXCaches(_ caches: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.removeFileCaches(caches)
+            $0.removeCaches(caches)
         }
         for cache in caches {
-            allCaches.insert(cache)
+            allGPXCaches.insert(cache)
 
             let polylines = cache.polylines
             for polyline in polylines {
-                polylineToCacheMap[polyline] = cache
+                polylineToGPXCacheMap[polyline] = cache
             }
             allPolylines.formUnion(polylines)
 
@@ -145,16 +145,16 @@ extension GPXDocument {
         }
     }
 
-    @objc func removeFileCaches(_ caches: [GPXCache]) {
+    @objc func removeCaches(_ caches: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.addFileCaches(caches)
+            $0.addGPXCaches(caches)
         }
         for cache in caches {
-            allCaches.remove(cache)
+            allGPXCaches.remove(cache)
 
             let polylines = cache.polylines
             for polyline in polylines {
-                polylineToCacheMap.removeValue(forKey: polyline)
+                polylineToGPXCacheMap.removeValue(forKey: polyline)
             }
             allPolylines.subtract(polylines)
 

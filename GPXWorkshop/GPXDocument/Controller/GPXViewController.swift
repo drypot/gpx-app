@@ -66,7 +66,7 @@ final class GPXViewController: NSViewController {
         self.document = document
 
         document.viewController = self
-        document.importFilesFromFileCachesToLoad()
+        document.importFilesFromGPXCachesToLoad()
         zoomToFitAllOverlays()
     }
 

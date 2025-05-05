@@ -13,27 +13,27 @@ import GPXWorkshopSupport
 extension GPXDocument {
 
     @IBAction func delete(_ sender: Any?) {
-        deleteSelectedFileCaches()
+        deleteSelectedGPXCaches()
     }
 
-    @objc func deleteSelectedFileCaches() {
-        let caches = selectedCaches
+    @objc func deleteSelectedGPXCaches() {
+        let caches = selectedGPXCaches
         undoManager?.registerUndo(withTarget: self) {
-            $0.restoreSelectedFileCaches(caches)
+            $0.restoreSelectedGPXCaches(caches)
         }
-        selectedCaches.removeAll()
+        selectedGPXCaches.removeAll()
         undoManager?.disableUndoRegistration()
-        removeFileCaches(Array(caches))
+        removeCaches(Array(caches))
         undoManager?.enableUndoRegistration()
     }
 
-    @objc func restoreSelectedFileCaches(_ caches: Set<GPXCache>) {
+    @objc func restoreSelectedGPXCaches(_ caches: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self) {
-            $0.deleteSelectedFileCaches()
+            $0.deleteSelectedGPXCaches()
         }
-        selectedCaches = caches
+        selectedGPXCaches = caches
         undoManager?.disableUndoRegistration()
-        addFileCaches(Array(caches))
+        addGPXCaches(Array(caches))
         undoManager?.enableUndoRegistration()
     }
 

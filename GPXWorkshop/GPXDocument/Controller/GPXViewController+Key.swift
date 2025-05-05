@@ -18,7 +18,7 @@ extension GPXViewController {
         for character in characters {
             switch character {
             case "\u{7F}": // delete
-                document.deleteSelectedFileCaches()
+                document.deleteSelectedGPXCaches()
             default:
                 break
             }
