@@ -12,16 +12,16 @@ import GPXWorkshopSupport
 
 class GPXDocument: NSDocument {
 
-    var allFileCaches: Set<GPXFileCache> = []
-    var selectedFileCaches: Set<GPXFileCache> = []
+    var allCaches: Set<GPXCache> = []
+    var selectedCaches: Set<GPXCache> = []
 
     var allPolylines: Set<MKPolyline> = []
-    var polylineToFileCacheMap: [MKPolyline: GPXFileCache] = [:]
+    var polylineToCacheMap: [MKPolyline: GPXCache] = [:]
 
-    var fileCachesToLoad: [GPXFileCache]?
+    var cachesToLoad: [GPXCache]?
 
-    public var unselectedFileCaches: Set<GPXFileCache> {
-        return allFileCaches.subtracting(selectedFileCaches)
+    public var unselectedFileCaches: Set<GPXCache> {
+        return allCaches.subtracting(selectedCaches)
     }
 
     weak var viewController: GPXViewController?

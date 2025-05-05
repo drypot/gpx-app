@@ -1,5 +1,5 @@
 //
-//  GPXFileCache.swift
+//  GPXCache.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/21/25.
@@ -9,15 +9,29 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-public final class GPXFileCache: NSObject {
+public final class GPXCache: NSObject {
 
-    public private(set) var gpxFile: GPXFile
+    public private(set) var url: URL?
+    public private(set) var filename: String?
+
+    public private(set) var gpx: GPX
     public private(set) var polylines: [MKPolyline] = []
 
-    public init(_ gpxFile: GPXFile) {
-        self.gpxFile = gpxFile
+    public init(_ gpx: GPX) {
+        self.gpx = gpx
         super.init()
         updatePolylines()
+    }
+
+    public convenience override init() {
+        self.init(GPX())
+    }
+    
+    public convenience init(_ url: URL) throws {
+        let gpx = try GPXUtils.makeGPX(from: url)
+        self.init(gpx)
+        self.url = url
+        self.filename = url.lastPathComponent
     }
 
     // MARK: - NSObject
@@ -32,14 +46,14 @@ public final class GPXFileCache: NSObject {
     }
 
     public override var description: String {
-        String(describing: gpxFile)
+        String(describing: gpx)
     }
 
     // MARK: - Polyline
 
     public func updatePolylines() {
         polylines.removeAll()
-        for track in gpxFile.tracks {
+        for track in gpx.tracks {
             for segment in track.segments {
                 let polyline = GPXUtils.makePolyline(from: segment)
                 polylines.append(polyline)

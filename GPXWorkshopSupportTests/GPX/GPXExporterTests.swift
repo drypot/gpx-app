@@ -11,7 +11,7 @@ import Testing
 
 struct GPXExporterTests {
 
-    static var gpx: GPXFile = {
+    static var gpx: GPX = {
         let data = Data(gpxSampleManualMultiple.utf8)
         do {
             return try GPXParser().parse(data)

@@ -10,17 +10,17 @@ import MapKit
 
 public enum GPXUtils {
 
-    public static func makeGPXFile(from url: URL) throws -> GPXFile {
+    public static func makeGPX(from url: URL) throws -> GPX {
         let data = try Data(contentsOf: url)
-        return try makeGPXFile(from: data)
+        return try makeGPX(from: data)
     }
 
-    public static func makeGPXFile(from data: Data) throws -> GPXFile {
+    public static func makeGPX(from data: Data) throws -> GPX {
         return try GPXParser().parse(data)
     }
 
-    public static func makeData(from gpxFile: GPXFile) throws -> Data {
-        let xmlString = GPXExporter(gpxFile).makeXMLString()
+    public static func makeData(from gpx: GPX) throws -> Data {
+        let xmlString = GPXExporter(gpx).makeXMLString()
         return Data(xmlString.utf8)
     }
 
@@ -56,7 +56,7 @@ public enum GPXUtils {
 
     public static func makePolylines(from gpxData: Data) throws -> [MKPolyline] {
         var polylines: [MKPolyline] = []
-        let gpx = try GPXUtils.makeGPXFile(from: gpxData)
+        let gpx = try GPXUtils.makeGPX(from: gpxData)
         for track in gpx.tracks {
             for segment in track.segments {
                 polylines.append(self.makePolyline(from: segment))
@@ -68,7 +68,7 @@ public enum GPXUtils {
     public static func makePolylines(from urls: [URL]) async throws -> [MKPolyline] {
         var polylines: [MKPolyline] = []
         for url in Files(urls: urls) {
-            let gpx = try GPXUtils.makeGPXFile(from: url)
+            let gpx = try GPXUtils.makeGPX(from: url)
             for track in gpx.tracks {
                 for segment in track.segments {
                     polylines.append(self.makePolyline(from: segment))

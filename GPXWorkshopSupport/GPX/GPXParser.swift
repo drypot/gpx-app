@@ -14,13 +14,13 @@ public struct GPXParser {
 
     typealias XMLNode = BasicXMLParser.XMLNode
     
-    public func parse(_ data: Data) throws -> GPXFile {
+    public func parse(_ data: Data) throws -> GPX {
         let root = try BasicXMLParser().parse(data)
         return parse(rootNode: root)
     }
     
-    private func parse(rootNode: XMLNode) -> GPXFile {
-        var gpx = GPXFile()
+    private func parse(rootNode: XMLNode) -> GPX {
+        var gpx = GPX()
 
         gpx.creator = rootNode.attributes["creator"] ?? ""
         gpx.version = rootNode.attributes["version"] ?? ""

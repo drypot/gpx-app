@@ -17,21 +17,21 @@ extension GPXDocument {
     }
 
     @objc func deleteSelectedFileCaches() {
-        let caches = selectedFileCaches
+        let caches = selectedCaches
         undoManager?.registerUndo(withTarget: self) {
             $0.restoreSelectedFileCaches(caches)
         }
-        selectedFileCaches.removeAll()
+        selectedCaches.removeAll()
         undoManager?.disableUndoRegistration()
         removeFileCaches(Array(caches))
         undoManager?.enableUndoRegistration()
     }
 
-    @objc func restoreSelectedFileCaches(_ caches: Set<GPXFileCache>) {
+    @objc func restoreSelectedFileCaches(_ caches: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self) {
             $0.deleteSelectedFileCaches()
         }
-        selectedFileCaches = caches
+        selectedCaches = caches
         undoManager?.disableUndoRegistration()
         addFileCaches(Array(caches))
         undoManager?.enableUndoRegistration()

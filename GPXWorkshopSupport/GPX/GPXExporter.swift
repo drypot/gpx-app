@@ -10,10 +10,10 @@ import Foundation
 // 참고 https://github.com/mmllr/GPXKit/blob/main/Sources/GPXKit/GPXExporter.swift
 
 public struct GPXExporter {
-    let gpx: GPXFile
+    let gpx: GPX
     let creator: String
 
-    public init(_ gpx: GPXFile, creator: String = "GPX Workshop") {
+    public init(_ gpx: GPX, creator: String = "GPX Workshop") {
         self.gpx = gpx
         self.creator = creator
     }

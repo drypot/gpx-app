@@ -40,9 +40,9 @@ extension GPXViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-            if let gpx = document.polylineToFileCacheMap[polyline] {
+            if let gpx = document.polylineToCacheMap[polyline] {
                 let renderer = MKPolylineRenderer(polyline: polyline)
-                if document.selectedFileCaches.contains(gpx) {
+                if document.selectedCaches.contains(gpx) {
                     renderer.strokeColor = .red
                 } else {
                     renderer.strokeColor = .blue

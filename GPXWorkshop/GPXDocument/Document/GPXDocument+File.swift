@@ -46,9 +46,9 @@ extension GPXDocument {
         if typeName == UTType.gpxWorkshop.identifier {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         }
-        let file = try GPXUtils.makeGPXFile(from: data)
-        let cache = GPXFileCache(file)
-        fileCachesToLoad = [cache]
+        let file = try GPXUtils.makeGPX(from: data)
+        let cache = GPXCache(file)
+        cachesToLoad = [cache]
     }
 
     // 이제 사용하지 않는다.
@@ -56,14 +56,14 @@ extension GPXDocument {
     // 아무래도 예상외의 작동에 사용자들을 놀라게 할 수 있을 것 같다.
     // 덜 놀라게 하는 방법은 수동으로 Untitle 파일을 만들고 다시 수동으로 Import 동작을 명시적으로 하도록 유도하는 게 맞을 것 같다.
 
-//    public func loadGPXFiles(_ urls: [URL]) {
+//    public func loadGPXs(_ urls: [URL]) {
 //        Task {
 //            do {
-//                var caches = [GPXFileCache]()
+//                var caches = [GPXCache]()
 //
 //                for url in Files(urls: urls) {
-//                    let file = try GPXUtils.makeGPXFile(from: url)
-//                    caches.append(GPXFileCache(file))
+//                    let file = try GPXUtils.makeGPX(from: url)
+//                    caches.append(GPXCache(file))
 //                }
 //
 //                await MainActor.run {
@@ -101,12 +101,12 @@ extension GPXDocument {
     func importFiles(from urls: [URL]) {
         Task {
             do {
-                var caches = [GPXFileCache]()
+                var caches = [GPXCache]()
 
                 // TODO: 중복 파일 임포트 방지. 먼 훗날에.
                 for url in Files(urls: urls) {
-                    let file = try GPXUtils.makeGPXFile(from: url)
-                    caches.append(GPXFileCache(file))
+                    let cache = try GPXCache(url)
+                    caches.append(cache)
                 }
 
                 await MainActor.run {
@@ -120,24 +120,24 @@ extension GPXDocument {
     }
 
     func importFilesFromFileCachesToLoad() {
-        if let fileCachesToLoad {
+        if let cachesToLoad {
             undoManager?.disableUndoRegistration()
-            addFileCaches(fileCachesToLoad)
-            self.fileCachesToLoad = nil
+            addFileCaches(cachesToLoad)
+            self.cachesToLoad = nil
             undoManager?.enableUndoRegistration()
         }
     }
 
-    @objc func addFileCaches(_ caches: [GPXFileCache]) {
+    @objc func addFileCaches(_ caches: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self) {
             $0.removeFileCaches(caches)
         }
         for cache in caches {
-            allFileCaches.insert(cache)
+            allCaches.insert(cache)
 
             let polylines = cache.polylines
             for polyline in polylines {
-                polylineToFileCacheMap[polyline] = cache
+                polylineToCacheMap[polyline] = cache
             }
             allPolylines.formUnion(polylines)
 
@@ -145,16 +145,16 @@ extension GPXDocument {
         }
     }
 
-    @objc func removeFileCaches(_ caches: [GPXFileCache]) {
+    @objc func removeFileCaches(_ caches: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self) {
             $0.addFileCaches(caches)
         }
         for cache in caches {
-            allFileCaches.remove(cache)
+            allCaches.remove(cache)
 
             let polylines = cache.polylines
             for polyline in polylines {
-                polylineToFileCacheMap.removeValue(forKey: polyline)
+                polylineToCacheMap.removeValue(forKey: polyline)
             }
             allPolylines.subtract(polylines)
 
@@ -179,7 +179,7 @@ extension GPXDocument {
 
     /*
      public func data() throws -> Data {
-     let gpx = GPXFile()
+     let gpx = GPX()
      let tracks = GPXUtils.makeGPXTracks(from: polylines)
      gpx.tracks.append(contentsOf: tracks)
      let xml = GPXExporter(gpx).makeXMLString()
