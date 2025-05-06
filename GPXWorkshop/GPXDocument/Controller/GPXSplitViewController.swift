@@ -20,19 +20,19 @@ class GPXSplitViewController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let sidebarController = GPXSplitViewSidebarController()
+        let sidebarController = GPXSidebarController()
         let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarController)
         sidebarItem.canCollapse = true
         sidebarItem.minimumThickness = 200
         sidebarItem.maximumThickness = 250
         addSplitViewItem(sidebarItem)
 
-        let mainController = GPXViewController()
+        let mainController = GPXMapViewController()
         let mainItem = NSSplitViewItem(contentListWithViewController: mainController)
         mainItem.minimumThickness = 400
         addSplitViewItem(mainItem)
 
-        let inspectorController = GPXSplitViewInspectorController()
+        let inspectorController = GPXInspectorController()
         let inspectorItem = NSSplitViewItem(inspectorWithViewController: inspectorController)
         inspectorItem.canCollapse = true
         inspectorItem.isCollapsed = true

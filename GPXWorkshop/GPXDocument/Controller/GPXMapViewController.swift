@@ -1,5 +1,5 @@
 //
-//  GPXViewController.swift
+//  GPXMapViewController.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 8/20/24.
@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-final class GPXViewController: NSViewController {
+final class GPXMapViewController: NSViewController {
 
     weak var document: GPXDocument!
 
@@ -61,18 +61,21 @@ final class GPXViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
-
-        guard let document = self.view.window?.windowController?.document as? GPXDocument  else { fatalError() }
-        self.document = document
-
-        document.viewController = self
-        document.importFilesFromGPXCachesToLoad()
-        zoomToFitAllOverlays()
+        document = self.view.window?.windowController?.document as? GPXDocument
+        document.mapViewController = self
     }
 
     override func viewDidAppear() {
         super.viewDidAppear()
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
+
+        // NSDocument 에서 다음을 호출할 적절한 이벤트가 없는 것 같다.
+        // 일단 ViewController.viewDidAppear 에서 호출하는데;
+        // 적절한 위치는 아닌 듯;
+        // GPXCache, polyline, mapView 동기화를 위한 다른 좋은 방법을 생각해 봐야;
+        document.importFilesFromGPXCachesToLoad()
+
+        zoomToFitAllOverlays()
     }
 
 }

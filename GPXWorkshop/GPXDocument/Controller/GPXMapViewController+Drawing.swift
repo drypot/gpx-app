@@ -1,5 +1,5 @@
 //
-//  GPXViewController+Drawing.swift
+//  GPXMapViewController+Drawing.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/26/25.
@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-extension GPXViewController {
+extension GPXMapViewController {
 
     func redrawPolylines<S: Sequence>(_ polylines: S) where S.Element == MKPolyline {
         for polyline in polylines {
@@ -36,7 +36,7 @@ extension GPXViewController {
     
 }
 
-extension GPXViewController: MKMapViewDelegate {
+extension GPXMapViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {

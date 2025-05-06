@@ -28,7 +28,7 @@ extension GPXDocument {
 
     override class var readableTypes: [String] {[
         UTType.gpxWorkshop.identifier,
-        //        UTType.gpx.identifier,
+//        UTType.gpx.identifier,
         UTType(filenameExtension: "gpx")!.identifier
     ]}
 
@@ -68,8 +68,8 @@ extension GPXDocument {
 //
 //                await MainActor.run {
 //                    makeWindowControllers()
-//                    viewController.addGPXCaches(caches)
-//                    viewController.zoomToFitAllOverlays()
+//                    mapViewController.addGPXCaches(caches)
+//                    mapViewController.zoomToFitAllOverlays()
 //                    showWindows()
 //                }
 //            } catch {
@@ -84,7 +84,7 @@ extension GPXDocument {
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = true
         panel.allowedContentTypes = [
-            // .gpx,
+//             .gpx,
             UTType(filenameExtension: "gpx")!
         ]
         panel.begin { [unowned self] result in
@@ -111,7 +111,7 @@ extension GPXDocument {
 
                 await MainActor.run {
                     addGPXCaches(caches)
-                    viewController?.zoomToFitAllOverlays()
+                    mapViewController?.zoomToFitAllOverlays()
                 }
             } catch {
                 ErrorLogger.log(error)
@@ -141,7 +141,7 @@ extension GPXDocument {
             }
             allPolylines.formUnion(polylines)
 
-            viewController?.mapView.addOverlays(polylines)
+            mapViewController?.mapView.addOverlays(polylines)
         }
     }
 
@@ -158,7 +158,7 @@ extension GPXDocument {
             }
             allPolylines.subtract(polylines)
 
-            viewController?.mapView.removeOverlays(polylines)
+            mapViewController?.mapView.removeOverlays(polylines)
         }
     }
 

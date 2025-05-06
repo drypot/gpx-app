@@ -82,7 +82,7 @@ extension GPXDocument {
 
     func selectGPXCacheCommon(_ cache: GPXCache) {
         selectedGPXCaches.insert(cache)
-        viewController?.redrawPolylines(cache.polylines)
+        mapViewController?.redrawPolylines(cache.polylines)
     }
 
     @objc func deselectGPXCaches() {
@@ -107,7 +107,7 @@ extension GPXDocument {
 
     func deselectGPXCacheCommon(_ cache: GPXCache) {
         selectedGPXCaches.remove(cache)
-        viewController?.redrawPolylines(cache.polylines)
+        mapViewController?.redrawPolylines(cache.polylines)
     }
 
 }

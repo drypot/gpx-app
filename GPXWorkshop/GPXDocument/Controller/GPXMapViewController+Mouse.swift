@@ -1,5 +1,5 @@
 //
-//  GPXViewController+Mouse.swift
+//  GPXMapViewController+Mouse.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/26/25.
@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-extension GPXViewController {
+extension GPXMapViewController {
 
     override func mouseDown(with event: NSEvent) {
         initialClickLocation = mapView.convert(event.locationInWindow, from: nil)

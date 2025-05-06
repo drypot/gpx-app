@@ -9,5 +9,5 @@ import UniformTypeIdentifiers
 
 extension UTType {
     static let gpxWorkshop: UTType = UTType(exportedAs: "com.drypot.gpxworkshop")
-    static let gpx: UTType = UTType(exportedAs: "com.topografix.gpx")
+    static let gpx: UTType = UTType(exportedAs: "com.drypot.gpx")
 }

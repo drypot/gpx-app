@@ -20,11 +20,13 @@ class GPXDocument: NSDocument {
 
     var gpxCachesToLoad: [GPXCache]?
 
+    weak var mapViewController: GPXMapViewController?
+    weak var sidebarController: GPXSidebarController?
+    weak var inspectorController: GPXInspectorController?
+    
     public var unselectedGPXCaches: Set<GPXCache> {
         return allGPXCaches.subtracting(selectedGPXCaches)
     }
-
-    weak var viewController: GPXViewController?
 
     override init() {
         super.init()
@@ -33,9 +35,6 @@ class GPXDocument: NSDocument {
     override func makeWindowControllers() {
         let windowController = GPXWindowController()
         self.addWindowController(windowController)
-
-//        viewController = windowController.contentViewController as? GPXViewController
-//        viewController?.representedObject = self
     }
 
 }

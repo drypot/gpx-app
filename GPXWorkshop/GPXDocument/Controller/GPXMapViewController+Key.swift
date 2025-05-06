@@ -1,5 +1,5 @@
 //
-//  GPXViewController+Key.swift
+//  GPXMapViewController+Key.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 4/26/25.
@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-extension GPXViewController {
+extension GPXMapViewController {
 
     override var acceptsFirstResponder: Bool { true }
 
