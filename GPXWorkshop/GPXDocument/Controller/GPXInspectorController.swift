@@ -28,6 +28,6 @@ class GPXInspectorController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         document = self.view.window?.windowController?.document as? GPXDocument
-        document.inspectorController = self
+//        document.inspectorController = self
     }
 }

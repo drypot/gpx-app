@@ -18,7 +18,7 @@ extension GPXMapViewController {
         for character in characters {
             switch character {
             case "\u{7F}": // delete
-                document.deleteSelectedGPXCaches()
+                delete(nil)
             default:
                 break
             }

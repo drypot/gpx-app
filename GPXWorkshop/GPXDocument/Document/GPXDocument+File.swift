@@ -139,8 +139,7 @@ extension GPXDocument {
                 polylineToGPXCacheMap.removeValue(forKey: polyline)
             }
             allPolylines.subtract(polylines)
-
-            mapViewController?.mapView.removeOverlays(polylines)
+            overlaysToRemove.append(contentsOf: polylines)
         }
     }
 

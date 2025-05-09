@@ -62,7 +62,7 @@ final class GPXMapViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         document = self.view.window?.windowController?.document as? GPXDocument
-        document.mapViewController = self
+//        document.mapViewController = self
     }
 
     override func viewDidAppear() {

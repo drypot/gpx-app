@@ -28,6 +28,6 @@ class GPXSidebarController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         document = self.view.window?.windowController?.document as? GPXDocument
-        document.sidebarController = self
+//        document.sidebarController = self
     }
 }
