@@ -1,5 +1,5 @@
 //
-//  GPXSidebarController.swift
+//  GPXInspectorController.swift
 //  HelloAppKit
 //
 //  Created by Kyuhyun Park on 5/3/25.
@@ -7,15 +7,15 @@
 
 import Cocoa
 
-class GPXSidebarController: NSViewController {
+class GPXInspectorController: NSViewController {
 
     weak var document: GPXDocument!
-
+    
     override func loadView() {
         view = NSView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let label = NSTextField(labelWithString: "SideBar")
+        let label = NSTextField(labelWithString: "Inspector")
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
 
@@ -28,6 +28,6 @@ class GPXSidebarController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         document = self.view.window?.windowController?.document as? GPXDocument
-//        document.sidebarController = self
     }
+    
 }

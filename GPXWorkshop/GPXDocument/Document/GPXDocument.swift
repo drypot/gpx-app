@@ -21,10 +21,6 @@ class GPXDocument: NSDocument {
     var overlaysToRemove: Array<MKOverlay> = []
     var overlaysToAdd: Array<MKOverlay> = []
 
-//    weak var mapViewController: GPXMapViewController?
-//    weak var sidebarController: GPXSidebarController?
-//    weak var inspectorController: GPXInspectorController?
-    
     public var unselectedGPXCaches: Set<GPXCache> {
         return allGPXCaches.subtracting(selectedGPXCaches)
     }

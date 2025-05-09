@@ -1,5 +1,5 @@
 //
-//  GPXMapViewController+File.swift
+//  GPXViewController+File.swift
 //  GPXWorkshop
 //
 //  Created by Kyuhyun Park on 5/9/25.
@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 import MapKit
 import GPXWorkshopSupport
 
-extension GPXMapViewController {
+extension GPXViewController {
 
     @IBAction func importFiles(_ sender: Any) {
         let panel = NSOpenPanel()
@@ -19,7 +19,7 @@ extension GPXMapViewController {
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = true
         panel.allowedContentTypes = [
-            //            .gpx,
+//            .gpx,
             UTType(filenameExtension: "gpx")!
         ]
         panel.begin { [unowned self] result in
@@ -39,8 +39,8 @@ extension GPXMapViewController {
                 let caches = try document.gpxCaches(from: urls)
                 await MainActor.run {
                     document.addGPXCaches(caches)
-                    updateOverlays()
-                    zoomToFitAllOverlays()
+                    mapViewController.updateOverlays()
+                    mapViewController.zoomToFitAllOverlays()
                 }
             } catch {
                 print(error)
