@@ -12,10 +12,6 @@ import GPXWorkshopSupport
 
 extension GPXDocument {
 
-    @IBAction func delete(_ sender: Any?) {
-        deleteSelectedGPXCaches()
-    }
-
     @objc func deleteSelectedGPXCaches() {
         let caches = selectedGPXCaches
         undoManager?.registerUndo(withTarget: self) {

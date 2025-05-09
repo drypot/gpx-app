@@ -11,10 +11,6 @@ import GPXWorkshopSupport
 
 extension GPXDocument {
 
-    @IBAction func selectAll(_ sender: Any?) {
-        selectGPXCaches(unselectedGPXCaches)
-    }
-
     func beginGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
         if let cache = nearestGPX(at: mapPoint, with: tolerance) {
             if selectedGPXCaches.contains(cache) {
@@ -82,7 +78,8 @@ extension GPXDocument {
 
     func selectGPXCacheCommon(_ cache: GPXCache) {
         selectedGPXCaches.insert(cache)
-        mapViewController?.redrawPolylines(cache.polylines)
+        overlaysToRemove.append(contentsOf: cache.polylines)
+        overlaysToAdd.append(contentsOf: cache.polylines)
     }
 
     @objc func deselectGPXCaches() {
@@ -107,7 +104,8 @@ extension GPXDocument {
 
     func deselectGPXCacheCommon(_ cache: GPXCache) {
         selectedGPXCaches.remove(cache)
-        mapViewController?.redrawPolylines(cache.polylines)
+        overlaysToRemove.append(contentsOf: cache.polylines)
+        overlaysToAdd.append(contentsOf: cache.polylines)
     }
 
 }

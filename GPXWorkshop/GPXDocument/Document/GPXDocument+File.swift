@@ -42,13 +42,25 @@ extension GPXDocument {
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
 
+    /*
+     public func data() throws -> Data {
+     let gpx = GPX()
+     let tracks = GPXUtils.makeGPXTracks(from: polylines)
+     gpx.tracks.append(contentsOf: tracks)
+     let xml = GPXExporter(gpx).makeXMLString()
+     return Data(xml.utf8)
+     }
+     */
+
     override func read(from data: Data, ofType typeName: String) throws {
         if typeName == UTType.gpxWorkshop.identifier {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         }
         let file = try GPXUtils.makeGPX(from: data)
         let cache = GPXCache(file)
-        gpxCachesToLoad = [cache]
+        undoManager?.disableUndoRegistration()
+        addGPXCaches([cache])
+        undoManager?.enableUndoRegistration()
     }
 
     // 이제 사용하지 않는다.
@@ -78,55 +90,26 @@ extension GPXDocument {
 //        }
 //    }
 
-    @IBAction func importFiles(_ sender: Any) {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.canChooseDirectories = true
-        panel.allowsMultipleSelection = true
-        panel.allowedContentTypes = [
-//             .gpx,
-            UTType(filenameExtension: "gpx")!
-        ]
-        panel.begin { [unowned self] result in
-            guard result == .OK else { return }
-            importFiles(from: panel.urls)
+    func gpxCaches(from urls: [URL]) throws -> [GPXCache] {
+        var caches = [GPXCache]()
+
+        // TODO: 중복 파일 임포트 방지. 먼 훗날에.
+        for url in Files(urls: urls) {
+            let cache = try GPXCache(url)
+            caches.append(cache)
         }
+
+        return caches
     }
 
-    @IBAction func importSamples(_ sender: Any) {
-        let urls = [URL(string: "Documents/GPX%20Files%20Subset/", relativeTo:  .currentDirectory())!]
-        importFiles(from: urls)
-    }
-
-    func importFiles(from urls: [URL]) {
-        Task {
-            do {
-                var caches = [GPXCache]()
-
-                // TODO: 중복 파일 임포트 방지. 먼 훗날에.
-                for url in Files(urls: urls) {
-                    let cache = try GPXCache(url)
-                    caches.append(cache)
-                }
-
-                await MainActor.run {
-                    addGPXCaches(caches)
-                    mapViewController?.zoomToFitAllOverlays()
-                }
-            } catch {
-                ErrorLogger.log(error)
-            }
-        }
-    }
-
-    func importFilesFromGPXCachesToLoad() {
-        if let gpxCachesToLoad {
-            undoManager?.disableUndoRegistration()
-            addGPXCaches(gpxCachesToLoad)
-            self.gpxCachesToLoad = nil
-            undoManager?.enableUndoRegistration()
-        }
-    }
+//    func importFilesFromGPXCachesToLoad() {
+//        if let gpxCachesToLoad {
+//            undoManager?.disableUndoRegistration()
+//            addGPXCaches(gpxCachesToLoad)
+//            self.gpxCachesToLoad = nil
+//            undoManager?.enableUndoRegistration()
+//        }
+//    }
 
     @objc func addGPXCaches(_ caches: [GPXCache]) {
         undoManager?.registerUndo(withTarget: self) {
@@ -140,8 +123,7 @@ extension GPXDocument {
                 polylineToGPXCacheMap[polyline] = cache
             }
             allPolylines.formUnion(polylines)
-
-            mapViewController?.mapView.addOverlays(polylines)
+            overlaysToAdd.append(contentsOf: polylines)
         }
     }
 
@@ -161,30 +143,5 @@ extension GPXDocument {
             mapViewController?.mapView.removeOverlays(polylines)
         }
     }
-
-    @IBAction func exportFile(_ sender: Any) {
-        fatalError("Test!")
-        //        let panel = NSSavePanel()
-        //        panel.allowedContentTypes = [.gpx]
-        //        panel.begin { result in
-        //            guard result == .OK else { return }
-        //            guard let url = panel.url else { return }
-        //            do {
-        //                try self.browser.data().write(to: url)
-        //            } catch {
-        //                print(error.localizedDescription)
-        //            }
-        //        }
-    }
-
-    /*
-     public func data() throws -> Data {
-     let gpx = GPX()
-     let tracks = GPXUtils.makeGPXTracks(from: polylines)
-     gpx.tracks.append(contentsOf: tracks)
-     let xml = GPXExporter(gpx).makeXMLString()
-     return Data(xml.utf8)
-     }
-     */
 
 }

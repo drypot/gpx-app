@@ -6,21 +6,28 @@
 //
 
 
-import Foundation
+import Cocoa
 import MapKit
 import GPXWorkshopSupport
 
 extension GPXMapViewController {
 
-    func redrawPolylines<S: Sequence>(_ polylines: S) where S.Element == MKPolyline {
-        for polyline in polylines {
-            redrawPolyline(polyline)
-        }
-    }
+//    func redrawPolylines<S: Sequence>(_ polylines: S) where S.Element == MKPolyline {
+//        for polyline in polylines {
+//            redrawPolyline(polyline)
+//        }
+//    }
+//
+//    func redrawPolyline(_ polyline: MKPolyline) {
+//        mapView.removeOverlay(polyline)
+//        mapView.addOverlay(polyline)
+//    }
 
-    func redrawPolyline(_ polyline: MKPolyline) {
-        mapView.removeOverlay(polyline)
-        mapView.addOverlay(polyline)
+    func updateOverlays() {
+        mapView.removeOverlays(document.overlaysToRemove)
+        mapView.addOverlays(document.overlaysToAdd)
+        document.overlaysToRemove.removeAll()
+        document.overlaysToAdd.removeAll()
     }
 
     func zoomToFitAllOverlays() {

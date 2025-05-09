@@ -5,7 +5,7 @@
 //  Created by Kyuhyun Park on 8/20/24.
 //
 
-import Foundation
+import Cocoa
 import MapKit
 import GPXWorkshopSupport
 
@@ -69,13 +69,23 @@ final class GPXMapViewController: NSViewController {
         super.viewDidAppear()
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
 
-        // NSDocument 에서 다음을 호출할 적절한 이벤트가 없는 것 같다.
-        // 일단 ViewController.viewDidAppear 에서 호출하는데;
-        // 적절한 위치는 아닌 듯;
-        // GPXCache, polyline, mapView 동기화를 위한 다른 좋은 방법을 생각해 봐야;
-        document.importFilesFromGPXCachesToLoad()
+//        // NSDocument 에서 다음을 호출할 적절한 이벤트가 없는 것 같다.
+//        // 일단 ViewController.viewDidAppear 에서 호출하는데;
+//        // 적절한 위치는 아닌 듯;
+//        // GPXCache, polyline, mapView 동기화를 위한 다른 좋은 방법을 생각해 봐야;
+//        document.importFilesFromGPXCachesToLoad()
 
+        updateOverlays()
         zoomToFitAllOverlays()
     }
 
+    @IBAction func undo(_ sender: Any?) {
+        undoManager?.undo()
+        updateOverlays()
+    }
+
+    @IBAction  func redo(_ sender: Any?) {
+        undoManager?.redo()
+        updateOverlays()
+    }
 }

@@ -5,7 +5,7 @@
 //  Created by Kyuhyun Park on 4/26/25.
 //
 
-import Foundation
+import Cocoa
 import MapKit
 import GPXWorkshopSupport
 
@@ -46,11 +46,13 @@ extension GPXMapViewController {
     func handleClick(at point: NSPoint) {
         let (mapPoint, tolerance) = mapPoint(at: point)
         document.beginGPXSelection(at: mapPoint, with: tolerance)
+        updateOverlays()
     }
 
     func handleShiftClick(at point: NSPoint) {
         let (mapPoint, tolerance) = mapPoint(at: point)
         document.toggleGPXSelection(at: mapPoint, with: tolerance)
+        updateOverlays()
     }
 
     func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {

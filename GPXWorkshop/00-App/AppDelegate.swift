@@ -39,53 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     //        return .terminateNow
     //    }
 
-    // 일단 당분간 사용하지 않는 코드
-    // 이상한 짓하지 않고
-    // AppKit 기본 openDocument 를 쓰기로 했다.
-
-    @IBAction func openDocumentCustomized(_ sender: Any?) {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [ .gpx, .gpxWorkshop ]
-        panel.allowsMultipleSelection = true
-        panel.canChooseDirectories = true
-        panel.canChooseFiles = true
-        panel.begin { result in
-            guard result == .OK else { return }
-            let urls = panel.urls
-            var gpxURLs = [URL]()
-            var gpxwsURLs = [URL]()
-            for url in urls {
-                if (url.pathExtension.lowercased() == "gpxws" ) {
-                    gpxwsURLs.append(url)
-                } else {
-                    gpxURLs.append(url)
-                }
-            }
-
-            // import GPX files
-
-            do {
-                let documentController = NSDocumentController.shared
-                let document = try documentController.makeUntitledDocument(ofType: UTType.gpxWorkshop.identifier) as! GPXDocument
-                documentController.addDocument(document)
-                document.undoManager?.disableUndoRegistration()
-                document.importFiles(gpxURLs)
-                document.undoManager?.enableUndoRegistration()
-            } catch {
-                print(error)
-                NSApp.presentError(error)
-            }
-
-            // TODO: gpxws file open
-
-//            NSDocumentController.shared.openDocument(withContentsOf: url, display: true) { (document, wasAlreadyOpen, error) in
-//                if let error = error {
-//                    NSApp.presentError(error)
-//                }
-//            }
-        }
-    }
-
 }
 
 

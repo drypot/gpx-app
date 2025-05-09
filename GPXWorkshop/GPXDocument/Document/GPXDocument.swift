@@ -18,7 +18,10 @@ class GPXDocument: NSDocument {
     var allPolylines: Set<MKPolyline> = []
     var polylineToGPXCacheMap: [MKPolyline: GPXCache] = [:]
 
-    var gpxCachesToLoad: [GPXCache]?
+    var overlaysToRemove: Array<MKOverlay> = []
+    var overlaysToAdd: Array<MKOverlay> = []
+
+//    var gpxCachesToLoad: [GPXCache]?
 
     weak var mapViewController: GPXMapViewController?
     weak var sidebarController: GPXSidebarController?
