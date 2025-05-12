@@ -41,6 +41,7 @@ extension GPXViewController {
                     document.addGPXCaches(caches)
                     mapViewController.updateOverlays()
                     mapViewController.zoomToFitAllOverlays()
+                    sidebarController.updateItems()
                 }
             } catch {
                 print(error)

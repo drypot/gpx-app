@@ -9,25 +9,25 @@ import Foundation
 import MapKit
 import GPXWorkshopSupport
 
-public final class GPXCache: NSObject {
+final class GPXCache: NSObject, Comparable {
 
-    public private(set) var url: URL?
-    public private(set) var filename: String?
+    private(set) var url: URL?
+    private(set) var filename = ""
 
-    public private(set) var gpx: GPX
-    public private(set) var polylines: [MKPolyline] = []
+    private(set) var gpx: GPX
+    private(set) var polylines: [MKPolyline] = []
 
-    public init(_ gpx: GPX) {
+    init(_ gpx: GPX) {
         self.gpx = gpx
         super.init()
         updatePolylines()
     }
 
-    public convenience override init() {
+    convenience override init() {
         self.init(GPX())
     }
     
-    public convenience init(_ url: URL) throws {
+    convenience init(_ url: URL) throws {
         let gpx = try GPXUtils.makeGPX(from: url)
         self.init(gpx)
         self.url = url
@@ -36,22 +36,39 @@ public final class GPXCache: NSObject {
 
     // MARK: - NSObject
 
-    public override func isEqual(_ object: Any?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? Self else { return false }
         return self === other
     }
 
-    public override var hash: Int {
+    override var hash: Int {
         return ObjectIdentifier(self).hashValue
     }
 
-    public override var description: String {
+    override var description: String {
         String(describing: gpx)
+    }
+
+    // MARK: - Comparable
+
+    static func < (lhs: GPXCache, rhs: GPXCache) -> Bool {
+        return lhs.filename < rhs.filename
+    }
+
+    @objc func compare(_ object: Any?) -> ComparisonResult {
+        guard let other = object as? GPXCache else { return .orderedSame }
+        if self < other {
+            return .orderedAscending
+        } else if self > other {
+            return .orderedDescending
+        } else {
+            return .orderedSame
+        }
     }
 
     // MARK: - Polyline
 
-    public func updatePolylines() {
+    func updatePolylines() {
         polylines.removeAll()
         for track in gpx.tracks {
             for segment in track.segments {

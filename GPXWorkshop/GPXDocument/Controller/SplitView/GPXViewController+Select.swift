@@ -14,7 +14,25 @@ extension GPXViewController {
     @IBAction override func selectAll(_ sender: Any?) {
         document.selectGPXCaches(document.unselectedGPXCaches)
         mapViewController.updateOverlays()
+        sidebarController.updateSelectedRows()
     }
 
+    func beginGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
+        document.beginGPXSelection(at: mapPoint, with: tolerance)
+        mapViewController.updateOverlays()
+        sidebarController.updateSelectedRows()
+    }
+
+    func toggleGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
+        document.toggleGPXSelection(at: mapPoint, with: tolerance)
+        mapViewController.updateOverlays()
+        sidebarController.updateSelectedRows()
+    }
+
+    func updateGPXSelection(to caches: Set<GPXCache>) {
+        document!.resetGPXSelection(to: caches)
+        mapViewController.updateOverlays()
+        sidebarController.updateSelectedRows()
+    }
 }
 

@@ -60,6 +60,13 @@ extension GPXDocument {
         return nearest
     }
 
+    func resetGPXSelection(to caches: Set<GPXCache>) {
+        undoManager?.beginUndoGrouping()
+        deselectGPXCaches(selectedGPXCaches)
+        selectGPXCaches(caches)
+        undoManager?.endUndoGrouping()
+    }
+
     @objc func selectGPXCaches(_ caches: Set<GPXCache>) {
         undoManager?.registerUndo(withTarget: self) {
             $0.deselectGPXCaches(caches)
@@ -80,10 +87,6 @@ extension GPXDocument {
         selectedGPXCaches.insert(cache)
         overlaysToRemove.append(contentsOf: cache.polylines)
         overlaysToAdd.append(contentsOf: cache.polylines)
-    }
-
-    @objc func deselectGPXCaches() {
-        deselectGPXCaches(selectedGPXCaches)
     }
 
     @objc func deselectGPXCaches(_ caches: Set<GPXCache>) {

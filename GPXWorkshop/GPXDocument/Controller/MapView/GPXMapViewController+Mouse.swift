@@ -17,26 +17,30 @@ extension GPXMapViewController {
     }
 
     override func mouseDragged(with event: NSEvent) {
-        guard let initialClickLocation = initialClickLocation else { return }
+        guard let initialClickLocation else { return }
 
-        let currentLocationInView = mapView.convert(event.locationInWindow, from: nil)
+        let currentClickLocation = mapView.convert(event.locationInWindow, from: nil)
 
-        let dx = currentLocationInView.x - initialClickLocation.x
-        let dy = currentLocationInView.y - initialClickLocation.y
+        let dx = currentClickLocation.x - initialClickLocation.x
+        let dy = currentClickLocation.y - initialClickLocation.y
         let distance = sqrt(dx * dx + dy * dy)
 
         if distance > tolerance {
             isDragging = true
-            //            handleDrag(to: currentLocationInView)
+//            handleDrag(to: currentLocationInView)
         }
     }
 
     override func mouseUp(with event: NSEvent) {
-        if !isDragging, let initialClickLocation {
-            if event.modifierFlags.contains(.shift) {
-                handleShiftClick(at: initialClickLocation)
-            } else {
-                handleClick(at: initialClickLocation)
+        if isDragging {
+            //...
+        } else {
+            if let initialClickLocation {
+                if event.modifierFlags.contains(.shift) {
+                    handleShiftClick(at: initialClickLocation)
+                } else {
+                    handleClick(at: initialClickLocation)
+                }
             }
         }
         initialClickLocation = nil
@@ -45,14 +49,12 @@ extension GPXMapViewController {
 
     func handleClick(at point: NSPoint) {
         let (mapPoint, tolerance) = mapPoint(at: point)
-        document.beginGPXSelection(at: mapPoint, with: tolerance)
-        updateOverlays()
+        mainController.beginGPXSelection(at: mapPoint, with: tolerance)
     }
 
     func handleShiftClick(at point: NSPoint) {
         let (mapPoint, tolerance) = mapPoint(at: point)
-        document.toggleGPXSelection(at: mapPoint, with: tolerance)
-        updateOverlays()
+        mainController.toggleGPXSelection(at: mapPoint, with: tolerance)
     }
 
     func mapPoint(at point: NSPoint) -> (MKMapPoint, CLLocationDistance) {
