@@ -9,14 +9,14 @@ import Cocoa
 
 class GPXViewController: NSSplitViewController {
 
-    var sidebarController: GPXSidebarController!
-    var mapViewController: GPXMapViewController!
-    var inspectorController: GPXInspectorController!
+    var sidebarController: GPXSidebarController?
+    var mapViewController: GPXMapViewController?
+    var inspectorController: GPXInspectorController?
 
-    weak var document: GPXDocument!
+    weak var document: GPXDocument?
 
     override var undoManager: UndoManager? {
-        return document.undoManager
+        return document!.undoManager
     }
 
     override func viewDidLoad() {
@@ -48,4 +48,19 @@ class GPXViewController: NSSplitViewController {
         document = self.view.window?.windowController?.document as? GPXDocument
     }
 
+    @IBAction func undo(_ sender: Any?) {
+        undoManager?.undo()
+        updateViews()
+    }
+
+    @IBAction  func redo(_ sender: Any?) {
+        undoManager?.redo()
+        updateViews()
+    }
+
+    func updateViews() {
+        mapViewController!.updateOverlays()
+        sidebarController!.updateItems()
+        sidebarController!.updateSelectedRows()
+    }
 }

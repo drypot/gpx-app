@@ -87,17 +87,17 @@ class GPXSidebarController: NSViewController {
         }
     }
 
-    @objc func deleteSelectedRows() {
+    func deleteSelectedRows() {
         let selectedRows = tableView.selectedRowIndexes
-        guard !selectedRows.isEmpty else { return }
-
-        let sortedIndexes = selectedRows.sorted(by: >)
-
-        for index in sortedIndexes {
-            items.remove(at: index)
+        if selectedRows.isEmpty {
+            return
         }
-
-        tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
+        mainController.delete(nil)
+//        let sortedIndexes = selectedRows.sorted(by: >)
+//        for index in sortedIndexes {
+//            items.remove(at: index)
+//        }
+//        tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
     }
 
     func updateItems() {
@@ -111,7 +111,7 @@ class GPXSidebarController: NSViewController {
         } else {
             var selectedRows = Array<Int>()
             for (index, item) in items.enumerated() {
-                if document!.selectedGPXCaches.contains(item) {
+                if item.isSelected {
                     selectedRows.append(index)
                 }
             }
@@ -173,13 +173,20 @@ extension GPXSidebarController: NSTableViewDelegate {
         if isUpdatingSelectedRows {
             isUpdatingSelectedRows = false
         } else {
-            var caches: Set<GPXCache> = []
-            for row in tableView.selectedRowIndexes {
-                let item = items[row]
-                caches.insert(item)
+            let selectedIndexes = tableView.selectedRowIndexes
+
+            for (index, item) in items.enumerated() {
+                if item.isSelected != selectedIndexes.contains(index) {
+                    if item.isSelected {
+                        document!.deselectGPXCache(item)
+                    } else {
+                        document!.selectGPXCache(item)
+                    }
+                }
             }
+
             isUpdatingSelectedRows = true
-            mainController.updateGPXSelection(to: caches)
+            mainController.gpxSelectionUpdated()
         }
     }
 

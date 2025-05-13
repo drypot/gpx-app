@@ -12,22 +12,11 @@ import GPXWorkshopSupport
 
 extension GPXMapViewController {
 
-//    func redrawPolylines<S: Sequence>(_ polylines: S) where S.Element == MKPolyline {
-//        for polyline in polylines {
-//            redrawPolyline(polyline)
-//        }
-//    }
-//
-//    func redrawPolyline(_ polyline: MKPolyline) {
-//        mapView.removeOverlay(polyline)
-//        mapView.addOverlay(polyline)
-//    }
-
     func updateOverlays() {
-        mapView.removeOverlays(document.overlaysToRemove)
-        mapView.addOverlays(document.overlaysToAdd)
-        document.overlaysToRemove.removeAll()
-        document.overlaysToAdd.removeAll()
+        mapView.removeOverlays(mapView.overlays)
+        for cache in document!.allGPXCaches {
+            mapView.addOverlays(cache.polylines)
+        }
     }
 
     func zoomToFitAllOverlays() {
@@ -47,9 +36,9 @@ extension GPXMapViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
-            if let gpx = document.polylineToGPXCacheMap[polyline] {
+            if let cache = document.polylineToGPXCacheMap[polyline] {
                 let renderer = MKPolylineRenderer(polyline: polyline)
-                if document.selectedGPXCaches.contains(gpx) {
+                if cache.isSelected {
                     renderer.strokeColor = .red
                 } else {
                     renderer.strokeColor = .blue

@@ -17,6 +17,8 @@ final class GPXCache: NSObject, Comparable {
     private(set) var gpx: GPX
     private(set) var polylines: [MKPolyline] = []
 
+    var isSelected = false
+
     init(_ gpx: GPX) {
         self.gpx = gpx
         super.init()

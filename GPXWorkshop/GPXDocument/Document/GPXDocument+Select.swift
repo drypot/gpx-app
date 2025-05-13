@@ -13,24 +13,20 @@ extension GPXDocument {
 
     func beginGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
         if let cache = nearestGPX(at: mapPoint, with: tolerance) {
-            if selectedGPXCaches.contains(cache) {
-                deselectGPXCaches(selectedGPXCaches)
+            if cache.isSelected {
+                deselectAllGPXCaches()
             } else {
-                undoManager?.beginUndoGrouping()
-                deselectGPXCaches(selectedGPXCaches)
+                deselectAllGPXCaches()
                 selectGPXCache(cache)
-                undoManager?.endUndoGrouping()
             }
         } else {
-            if !selectedGPXCaches.isEmpty {
-                deselectGPXCaches(selectedGPXCaches)
-            }
+            deselectAllGPXCaches()
         }
     }
 
     func toggleGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
         if let cache = nearestGPX(at: mapPoint, with: tolerance) {
-            if selectedGPXCaches.contains(cache) {
+            if cache.isSelected {
                 deselectGPXCache(cache)
             } else {
                 selectGPXCache(cache)
@@ -46,69 +42,50 @@ extension GPXDocument {
     func nearestPolyline(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) -> MKPolyline? {
         var nearest: MKPolyline?
         var minDistance: CLLocationDistance = .greatestFiniteMagnitude
-        for polyline in allPolylines {
-            let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
-            if !rect.contains(mapPoint) {
-                continue
-            }
-            let distance = GPXUtils.calcDistance(from: mapPoint, to: polyline)
-            if distance < tolerance, distance < minDistance {
-                minDistance = distance
-                nearest = polyline
+        for cache in allGPXCaches {
+            for polyline in cache.polylines {
+                let rect = polyline.boundingMapRect.insetBy(dx: -tolerance, dy: -tolerance)
+                if !rect.contains(mapPoint) {
+                    continue
+                }
+                let distance = GPXUtils.calcDistance(from: mapPoint, to: polyline)
+                if distance < tolerance, distance < minDistance {
+                    minDistance = distance
+                    nearest = polyline
+                }
             }
         }
         return nearest
     }
 
-    func resetGPXSelection(to caches: Set<GPXCache>) {
-        undoManager?.beginUndoGrouping()
-        deselectGPXCaches(selectedGPXCaches)
-        selectGPXCaches(caches)
-        undoManager?.endUndoGrouping()
-    }
-
-    @objc func selectGPXCaches(_ caches: Set<GPXCache>) {
-        undoManager?.registerUndo(withTarget: self) {
-            $0.deselectGPXCaches(caches)
-        }
-        for cache in caches {
-            selectGPXCacheCommon(cache)
+    func selectAllGPXCaches() {
+        for cache in allGPXCaches {
+            if !cache.isSelected {
+                selectGPXCache(cache)
+            }
         }
     }
 
-    @objc func selectGPXCache(_ cache: GPXCache) {
+    func selectGPXCache(_ cache: GPXCache) {
         undoManager?.registerUndo(withTarget: self) {
             $0.deselectGPXCache(cache)
         }
-        selectGPXCacheCommon(cache)
+        cache.isSelected = true
     }
 
-    func selectGPXCacheCommon(_ cache: GPXCache) {
-        selectedGPXCaches.insert(cache)
-        overlaysToRemove.append(contentsOf: cache.polylines)
-        overlaysToAdd.append(contentsOf: cache.polylines)
-    }
-
-    @objc func deselectGPXCaches(_ caches: Set<GPXCache>) {
-        undoManager?.registerUndo(withTarget: self) {
-            $0.selectGPXCaches(caches)
-        }
-        for cache in caches {
-            deselectGPXCacheCommon(cache)
+    func deselectAllGPXCaches() {
+        for cache in allGPXCaches {
+            if cache.isSelected {
+                deselectGPXCache(cache)
+            }
         }
     }
 
-    @objc func deselectGPXCache(_ cache: GPXCache) {
+    func deselectGPXCache(_ cache: GPXCache) {
         undoManager?.registerUndo(withTarget: self) {
             $0.selectGPXCache(cache)
         }
-        deselectGPXCacheCommon(cache)
-    }
-
-    func deselectGPXCacheCommon(_ cache: GPXCache) {
-        selectedGPXCaches.remove(cache)
-        overlaysToRemove.append(contentsOf: cache.polylines)
-        overlaysToAdd.append(contentsOf: cache.polylines)
+        cache.isSelected = false
     }
 
 }

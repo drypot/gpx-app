@@ -13,9 +13,9 @@ import GPXWorkshopSupport
 extension GPXViewController {
 
     @IBAction func delete(_ sender: Any?) {
-        document.deleteSelectedGPXCaches()
-        mapViewController.updateOverlays()
-        sidebarController.updateItems()
+        document!.deleteSelectedGPXCaches()
+        mapViewController!.updateOverlays()
+        sidebarController!.updateItems()
     }
 
 }

@@ -13,17 +13,7 @@ import GPXWorkshopSupport
 class GPXDocument: NSDocument {
 
     var allGPXCaches: Set<GPXCache> = []
-    var selectedGPXCaches: Set<GPXCache> = []
-
-    var allPolylines: Set<MKPolyline> = []
     var polylineToGPXCacheMap: [MKPolyline: GPXCache] = [:]
-
-    var overlaysToRemove: Array<MKOverlay> = []
-    var overlaysToAdd: Array<MKOverlay> = []
-
-    public var unselectedGPXCaches: Set<GPXCache> {
-        return allGPXCaches.subtracting(selectedGPXCaches)
-    }
 
     override init() {
         super.init()

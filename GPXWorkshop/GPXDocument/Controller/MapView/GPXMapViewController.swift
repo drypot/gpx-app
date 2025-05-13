@@ -66,13 +66,4 @@ final class GPXMapViewController: NSViewController {
         zoomToFitAllOverlays()
     }
 
-    @IBAction func undo(_ sender: Any?) {
-        undoManager?.undo()
-        updateOverlays()
-    }
-
-    @IBAction  func redo(_ sender: Any?) {
-        undoManager?.redo()
-        updateOverlays()
-    }
 }
