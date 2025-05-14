@@ -69,28 +69,4 @@ extension GPXDocument {
         return caches
     }
 
-    func addGPXCaches(_ caches: [GPXCache]) {
-        undoManager?.registerUndo(withTarget: self) {
-            $0.removeCaches(caches)
-        }
-        for cache in caches {
-            allGPXCaches.insert(cache)
-            for polyline in cache.polylines {
-                polylineToGPXCacheMap[polyline] = cache
-            }
-        }
-    }
-
-    func removeCaches(_ caches: [GPXCache]) {
-        undoManager?.registerUndo(withTarget: self) {
-            $0.addGPXCaches(caches)
-        }
-        for cache in caches {
-            allGPXCaches.remove(cache)
-            for polyline in cache.polylines {
-                polylineToGPXCacheMap.removeValue(forKey: polyline)
-            }
-        }
-    }
-
 }

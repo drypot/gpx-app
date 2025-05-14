@@ -13,7 +13,7 @@ import GPXWorkshopSupport
 extension GPXViewController {
 
     @IBAction func delete(_ sender: Any?) {
-        document!.deleteSelectedGPXCaches()
+        document!.removeSelectedGPXCaches()
         mapViewController!.updateOverlays()
         sidebarController!.updateItems()
     }
