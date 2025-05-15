@@ -66,13 +66,6 @@ extension GPXDocument {
         }
     }
 
-    func selectGPXCache(_ cache: GPXCache) {
-        undoManager?.registerUndo(withTarget: self) {
-            $0.deselectGPXCache(cache)
-        }
-        cache.isSelected = true
-    }
-
     func deselectAllGPXCaches() {
         for cache in allGPXCaches {
             if cache.isSelected {
@@ -81,11 +74,22 @@ extension GPXDocument {
         }
     }
 
+    // MARK: - Select Core
+
+    func selectGPXCache(_ cache: GPXCache) {
+        undoManager?.registerUndo(withTarget: self) {
+            $0.deselectGPXCache(cache)
+        }
+        cache.isSelected = true
+        updatedGPXCaches.append(cache)
+    }
+
     func deselectGPXCache(_ cache: GPXCache) {
         undoManager?.registerUndo(withTarget: self) {
             $0.selectGPXCache(cache)
         }
         cache.isSelected = false
+        updatedGPXCaches.append(cache)
     }
 
 }

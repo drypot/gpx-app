@@ -5,7 +5,6 @@
 //  Created by Kyuhyun Park on 4/26/25.
 //
 
-
 import Cocoa
 import MapKit
 import GPXWorkshopSupport
@@ -13,8 +12,16 @@ import GPXWorkshopSupport
 extension GPXMapViewController {
 
     func updateOverlays() {
-        mapView.removeOverlays(mapView.overlays)
-        for cache in document!.allGPXCaches {
+        for cache in document!.removedGPXCaches {
+            mapView.removeOverlays(cache.polylines)
+        }
+        for cache in document!.updatedGPXCaches {
+            mapView.removeOverlays(cache.polylines)
+        }
+        for cache in document!.addedGPXCaches {
+            mapView.addOverlays(cache.polylines)
+        }
+        for cache in document!.updatedGPXCaches {
             mapView.addOverlays(cache.polylines)
         }
     }
@@ -30,25 +37,5 @@ extension GPXMapViewController {
         }
     }
     
-}
-
-extension GPXMapViewController: MKMapViewDelegate {
-
-    public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let polyline = overlay as? MKPolyline {
-            if let cache = document.polylineToGPXCacheMap[polyline] {
-                let renderer = MKPolylineRenderer(polyline: polyline)
-                if cache.isSelected {
-                    renderer.strokeColor = .red
-                } else {
-                    renderer.strokeColor = .blue
-                }
-                renderer.lineWidth = 3.0
-                return renderer
-            }
-        }
-        return MKOverlayRenderer(overlay: overlay)
-    }
-
 }
 

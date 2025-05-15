@@ -20,7 +20,7 @@
       "target" : {
         "containerPath" : "container:GPXWorkshop.xcodeproj",
         "identifier" : "009F90512DAA51D50060ADA6",
-        "name" : "ModelTests"
+        "name" : "GPXWorkshopSupportTests"
       }
     }
   ],

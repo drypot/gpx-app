@@ -11,30 +11,24 @@ import GPXWorkshopSupport
 
 final class GPXMapViewController: NSViewController {
 
-    let mapView: MKMapView
+    let locationManager = CLLocationManager()
+    let mapView = MKMapView()
 
     var initialClickLocation: NSPoint?
     var isDragging = false
     var tolerance: CGFloat = 5.0
 
-    weak var document: GPXDocument!
+    weak var document: GPXDocument?
 
     init() {
-        mapView = MKMapView()
         super.init(nibName: nil, bundle: nil)
-
-        mapView.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override var undoManager: UndoManager! {
-        return document.undoManager
-    }
-
-    var mainController: GPXViewController! {
+    var mainController: GPXViewController? {
         return self.parent as? GPXViewController
     }
 
@@ -42,8 +36,13 @@ final class GPXMapViewController: NSViewController {
         view = NSView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        
+        mapView.delegate = self
         view.addSubview(mapView)
 
         NSLayoutConstraint.activate([
@@ -54,16 +53,42 @@ final class GPXMapViewController: NSViewController {
         ])
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
     override func viewWillAppear() {
         super.viewWillAppear()
-        document = self.view.window?.windowController?.document as? GPXDocument
+//        document = self.view.window?.windowController?.document as? GPXDocument
     }
 
     override func viewDidAppear() {
         super.viewDidAppear()
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
-        updateOverlays()
-        zoomToFitAllOverlays()
+    }
+
+}
+
+extension GPXMapViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+
+        if document?.allGPXCaches.isEmpty == true {
+            let region = MKCoordinateRegion(
+                center: location.coordinate,
+                latitudinalMeters: 50_000,
+                longitudinalMeters: 50_000
+            )
+            mapView.setRegion(region, animated: false)
+        }
+
+        // 위치 한 번 받고 멈춤
+        locationManager.stopUpdatingLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("locationManager didFailWithError: \(error)")
     }
 
 }

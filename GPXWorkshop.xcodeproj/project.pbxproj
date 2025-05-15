@@ -119,13 +119,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0004B1CA2DAA631F0091C628 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		00D40E6B2BBA403200B755CE = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +129,6 @@
 				00E2E4382CBE4028006ADC0D /* GPXWorkshop */,
 				009F904B2DAA51D40060ADA6 /* GPXWorkshopSupport */,
 				009F90582DAA51D50060ADA6 /* GPXWorkshopSupportTests */,
-				0004B1CA2DAA631F0091C628 /* Frameworks */,
 				00D40E752BBA403200B755CE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -573,7 +565,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "GPXWorkshop/Preview\\ Content";
+				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -586,7 +578,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -605,7 +597,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "GPXWorkshop/Preview\\ Content";
+				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -618,7 +610,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.drypot.GPXWorkshop;
 				PRODUCT_NAME = "$(TARGET_NAME)";

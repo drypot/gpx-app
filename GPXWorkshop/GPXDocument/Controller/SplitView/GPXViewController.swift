@@ -16,7 +16,7 @@ class GPXViewController: NSSplitViewController {
     weak var document: GPXDocument?
 
     override var undoManager: UndoManager? {
-        return document!.undoManager
+        return document?.undoManager
     }
 
     override func viewDidLoad() {
@@ -46,6 +46,15 @@ class GPXViewController: NSSplitViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         document = self.view.window?.windowController?.document as? GPXDocument
+        mapViewController?.document = document
+        sidebarController?.document = document
+        updateViews()
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        mapViewController!.zoomToFitAllOverlays()
+        print("viewDidAppear")
     }
 
     @IBAction func undo(_ sender: Any?) {
@@ -59,8 +68,9 @@ class GPXViewController: NSSplitViewController {
     }
 
     func updateViews() {
+        print("updateViews")
         mapViewController!.updateOverlays()
         sidebarController!.updateItems()
-        sidebarController!.updateSelectedRows()
+        document!.flushUpdated()
     }
 }

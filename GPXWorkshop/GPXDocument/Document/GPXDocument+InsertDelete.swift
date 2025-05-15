@@ -16,8 +16,9 @@ extension GPXDocument {
         undoManager?.registerUndo(withTarget: self) {
             $0.removeGPXCaches(caches)
         }
+        allGPXCaches.formUnion(caches)
+        addedGPXCaches.append(contentsOf: caches)
         for cache in caches {
-            allGPXCaches.insert(cache)
             for polyline in cache.polylines {
                 polylineToGPXCacheMap[polyline] = cache
             }
@@ -28,8 +29,9 @@ extension GPXDocument {
         undoManager?.registerUndo(withTarget: self) {
             $0.addGPXCaches(caches)
         }
+        allGPXCaches.subtract(caches)
+        removedGPXCaches.append(contentsOf: caches)
         for cache in caches {
-            allGPXCaches.remove(cache)
             for polyline in cache.polylines {
                 polylineToGPXCacheMap.removeValue(forKey: polyline)
             }

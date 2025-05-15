@@ -28,12 +28,13 @@ final class GPXCache: NSObject, Comparable {
     convenience override init() {
         self.init(GPX())
     }
-    
-    convenience init(_ url: URL) throws {
+
+    static func makeGPXCache(from url: URL) throws -> GPXCache {
         let gpx = try GPXUtils.makeGPX(from: url)
-        self.init(gpx)
-        self.url = url
-        self.filename = url.lastPathComponent
+        let cache = GPXCache(gpx)
+        cache.url = url
+        cache.filename = url.lastPathComponent
+        return cache
     }
 
     // MARK: - NSObject

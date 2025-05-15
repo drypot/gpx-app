@@ -22,6 +22,8 @@ extension GPXViewController {
 //            .gpx,
             UTType(filenameExtension: "gpx")!
         ]
+        print("importFiles")
+        print(panel.allowedContentTypes)
         panel.begin { [unowned self] result in
             guard result == .OK else { return }
             importFilesCommon(from: panel.urls)
@@ -36,12 +38,10 @@ extension GPXViewController {
     func importFilesCommon(from urls: [URL]) {
         Task {
             do {
-                let caches = try document!.gpxCaches(from: urls)
+                try await document!.importGPXCaches(from: urls)
                 await MainActor.run {
-                    document!.addGPXCaches(caches)
-                    mapViewController!.updateOverlays()
+                    updateViews()
                     mapViewController!.zoomToFitAllOverlays()
-                    sidebarController!.updateItems()
                 }
             } catch {
                 print(error)

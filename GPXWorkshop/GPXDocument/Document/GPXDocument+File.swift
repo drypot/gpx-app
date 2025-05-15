@@ -24,11 +24,16 @@ extension GPXDocument {
     // 로컬에서 지정한 com.topografix.gpx 는 우선순위에서 밀리는 듯하다.
     // 이것도 참 이상한 일.
 
-    override class var readableTypes: [String] {[
+    private static let _readableTypes = [
         UTType.gpxWorkshop.identifier,
-//        UTType.gpx.identifier,
-        UTType(filenameExtension: "gpx")!.identifier
-    ]}
+        UTType.gpx.identifier,
+        //        UTType(filenameExtension: "gpx")!.identifier
+    ]
+
+    override class var readableTypes: [String] {
+        Swift.print("readableTypes")
+        return _readableTypes
+    }
 
     //    override class var autosavesInPlace: Bool {
     //        return true
@@ -42,31 +47,34 @@ extension GPXDocument {
          let xml = GPXExporter(gpx).makeXMLString()
          return Data(xml.utf8)
          */
+        Swift.print("data ofType")
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
 
-
-    override func read(from data: Data, ofType typeName: String) throws {
+    override func read(from url: URL, ofType typeName: String) throws {
+        Swift.print("read from url")
         if typeName == UTType.gpxWorkshop.identifier {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         }
-        let file = try GPXUtils.makeGPX(from: data)
-        let cache = GPXCache(file)
+        let cache = try GPXCache.makeGPXCache(from: url)
         undoManager?.disableUndoRegistration()
         addGPXCaches([cache])
         undoManager?.enableUndoRegistration()
     }
 
-    func gpxCaches(from urls: [URL]) throws -> [GPXCache] {
+    func importGPXCaches(from urls: [URL]) async throws {
         var caches = [GPXCache]()
 
         // TODO: 중복 파일 임포트 방지. 먼 훗날에.
         for url in Files(urls: urls) {
-            let cache = try GPXCache(url)
+            Swift.print("importGPXCaches")
+            Swift.print(url.absoluteString)
+            let cache = try GPXCache.makeGPXCache(from: url)
             caches.append(cache)
         }
 
-        return caches
+        await MainActor.run {
+            addGPXCaches(caches)
+        }
     }
-
 }

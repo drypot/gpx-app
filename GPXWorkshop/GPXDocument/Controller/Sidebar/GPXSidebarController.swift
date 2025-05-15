@@ -18,7 +18,7 @@ class GPXSidebarController: NSViewController {
 
     var isUpdatingSelectedRows = false
 
-    var mainController: GPXViewController! {
+    var mainController: GPXViewController? {
         return self.parent as? GPXViewController
     }
 
@@ -28,16 +28,6 @@ class GPXSidebarController: NSViewController {
 
         setupScrollView()
         setupTable()
-    }
-
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        document = self.view.window?.windowController?.document as? GPXDocument
-    }
-
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        updateItems()
     }
 
     private func setupScrollView() {
@@ -74,41 +64,21 @@ class GPXSidebarController: NSViewController {
         tableView.addTableColumn(nameColumn)
     }
 
-    override func keyDown(with event: NSEvent) {
-
-        // specialKey 는 macOS 13, 2022 이상에서만 지원한다고 한다.
-        // 구 버전을 지원하려면 keyCode 를 써야하는데 버추얼키 정의 테이블이 없어서 숫자를 외워야 한다.
-
-        switch event.specialKey {
-        case .delete:
-            deleteSelectedRows()
-        default:
-            super.keyDown(with: event)
-        }
-    }
-
-    func deleteSelectedRows() {
-        let selectedRows = tableView.selectedRowIndexes
-        if selectedRows.isEmpty {
-            return
-        }
-        mainController.delete(nil)
-//        let sortedIndexes = selectedRows.sorted(by: >)
-//        for index in sortedIndexes {
-//            items.remove(at: index)
-//        }
-//        tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
+    override func viewWillAppear() {
+        super.viewWillAppear()
+//        document = self.view.window?.windowController?.document as? GPXDocument
     }
 
     func updateItems() {
-        items = Array(document!.allGPXCaches).sorted()
-        tableView.reloadData()
-    }
-
-    func updateSelectedRows() {
+        if !document!.addedGPXCaches.isEmpty || !document!.removedGPXCaches.isEmpty {
+            print("updateItems 1")
+            items = Array(document!.allGPXCaches).sorted()
+            tableView.reloadData()
+        }
         if isUpdatingSelectedRows {
             isUpdatingSelectedRows = false
         } else {
+            print("updateItems 2")
             var selectedRows = Array<Int>()
             for (index, item) in items.enumerated() {
                 if item.isSelected {
@@ -119,75 +89,6 @@ class GPXSidebarController: NSViewController {
             tableView.selectRowIndexes(IndexSet(selectedRows), byExtendingSelection: false)
         }
     }
-}
-
-extension GPXSidebarController: NSTableViewDataSource {
-
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return items.count
-    }
 
 }
 
-extension GPXSidebarController: NSTableViewDelegate {
-
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let id = tableColumn!.identifier
-        let cell: NSTableCellView
-
-        if let cachedCell = tableView.makeView(withIdentifier: id, owner: self) as? NSTableCellView {
-            cell = cachedCell
-        } else {
-            cell = NSTableCellView()
-            cell.identifier = id
-
-            let textField = NSTextField()
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            textField.isEditable = false
-            textField.isBordered = false
-            textField.drawsBackground = false
-
-            cell.addSubview(textField)
-            cell.textField = textField
-
-            NSLayoutConstraint.activate([
-                textField.leadingAnchor.constraint(equalTo: cell.leadingAnchor),
-                textField.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-                textField.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
-            ])
-        }
-
-        let item = items[row]
-
-        switch id.rawValue {
-        case "filename":
-            cell.textField?.stringValue = item.filename
-        default:
-            break
-        }
-
-        return cell
-    }
-
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        if isUpdatingSelectedRows {
-            isUpdatingSelectedRows = false
-        } else {
-            let selectedIndexes = tableView.selectedRowIndexes
-
-            for (index, item) in items.enumerated() {
-                if item.isSelected != selectedIndexes.contains(index) {
-                    if item.isSelected {
-                        document!.deselectGPXCache(item)
-                    } else {
-                        document!.selectGPXCache(item)
-                    }
-                }
-            }
-
-            isUpdatingSelectedRows = true
-            mainController.gpxSelectionUpdated()
-        }
-    }
-
-}

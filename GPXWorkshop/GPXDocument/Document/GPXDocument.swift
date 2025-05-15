@@ -15,6 +15,10 @@ class GPXDocument: NSDocument {
     var allGPXCaches: Set<GPXCache> = []
     var polylineToGPXCacheMap: [MKPolyline: GPXCache] = [:]
 
+    var addedGPXCaches: [GPXCache] = []
+    var removedGPXCaches: [GPXCache] = []
+    var updatedGPXCaches: [GPXCache] = []
+
     override init() {
         super.init()
     }
@@ -24,5 +28,10 @@ class GPXDocument: NSDocument {
         self.addWindowController(windowController)
     }
 
+    func flushUpdated() {
+        addedGPXCaches.removeAll()
+        removedGPXCaches.removeAll()
+        updatedGPXCaches.removeAll()
+    }
 }
 
