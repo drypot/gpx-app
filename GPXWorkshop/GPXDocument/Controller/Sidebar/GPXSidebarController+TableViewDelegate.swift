@@ -56,7 +56,6 @@ extension GPXSidebarController: NSTableViewDelegate {
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
-        print("tableViewSelectionDidChange")
         if isUpdatingSelectedRows {
             isUpdatingSelectedRows = false
         } else {
@@ -73,7 +72,7 @@ extension GPXSidebarController: NSTableViewDelegate {
             }
 
             isUpdatingSelectedRows = true
-            mainController!.updateViews()
+            baseController!.updateViews()
         }
     }
 

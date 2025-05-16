@@ -75,13 +75,13 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
     // 앱 다시 열면 문서 윈도우 위치가 복구된다.
     // 아래 수동 처리 안 해도 될 듯.
 
-    func setWindowFrame(_ window: NSWindow) {
-        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
-        if !window.setFrameUsingName(autosaveName) {
-            setWindowFrameFresh(window)
-            window.setFrameAutosaveName(autosaveName)
-        }
-    }
+//    func setWindowFrame(_ window: NSWindow) {
+//        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
+//        if !window.setFrameUsingName(autosaveName) {
+//            setWindowFrameFresh(window)
+//            window.setFrameAutosaveName(autosaveName)
+//        }
+//    }
 
     func setupToolbar() {
         guard let window  else { fatalError() }

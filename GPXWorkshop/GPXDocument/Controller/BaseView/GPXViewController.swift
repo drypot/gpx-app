@@ -54,7 +54,6 @@ class GPXViewController: NSSplitViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         mapViewController!.zoomToFitAllOverlays()
-        print("viewDidAppear")
     }
 
     @IBAction func undo(_ sender: Any?) {
@@ -68,7 +67,6 @@ class GPXViewController: NSSplitViewController {
     }
 
     func updateViews() {
-        print("updateViews")
         mapViewController!.updateOverlays()
         sidebarController!.updateItems()
         document!.flushUpdated()

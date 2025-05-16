@@ -10,6 +10,10 @@ import Cocoa
 class GPXInspectorController: NSViewController {
 
     weak var document: GPXDocument!
+
+    var baseController: GPXViewController? {
+        return self.parent as? GPXViewController
+    }
     
     override func loadView() {
         view = NSView()

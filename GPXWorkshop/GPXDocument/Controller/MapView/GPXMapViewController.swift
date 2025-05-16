@@ -28,7 +28,7 @@ final class GPXMapViewController: NSViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var mainController: GPXViewController? {
+    var baseController: GPXViewController? {
         return self.parent as? GPXViewController
     }
 
@@ -51,15 +51,6 @@ final class GPXMapViewController: NSViewController {
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    override func viewWillAppear() {
-        super.viewWillAppear()
-//        document = self.view.window?.windowController?.document as? GPXDocument
     }
 
     override func viewDidAppear() {

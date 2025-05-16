@@ -5,8 +5,7 @@
 //  Created by Kyuhyun Park on 4/26/25.
 //
 
-
-import Foundation
+import Cocoa
 import MapKit
 import GPXWorkshopSupport
 

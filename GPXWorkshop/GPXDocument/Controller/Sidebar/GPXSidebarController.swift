@@ -18,7 +18,7 @@ class GPXSidebarController: NSViewController {
 
     var isUpdatingSelectedRows = false
 
-    var mainController: GPXViewController? {
+    var baseController: GPXViewController? {
         return self.parent as? GPXViewController
     }
 
@@ -64,21 +64,14 @@ class GPXSidebarController: NSViewController {
         tableView.addTableColumn(nameColumn)
     }
 
-    override func viewWillAppear() {
-        super.viewWillAppear()
-//        document = self.view.window?.windowController?.document as? GPXDocument
-    }
-
     func updateItems() {
         if !document!.addedGPXCaches.isEmpty || !document!.removedGPXCaches.isEmpty {
-            print("updateItems 1")
             items = Array(document!.allGPXCaches).sorted()
             tableView.reloadData()
         }
         if isUpdatingSelectedRows {
             isUpdatingSelectedRows = false
         } else {
-            print("updateItems 2")
             var selectedRows = Array<Int>()
             for (index, item) in items.enumerated() {
                 if item.isSelected {

@@ -21,8 +21,7 @@ extension GPXSidebarController {
 //        }
         tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
 
-        print("deleteSelectedRows")
-        mainController!.removeSelectedGPXCaches()
+        baseController!.removeSelectedGPXCaches()
     }
     
 }
