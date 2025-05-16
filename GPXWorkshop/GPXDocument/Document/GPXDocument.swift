@@ -24,8 +24,11 @@ class GPXDocument: NSDocument {
     }
 
     override func makeWindowControllers() {
+        Swift.print("GPXDocument makeWindowControllers 1")
         let windowController = GPXWindowController()
+        Swift.print("GPXDocument makeWindowControllers 2")
         self.addWindowController(windowController)
+        Swift.print("GPXDocument makeWindowControllers 3")
     }
 
     func flushUpdated() {

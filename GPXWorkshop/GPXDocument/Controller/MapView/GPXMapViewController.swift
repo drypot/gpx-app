@@ -33,53 +33,34 @@ final class GPXMapViewController: NSViewController {
     }
 
     override func loadView() {
+        print("GPXMapViewController loadView 1")
         view = NSView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = true
 
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-
+        
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
         view.addSubview(mapView)
 
+        print("GPXMapViewController loadView 2")
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+        print("GPXMapViewController loadView 3")
     }
 
     override func viewDidAppear() {
+        print("GPXMapViewController viewDidAppear")
+
         super.viewDidAppear()
         self.view.window?.makeFirstResponder(self) // 키 입력에 필요
-    }
-
-}
-
-extension GPXMapViewController: CLLocationManagerDelegate {
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-
-        if document?.allGPXCaches.isEmpty == true {
-            let region = MKCoordinateRegion(
-                center: location.coordinate,
-                latitudinalMeters: 50_000,
-                longitudinalMeters: 50_000
-            )
-            mapView.setRegion(region, animated: false)
-        }
-
-        // 위치 한 번 받고 멈춤
-        locationManager.stopUpdatingLocation()
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("locationManager didFailWithError: \(error)")
     }
 
 }

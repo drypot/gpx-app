@@ -26,12 +26,16 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
 
 //        window.title = "GPX Manager"
         window.minSize = NSSize(width: 600, height: 400)
+//        setWindowFrame(window)
+        print("GPXWindowController 1")
+        setWindowFrame(window)
+        print("GPXWindowController 2")
         window.contentViewController = GPXViewController()
+        print("GPXWindowController 3")
         window.delegate = self
 
-//        setWindowFrame(window)
-        setWindowFrameFresh(window)
         setupToolbar()
+        print("GPXWindowController 4")
     }
     
     required init?(coder: NSCoder) {
@@ -42,7 +46,18 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         Swift.print("window did load")
     }
 
-    func setWindowFrameFresh(_ window: NSWindow) {
+    func setWindowFrame(_ window: NSWindow) {
+
+        // NSDocument window 위치는 OS 가 관리하는 것 같다.
+        // 앱 다시 열면 문서 윈도우 위치가 복구된다.
+        // 아래 수동 처리 안 해도 될 듯.
+
+//        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
+//        if !window.setFrameUsingName(autosaveName) {
+//            window.setFrameAutosaveName(autosaveName)
+//        }
+
+        print("setWindowFrameFresh")
         let screen = NSScreen.main
         let screenRect = screen?.visibleFrame ?? .zero
         let windowSize = NSSize(
@@ -70,18 +85,6 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
             window.setFrame(windowRect, display: true)
         }
     }
-
-    // NSDocument window 위치는 OS 가 관리하는 것 같다.
-    // 앱 다시 열면 문서 윈도우 위치가 복구된다.
-    // 아래 수동 처리 안 해도 될 듯.
-
-//    func setWindowFrame(_ window: NSWindow) {
-//        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
-//        if !window.setFrameUsingName(autosaveName) {
-//            setWindowFrameFresh(window)
-//            window.setFrameAutosaveName(autosaveName)
-//        }
-//    }
 
     func setupToolbar() {
         guard let window  else { fatalError() }
