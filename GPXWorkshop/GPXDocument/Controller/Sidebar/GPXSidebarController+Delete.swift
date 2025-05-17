@@ -10,20 +10,23 @@ import Cocoa
 extension GPXSidebarController {
 
     func deleteSelectedRows() {
+        print("deleteSelectedRows 1")
         let selectedRows = tableView.selectedRowIndexes
         if selectedRows.isEmpty {
             return
         }
 
+        print("deleteSelectedRows 2")
+
 //        let sortedIndexes = selectedRows.sorted(by: >)
 //        for index in sortedIndexes {
 //            items.remove(at: index)
 //        }
-        print("tableView.removeRows(at: selectedRows, 1")
-        tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
-        print("tableView.removeRows(at: selectedRows, 2")
+//        print("tableView.removeRows(at: selectedRows, 1")
+//        tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
+//        print("tableView.removeRows(at: selectedRows, 2")
 
-        isUpdatingSelectedRows = true
+//        isUpdatingSelectedRows = true
         baseController!.removeSelectedGPXCaches()
     }
     

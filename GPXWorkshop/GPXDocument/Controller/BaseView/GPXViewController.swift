@@ -49,9 +49,14 @@ class GPXViewController: NSSplitViewController {
         self.document = self.view.window?.windowController?.document as? GPXDocument
         self.mapViewController.document = self.document
         self.sidebarController.document = self.document
+    }
 
-        self.updateSubviews()
-        self.mapViewController.zoomToFitAllOverlays()
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        DispatchQueue.main.async {
+            self.updateSubviews()
+            self.mapViewController.zoomToFitAllOverlays()
+        }
     }
 
     @IBAction func undo(_ sender: Any?) {

@@ -34,28 +34,38 @@ final class GPXMapViewController: NSViewController {
 
     override func loadView() {
         view = NSView()
-        view.translatesAutoresizingMaskIntoConstraints = false
 
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        addMapView()
+        self.view.window?.makeFirstResponder(self) // 키 입력에 필요
+    }
+
+    func addMapView() {
+        mapView.frame = view.bounds
 
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
         view.addSubview(mapView)
 
         NSLayoutConstraint.activate([
-            mapView.topAnchor.constraint(equalTo: view.topAnchor),
-            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mapView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            mapView.heightAnchor.constraint(equalTo: view.heightAnchor),
+//            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+//            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-    }
-
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        self.view.window?.makeFirstResponder(self) // 키 입력에 필요
     }
 
 }

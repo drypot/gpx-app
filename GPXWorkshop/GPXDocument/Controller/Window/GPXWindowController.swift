@@ -22,7 +22,6 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
             defer: false
         )
 
-        print("GPXWindowController init")
         super.init(window: window)
 
         window.minSize = NSSize(width: 600, height: 400)
@@ -72,8 +71,8 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         let screen = NSScreen.main
         let screenRect = screen?.visibleFrame ?? .zero
         let windowSize = NSSize(
-            width: screenRect.width * 2 / 3,
-            height: screenRect.height * 3 / 4
+            width: screenRect.width * 2 / 4,
+            height: screenRect.height * 2 / 4
         )
 
         if let baseWindow = NSApp.mainWindow {
