@@ -22,8 +22,6 @@ extension GPXViewController {
 //            .gpx,
             UTType(filenameExtension: "gpx")!
         ]
-        print("importFiles")
-        print(panel.allowedContentTypes)
         panel.begin { [unowned self] result in
             guard result == .OK else { return }
             importFilesCommon(from: panel.urls)
@@ -40,8 +38,8 @@ extension GPXViewController {
             do {
                 try await document!.importGPXFiles(from: urls)
                 await MainActor.run {
-                    updateViews()
-                    mapViewController!.zoomToFitAllOverlays()
+                    updateSubviews()
+                    mapViewController.zoomToFitAllOverlays()
                 }
             } catch {
                 print(error)

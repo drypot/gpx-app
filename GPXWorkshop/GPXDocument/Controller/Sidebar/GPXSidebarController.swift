@@ -65,7 +65,6 @@ class GPXSidebarController: NSViewController {
     }
 
     func updateItems() {
-        print("GPXSidebarController updateItems")
         if !document!.addedGPXCaches.isEmpty || !document!.removedGPXCaches.isEmpty {
             items = Array(document!.allGPXCaches).sorted()
             tableView.reloadData()

@@ -13,17 +13,17 @@ extension GPXViewController {
 
     @IBAction override func selectAll(_ sender: Any?) {
         document!.selectAllGPXCaches()
-        updateViews()
+        updateSubviews()
     }
 
     func beginGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
         document!.beginGPXSelection(at: mapPoint, with: tolerance)
-        updateViews()
+        updateSubviews()
     }
 
     func toggleGPXSelection(at mapPoint: MKMapPoint, with tolerance: CLLocationDistance) {
         document!.toggleGPXSelection(at: mapPoint, with: tolerance)
-        updateViews()
+        updateSubviews()
     }
 
 }

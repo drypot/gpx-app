@@ -20,6 +20,7 @@ extension GPXMapViewController {
 
         switch event.specialKey {
         case .delete:
+            print("key mapView")
             baseController!.removeSelectedGPXCaches()
         default:
             super.keyDown(with: event)

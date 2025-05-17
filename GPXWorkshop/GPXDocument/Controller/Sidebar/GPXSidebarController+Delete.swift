@@ -19,8 +19,11 @@ extension GPXSidebarController {
 //        for index in sortedIndexes {
 //            items.remove(at: index)
 //        }
+        print("tableView.removeRows(at: selectedRows, 1")
         tableView.removeRows(at: selectedRows, withAnimation: .effectFade)
+        print("tableView.removeRows(at: selectedRows, 2")
 
+        isUpdatingSelectedRows = true
         baseController!.removeSelectedGPXCaches()
     }
     

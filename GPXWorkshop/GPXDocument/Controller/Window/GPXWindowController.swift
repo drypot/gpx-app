@@ -22,20 +22,15 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
             defer: false
         )
 
+        print("GPXWindowController init")
         super.init(window: window)
 
-//        window.title = "GPX Manager"
         window.minSize = NSSize(width: 600, height: 400)
-//        setWindowFrame(window)
-        print("GPXWindowController 1")
-        setWindowFrame(window)
-        print("GPXWindowController 2")
         window.contentViewController = GPXViewController()
-        print("GPXWindowController 3")
         window.delegate = self
+        setWindowFrame(window)
 
         setupToolbar()
-        print("GPXWindowController 4")
     }
     
     required init?(coder: NSCoder) {
@@ -46,18 +41,34 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         Swift.print("window did load")
     }
 
-    func setWindowFrame(_ window: NSWindow) {
-
-        // NSDocument window 위치는 OS 가 관리하는 것 같다.
-        // 앱 다시 열면 문서 윈도우 위치가 복구된다.
-        // 아래 수동 처리 안 해도 될 듯.
-
-//        let autosaveName = "GPXDocumentFrame_" + (document?.fileURL?.path ?? "Untitled")
-//        if !window.setFrameUsingName(autosaveName) {
-//            window.setFrameAutosaveName(autosaveName)
+//    static func newContentRect() ->  NSRect {
+//        let screen = NSScreen.main
+//        let screenRect = screen?.visibleFrame ?? .zero
+//        let contentSize = NSSize(
+//            width: screenRect.width * 2 / 3,
+//            height: screenRect.height * 3 / 4
+//        )
+//
+//        if let baseWindow = NSApp.mainWindow {
+//            let offset: CGFloat = 20
+//            let baseFrame = baseWindow.frame
+//            return NSRect(
+//                x: baseFrame.origin.x + offset,
+//                y: baseFrame.origin.y - offset,
+//                width: baseFrame.width,
+//                height: baseFrame.height
+//            )
+//        } else {
+//            return NSRect(
+//                x: screenRect.midX - contentSize.width / 2,
+//                y: screenRect.midY - contentSize.height / 2,
+//                width: contentSize.width,
+//                height: contentSize.height
+//            )
 //        }
+//    }
 
-        print("setWindowFrameFresh")
+    func setWindowFrame(_ window: NSWindow) {
         let screen = NSScreen.main
         let screenRect = screen?.visibleFrame ?? .zero
         let windowSize = NSSize(

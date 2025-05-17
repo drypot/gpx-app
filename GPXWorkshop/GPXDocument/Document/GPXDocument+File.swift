@@ -43,12 +43,10 @@ extension GPXDocument {
          let xml = GPXExporter(gpx).makeXMLString()
          return Data(xml.utf8)
          */
-        Swift.print("data ofType")
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
 
     override func read(from url: URL, ofType typeName: String) throws {
-        Swift.print("read from url")
         if typeName == UTType.gpxWorkshop.identifier {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         }

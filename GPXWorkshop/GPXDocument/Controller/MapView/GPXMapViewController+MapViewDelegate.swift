@@ -12,7 +12,6 @@ import GPXWorkshopSupport
 extension GPXMapViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        print("mapView rendererFor")
         if let polyline = overlay as? MKPolyline {
             if let cache = document!.polylineToGPXCacheMap[polyline] {
                 let renderer = MKPolylineRenderer(polyline: polyline)

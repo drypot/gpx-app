@@ -18,8 +18,6 @@ extension GPXSidebarController: NSTableViewDataSource {
 extension GPXSidebarController: NSTableViewDelegate {
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        print("tableView viewFor")
-
         let id = tableColumn!.identifier
         let cell: NSTableCellView
 
@@ -58,10 +56,11 @@ extension GPXSidebarController: NSTableViewDelegate {
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
-        print("tableView SelectionDidChange")
         if isUpdatingSelectedRows {
+            print("tableViewSelectionDidChange(_ notification: 1")
             isUpdatingSelectedRows = false
         } else {
+            print("tableViewSelectionDidChange(_ notification: 2")
             let selectedIndexes = tableView.selectedRowIndexes
 
             for (index, item) in items.enumerated() {
@@ -75,7 +74,7 @@ extension GPXSidebarController: NSTableViewDelegate {
             }
 
             isUpdatingSelectedRows = true
-            baseController!.updateViews()
+            baseController!.updateSubviews()
         }
     }
 
