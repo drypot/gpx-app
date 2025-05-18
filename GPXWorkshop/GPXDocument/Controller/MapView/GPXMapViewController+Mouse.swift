@@ -12,6 +12,7 @@ import GPXWorkshopSupport
 extension GPXMapViewController {
 
     override func mouseDown(with event: NSEvent) {
+        self.view.window?.makeFirstResponder(self)
         initialClickLocation = mapView.convert(event.locationInWindow, from: nil)
         isDragging = false
     }

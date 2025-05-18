@@ -13,6 +13,13 @@ extension GPXSidebarController: NSTableViewDataSource {
         return items.count
     }
 
+    func updateItems() {
+        if document!.addedGPXCaches.isEmpty == false || document!.removedGPXCaches.isEmpty == false {
+            items = Array(document!.allGPXCaches).sorted()
+            tableView.reloadData()
+        }
+    }
+
 }
 
 extension GPXSidebarController: NSTableViewDelegate {
@@ -55,12 +62,12 @@ extension GPXSidebarController: NSTableViewDelegate {
         return cell
     }
 
+    // MARK: - Selection
+    
     func tableViewSelectionDidChange(_ notification: Notification) {
         if isUpdatingSelectedRows {
-            print("tableViewSelectionDidChange(_ notification: 1")
             isUpdatingSelectedRows = false
         } else {
-            print("tableViewSelectionDidChange(_ notification: 2")
             let selectedIndexes = tableView.selectedRowIndexes
 
             for (index, item) in items.enumerated() {
@@ -73,9 +80,22 @@ extension GPXSidebarController: NSTableViewDelegate {
                 }
             }
 
-            isUpdatingSelectedRows = true
             baseController!.updateSubviews()
         }
+    }
+
+    func updateSelected() {
+        var selectedRows = Array<Int>()
+
+        for (index, item) in items.enumerated() {
+            if item.isSelected {
+                selectedRows.append(index)
+            }
+        }
+
+        isUpdatingSelectedRows = true
+        tableView.selectRowIndexes(IndexSet(selectedRows), byExtendingSelection: false)
+        isUpdatingSelectedRows = false
     }
 
 }

@@ -64,24 +64,4 @@ class GPXSidebarController: NSViewController {
         tableView.addTableColumn(nameColumn)
     }
 
-    func updateItems() {
-        if !document!.addedGPXCaches.isEmpty || !document!.removedGPXCaches.isEmpty {
-            items = Array(document!.allGPXCaches).sorted()
-            tableView.reloadData()
-        }
-        if isUpdatingSelectedRows {
-            isUpdatingSelectedRows = false
-        } else {
-            var selectedRows = Array<Int>()
-            for (index, item) in items.enumerated() {
-                if item.isSelected {
-                    selectedRows.append(index)
-                }
-            }
-            isUpdatingSelectedRows = true
-            tableView.selectRowIndexes(IndexSet(selectedRows), byExtendingSelection: false)
-        }
-    }
-
 }
-

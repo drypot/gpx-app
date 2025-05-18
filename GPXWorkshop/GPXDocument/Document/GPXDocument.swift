@@ -17,7 +17,7 @@ class GPXDocument: NSDocument {
 
     var addedGPXCaches: [GPXCache] = []
     var removedGPXCaches: [GPXCache] = []
-    var updatedGPXCaches: [GPXCache] = []
+    var selectionChangedGPXCaches: [GPXCache] = []
 
     override init() {
         super.init()
@@ -31,7 +31,7 @@ class GPXDocument: NSDocument {
     func flushUpdated() {
         addedGPXCaches.removeAll()
         removedGPXCaches.removeAll()
-        updatedGPXCaches.removeAll()
+        selectionChangedGPXCaches.removeAll()
     }
 }
 

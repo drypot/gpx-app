@@ -15,13 +15,13 @@ extension GPXMapViewController {
         for cache in document!.removedGPXCaches {
             mapView.removeOverlays(cache.polylines)
         }
-        for cache in document!.updatedGPXCaches {
+        for cache in document!.selectionChangedGPXCaches {
             mapView.removeOverlays(cache.polylines)
         }
         for cache in document!.addedGPXCaches {
             mapView.addOverlays(cache.polylines)
         }
-        for cache in document!.updatedGPXCaches {
+        for cache in document!.selectionChangedGPXCaches {
             mapView.addOverlays(cache.polylines)
         }
     }

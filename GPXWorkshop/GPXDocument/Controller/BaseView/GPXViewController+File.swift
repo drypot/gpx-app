@@ -36,8 +36,10 @@ extension GPXViewController {
     func importFilesCommon(from urls: [URL]) {
         Task {
             do {
-                try await document!.importGPXFiles(from: urls)
+                let caches = try document!.readGPXFiles(from: urls)
+
                 await MainActor.run {
+                    document!.addGPXCaches(caches)
                     updateSubviews()
                     mapViewController.zoomToFitAllOverlays()
                 }

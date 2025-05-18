@@ -81,7 +81,7 @@ extension GPXDocument {
             $0.deselectGPXCache(cache)
         }
         cache.isSelected = true
-        updatedGPXCaches.append(cache)
+        selectionChangedGPXCaches.append(cache)
     }
 
     func deselectGPXCache(_ cache: GPXCache) {
@@ -89,7 +89,7 @@ extension GPXDocument {
             $0.selectGPXCache(cache)
         }
         cache.isSelected = false
-        updatedGPXCaches.append(cache)
+        selectionChangedGPXCaches.append(cache)
     }
 
 }

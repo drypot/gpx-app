@@ -50,13 +50,13 @@ extension GPXDocument {
         if typeName == UTType.gpxWorkshop.identifier {
             throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         }
-        let cache = try GPXCache.makeGPXCache(from: url)
+        let caches = try readGPXFiles(from: [url])
         undoManager?.disableUndoRegistration()
-        addGPXCaches([cache])
+        addGPXCaches(caches)
         undoManager?.enableUndoRegistration()
     }
 
-    func importGPXFiles(from urls: [URL]) async throws {
+    func readGPXFiles(from urls: [URL]) throws -> [GPXCache] {
         var caches = [GPXCache]()
 
         // TODO: 중복 파일 임포트 방지. 먼 훗날에.
@@ -65,8 +65,6 @@ extension GPXDocument {
             caches.append(cache)
         }
 
-        await MainActor.run {
-            addGPXCaches(caches)
-        }
+        return caches
     }
 }

@@ -70,8 +70,11 @@ class GPXViewController: NSSplitViewController {
     }
 
     func updateSubviews() {
+        print("updateSubviews")
         mapViewController.updateOverlays()
         sidebarController.updateItems()
+        sidebarController.updateSelected()
         document!.flushUpdated()
     }
+
 }

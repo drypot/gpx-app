@@ -16,7 +16,6 @@ extension GPXSidebarController {
 
         switch event.specialKey {
         case .delete:
-            print("key sidebar")
             deleteSelectedRows()
         default:
             super.keyDown(with: event)
