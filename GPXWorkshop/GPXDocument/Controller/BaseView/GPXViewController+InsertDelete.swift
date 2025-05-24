@@ -13,7 +13,6 @@ import GPXWorkshopSupport
 extension GPXViewController {
 
     func removeSelectedGPXCaches() {
-        print("GPXViewController removeSelectedGPXCaches")
         document!.removeSelectedGPXCaches()
         updateSubviews()
     }

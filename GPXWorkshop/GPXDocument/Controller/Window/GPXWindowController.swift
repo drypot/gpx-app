@@ -36,10 +36,6 @@ class GPXWindowController: NSWindowController, NSWindowDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func windowDidLoad() {
-        Swift.print("window did load")
-    }
-
 //    static func newContentRect() ->  NSRect {
 //        let screen = NSScreen.main
 //        let screenRect = screen?.visibleFrame ?? .zero
