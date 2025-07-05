@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "B2188284-7A1E-4780-AA0C-67932B436519",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:GPXWorkshop.xcodeproj",
+      "identifier" : "00D40E732BBA403200B755CE",
+      "name" : "GPXWorkshop"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:GPXApp.xcodeproj",
+        "identifier" : "009F90512DAA51D50060ADA6",
+        "name" : "GPXAppSupportTests"
+      }
+    }
+  ],
+  "version" : 1
+}
