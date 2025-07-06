@@ -29,7 +29,7 @@ extension GPXViewController {
     }
 
     @IBAction func importSamples(_ sender: Any) {
-        let urls = [URL(string: "Documents/GPXFilesSubset/", relativeTo:  .currentDirectory())!]
+        let urls = [URL(string: "Documents/SampleGPXFiles/Set2/", relativeTo:  .currentDirectory())!]
         importFilesCommon(from: urls)
     }
 
